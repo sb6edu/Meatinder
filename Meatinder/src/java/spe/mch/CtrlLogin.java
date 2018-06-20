@@ -7,6 +7,8 @@ package spe.mch;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,12 +33,15 @@ public class CtrlLogin extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("uname");
-        String password = request.getParameter("psw");
+        DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
+        Connection conn = pool.getConnection();
+        String uname = request.getParameter("uname");
+        String psw = request.getParameter("psw");
+        System.out.println(uname);
+        System.out.println(psw);
         
-        System.out.println(password);
-        System.out.println(username);
-        }
+        RequestDispatcher view = request.getRequestDispatcher("ctrlselect.do");
+        view.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
