@@ -8,7 +8,6 @@
     <form class="modal-content animate" action="/action_page.php">
         <div class="imgcontainer">
             <span onclick="document.getElementById('id01').style.display = 'none'" class="close" title="Close Modal">&times;</span>
-            <img src="img_avatar2.png" alt="Avatar" class="avatar">
         </div>
 
         <div class="container">
@@ -19,9 +18,10 @@
             <input type="password" placeholder="Enter Password" name="psw" required>
 
             <button type="submit">Login</button>
-            <label>
+            <a href="rezeptfinder.jsp" >Als Gast fortfahren</a>
+<!--            <label>
                 <input type="checkbox" checked="checked" name="remember"> Remember me
-            </label>
+            </label>-->
         </div>
 
         <div class="container" style="background-color:#f1f1f1">
@@ -42,7 +42,6 @@
         }
     }
 </script>
-
 </body>
 </html>
 
