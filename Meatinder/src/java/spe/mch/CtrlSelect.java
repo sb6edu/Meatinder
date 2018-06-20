@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author 103098
  */
-@WebServlet(name = "CtrlSelect", urlPatterns = {"/CtrlSelect.do"})
+@WebServlet(name = "CtrlSelect", urlPatterns = {"/ctrlselect.do"})
 public class CtrlSelect extends HttpServlet {
 
     /**
