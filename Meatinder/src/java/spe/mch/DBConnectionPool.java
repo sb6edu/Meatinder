@@ -36,7 +36,7 @@ public class DBConnectionPool {
     }
     
     private synchronized Connection createConnection(){
-        String url = "jdbc:derby://localhost:1527/gaestebuch";
+        String url = "jdbc:derby://localhost:1527/Meatinder";
         String user = "admin11";
         String passwort = "admin";
         Connection conn = null;
