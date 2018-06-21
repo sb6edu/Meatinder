@@ -4,7 +4,7 @@
             <h3>Kreuzen Sie die Zutaten an, die Sie besitzen.</h3>
         <table>
             
-            <fieldset> 
+
             
                 <c:forEach items="${artikels}" var="artikel">
                     <label>
@@ -13,7 +13,7 @@
                         </tr>
                     </label>
                 </c:forEach>
-            </fieldset>
+
         </table>
         <table>
                 

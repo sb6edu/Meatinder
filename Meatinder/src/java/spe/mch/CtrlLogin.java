@@ -35,25 +35,43 @@ public class CtrlLogin extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String uname = request.getParameter("uname");
         String psw = request.getParameter("psw");
-        
+        String passwort = "Wird später aus der Datenbank geholt, hier nur initialisiert";
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
-        
-        String sql = "select pw from kunden where uname ="+uname;
-        
+
+        String sql = "select PASSWORT from KUNDEN where USERNAME='hansi'";
+
         try {
             PreparedStatement pstm = conn.prepareStatement(sql);
             ResultSet rs = pstm.executeQuery();
-        }
-        catch(SQLException ex){
-                
+            if(rs.next()){
+                passwort = rs.getString("PASSWORT");
+            }
+            else{
+                RequestDispatcher view = request.getRequestDispatcher("login.jsp");
+                    view.forward(request, response);
+            }
+            
+            
+                if (passwort.equals(psw)) {
+                    RequestDispatcher view = request.getRequestDispatcher("ctrlselect.do");
+                    view.forward(request, response);
+                } else {
+                    uname = "";
+                    psw = "";
+                    RequestDispatcher view = request.getRequestDispatcher("login.jsp");
+                    view.forward(request, response);
                 }
-        
-        RequestDispatcher view = request.getRequestDispatcher("ctrlselect.do");
-        view.forward(request, response);
+            
+        } catch (SQLException ex) {
+            response.getWriter().println(ex.getMessage());
+        }
+
+        //RequestDispatcher view = request.getRequestDispatcher("ctrlselect.do");
+        //view.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
