@@ -4,7 +4,11 @@
     Author     : 103098
 --%>
 <%@include file="WEB-INF/header.jspf" %>
-
-        <h1>Hello World!</h1>
+<c:forEach items="${rezepte}" var="rezept">
+    <h1>${rezept.rezeptname}</h1>
+    
+    
+</c:forEach>
+        
     </body>
 </html>
