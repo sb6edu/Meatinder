@@ -46,26 +46,40 @@ public class CtrlRegister extends HttpServlet {
         Connection conn = pool.getConnection();
 
         String sql = "Insert into Kunden (vorname, nachname, username, email, passwort) values(?,?,?,?,?)";
-        if (psw1.equals(psw2)) {
-            try {
-                PreparedStatement pstm = conn.prepareStatement(sql);
-                pstm.setString(1, vorname);
-                pstm.setString(2, nachname);
-                pstm.setString(3, uname);
-                pstm.setString(4, email);
-                pstm.setString(5, psw1);
+        if (warerbrav(vorname, nachname, uname, psw1, psw2, email)) {
+            if (psw1.equals(psw2)) {
+                try {
+                    PreparedStatement pstm = conn.prepareStatement(sql);
+                    pstm.setString(1, vorname);
+                    pstm.setString(2, nachname);
+                    pstm.setString(3, uname);
+                    pstm.setString(4, email);
+                    pstm.setString(5, psw1);
 
-                pstm.executeUpdate();
-                pool.releaseConnection(conn);
-            } catch (SQLException ex) {
+                    pstm.executeUpdate();
+                    pool.releaseConnection(conn);
+                } catch (SQLException ex) {
+                }
+
+                RequestDispatcher view = request.getRequestDispatcher("login.jsp");
+                view.forward(request, response);
+            } else {
+                RequestDispatcher view = request.getRequestDispatcher("failedpwregistrierung.jsp");
+                view.forward(request, response);
             }
-
-            RequestDispatcher view = request.getRequestDispatcher("login.jsp");
-            view.forward(request, response);
         } else {
-            RequestDispatcher view = request.getRequestDispatcher("registrierung.jsp");
+            RequestDispatcher view = request.getRequestDispatcher("plsallregistrierung.jsp");
             view.forward(request, response);
         }
+    }
+
+    public static boolean warerbrav(String... strings) {
+        for (String s : strings) {
+            if (s == null || s.isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
