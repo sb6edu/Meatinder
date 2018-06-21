@@ -4,6 +4,7 @@
             <h3>Kreuzen Sie die Zutaten an, die Sie besitzen.</h3>
         <table>
             
+
             
             
                 <c:forEach items="${artikels}" var="artikel">
@@ -13,6 +14,7 @@
                         </tr>
                     </label>
                 </c:forEach>
+
           
         </table>
             <br />

@@ -6,11 +6,11 @@
                 <table>
                     <tr>
                         <td><label for="username">Username:</label></td>
-                        <td><input type="text" name="username" id="username"></td>
+                        <td><input type="text" name="uname" id="uname"></td>
                     </tr>
                     <tr>
                         <td><label for="password">Password::</label></td>
-                        <td><input type="password" name="password" id="password"></td>
+                        <td><input type="password" name="psw" id="psw"></td>
                     </tr>
                     <tr>
                         <td><input type="submit" value="Login" /></td>
@@ -18,6 +18,7 @@
 
                 </table>
             </fieldset>
-                            <a href="ctrlselect.do/">Continue as Guest</a>
+                            
 </form>
+<a href="ctrlselect.do">Continue as Guest</a>
 <%@include file="WEB-INF/footer.jspf" %>
