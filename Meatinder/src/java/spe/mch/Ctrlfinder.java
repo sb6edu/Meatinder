@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.function.Consumer;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -53,18 +55,19 @@ public class Ctrlfinder extends HttpServlet {
         }
     }
    
-    private void zutatenliste(HttpServletRequest request, HttpServletResponse response)
+    private ArrayList zutatenliste(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
 
         String sql = "select * from artikel";
+        ArrayList<Artikel> artikels = new ArrayList<>();
         try {
             PreparedStatement pstm = conn.prepareStatement(sql);
             ResultSet rs = pstm.executeQuery();
             String artid;
             String artname;
-            ArrayList<Artikel> artikels = new ArrayList<>();
+            
 
             while (rs.next()) {
                 artid = rs.getString("ARTID");
@@ -76,17 +79,30 @@ public class Ctrlfinder extends HttpServlet {
             response.getWriter().println(ex.getMessage());
         }
         pool.releaseConnection(conn);
+        return artikels;
     }
 
-    private void inventarliste(HttpServletRequest request, HttpServletResponse response, ArrayList artikels)
+    private ArrayList inventarliste(HttpServletRequest request, HttpServletResponse response, ArrayList<Artikel> artikels)
             throws ServletException, IOException {
-        for(int i=0; i<artikels.size(); i++){
-            String zutat = request.getParameter(artikels());
-            DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
-        Connection conn = pool.getConnection();
+        ArrayList<Artikel> inventar = new ArrayList<>();
+        for(Artikel artikel: artikels){
+            String artikelname = artikel.getArtname();
+            String zutat = request.getParameter(artikelname);
+            try {
+            if (artikelname.equals(zutat)) {
+                inventar.add(artikel);
+            }
+        } catch (NullPointerException ex) {
+            response.getWriter().println(ex.getMessage());
+        }
+                
             
         }
-}
+            DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
+        Connection conn = pool.getConnection();
+            return inventar;
+        }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -126,5 +142,12 @@ public class Ctrlfinder extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    private void johannesdenkmal(){
+    /*artikels.forEach((Artikel artikel) -> {
+            String bla = artikel.getArtname();
+        });
+        
+        artikels.stream().map((Artikel artikel) ->  artikel.getArtname());*/
+        
+}
 }
