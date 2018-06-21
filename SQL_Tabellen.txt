@@ -1,15 +1,10 @@
-//Tabellen ausgeben
 select * from artikel;
 select * from rezepte;
 select * from geraete;
 select * from kunden;
 select * from rezeptartikel;
 
-
-//Rezept nr 1 ausgeben
 select rezeptname, zubereitungszeit, geraetebezeichnung, artname, menge, einheit from rezepte a, geraete s, artikel d, rezeptartikel f where s.gid = a.gid and a.id = f.RID and d.artid = f.artid and rid = 1; 
-
-//Beispieldaten
 
 insert into rezeptartikel (rid, artid, menge, einheit) values (1, 1, 500, 'Gramm');
 insert into rezeptartikel (rid, artid, menge, einheit) values (1, 2, 200, 'Gramm');
@@ -27,8 +22,6 @@ insert into artikel (artname) values ('Salz');
 insert into artikel (artname) values ('Pfeffer');
 
 insert into rezepte (gid, rezeptname, zubereitungszeit) values (1, 'Nudeln', '10 Minuten');
-
-//Tabellen erstellen
 
 CREATE TABLE KUNDEN (KUNID INTEGER GENERATED ALWAYS AS IDENTITY, 
 VORNAME VARCHAR(30) NOT NULL, 
@@ -64,7 +57,6 @@ rezeptbeschreibung varchar(1500),
 foreign key (gid) references geraete(gid), 
 PRIMARY KEY (ID));
 
-//Tabellen droppen
 drop table rezeptartikel;
 drop table kunden;
 drop table artikel;
