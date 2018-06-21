@@ -11,14 +11,14 @@
             <c:forEach items="${artikels}" var="artikel">
                 <% if (i < 5) { %>
                 <label>
-                    <td><input type="checkbox" name="zutat" value="${artikel.artname}">${artikel.artname}</td>
+                    <td><input type="checkbox" name="${artikel.artname}" value="${artikel.artname}" id="${artikel.artname}">${artikel.artname}</td>
                 </label>
                 <% i++; } else {%>
                 </tr>
                 <label>
 
                     <tr>
-                    <td><input type="checkbox" name="zutat" value="${artikel.artname}">${artikel.artname}</td>
+                    <td><input type="checkbox" name="${artikel.artname}" value="${artikel.artname}" id="${artikel.artname}">${artikel.artname}</td>
 
                 </label>
                      <% i = 1; } %>  
@@ -34,7 +34,7 @@
                     
                     <label>
                         
-                            <td><input type="checkbox" name="kuechengeraet" value="${geraet.geraetebezeichnung}">${geraet.geraetebezeichnung}</td>
+                            <td><input type="checkbox" name="${geraet.geraetebezeichnung}" value="${geraet.geraetebezeichnung}" id="${geraet.geraetebezeichnung}">${geraet.geraetebezeichnung}</td>
                         
                     </label>
                 </c:forEach>  

@@ -6,7 +6,12 @@
 package spe.mch;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,20 +36,57 @@ public class Ctrlfinder extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ControllerInsert</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ControllerInsert at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+        String nudeln = request.getParameter("Tomaten");
+        response.getWriter().println(nudeln);
+        try {
+            if (nudeln.equals("Tomaten")) {
+                RequestDispatcher view = request.getRequestDispatcher("login.jsp");
+                view.forward(request, response);
+            }
+            else{
+                RequestDispatcher view = request.getRequestDispatcher("registrierung.jsp");
+                view.forward(request, response);
+            }
+        } catch (NullPointerException ex) {
+            response.getWriter().println(ex.getMessage());
         }
     }
+   
+    private void zutatenliste(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
+        Connection conn = pool.getConnection();
+
+        String sql = "select * from artikel";
+        try {
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            ResultSet rs = pstm.executeQuery();
+            String artid;
+            String artname;
+            ArrayList<Artikel> artikels = new ArrayList<>();
+
+            while (rs.next()) {
+                artid = rs.getString("ARTID");
+                artname = rs.getString("ARTNAME");
+
+                artikels.add(new Artikel(artid, artname));
+            }
+        } catch (SQLException ex) {
+            response.getWriter().println(ex.getMessage());
+        }
+        pool.releaseConnection(conn);
+    }
+
+    private void inventarliste(HttpServletRequest request, HttpServletResponse response, ArrayList artikels)
+            throws ServletException, IOException {
+        for(int i=0; i<artikels.size(); i++){
+            String zutat = request.getParameter(artikels());
+            DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
+        Connection conn = pool.getConnection();
+            
+        }
+}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
