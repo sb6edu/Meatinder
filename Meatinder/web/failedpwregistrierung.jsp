@@ -3,7 +3,7 @@
 <form method="post" action="ctrlregister.do">
     <fieldset>
                 <legend>Wilkommen</legend>
-                <h3 style="color:rgb(255,0,0)">Falsches Passwort du Depp!</h3>
+                <h3 style="color:rgb(255,0,0)">Passwörter stimmen nicht überein!</h3>
                 <table>
                     <tr>
                         <td><label for="vorname">Vorname:</label></td>
