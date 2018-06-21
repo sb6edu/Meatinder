@@ -2,6 +2,9 @@
 
         <h1>Rezeptefinder</h1>
             <h3>Kreuzen Sie die Zutaten an, die Sie besitzen.</h3>
+            
+            <form method="post" action="ctrlinsert.do">
+                <fieldset>
         <table>
             <% int i = 0; %> 
             <tr>
@@ -21,9 +24,11 @@
                      <% i = 1; } %>  
         </c:forEach>
         </table>
-            <br />
+        </fieldset>  
             <br />
             <h3>Kreuzen Sie Ihre vorhandenen Küchengeräte an.</h3>
+            <fieldset>
+                
         <table>  
                 <c:forEach items="${geraete}" var="geraet">
                     
@@ -33,6 +38,14 @@
                         
                     </label>
                 </c:forEach>  
-        </table>    
+            
+                        
+                    
+        </table>  
+            <br />
+            <input type="submit" value="Rezepte finden!" />
+            </fieldset>
+            </form>
+            
     </body>
 </html>
