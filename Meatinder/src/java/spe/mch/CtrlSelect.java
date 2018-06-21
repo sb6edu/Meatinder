@@ -43,11 +43,14 @@ public class CtrlSelect extends HttpServlet {
         Connection conn = pool.getConnection();
         
         String sql = "select * from artikel";
+        String sql2 = "select * from geraete";
         
         ArrayList<Artikel> artikels = new ArrayList<>();
+        ArrayList<Geraet> geraete = new ArrayList<>();
         
         try{
             PreparedStatement pstm = conn.prepareStatement(sql);
+            
             ResultSet rs = pstm.executeQuery();
             
             String artid;
@@ -63,6 +66,23 @@ public class CtrlSelect extends HttpServlet {
             
             request.setAttribute("artikels", artikels);
             
+            PreparedStatement pstm2 = conn.prepareStatement(sql2);
+            
+            ResultSet rs2 = pstm2.executeQuery();
+            
+            int gid;
+            String geraetebezeichnung;
+            
+            while(rs2.next()){
+                gid = rs2.getInt("gid");
+                geraetebezeichnung = rs2.getString("geraetebezeichnung");               
+                
+                geraete.add(new Geraet(gid, geraetebezeichnung));
+            }
+            pool.releaseConnection(conn);
+            
+            request.setAttribute("geraete", geraete);
+            
             RequestDispatcher view = request.getRequestDispatcher("select_rezepte.jsp");
             view.forward(request,response);
             
@@ -70,6 +90,7 @@ public class CtrlSelect extends HttpServlet {
         catch(SQLException ex){
             
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

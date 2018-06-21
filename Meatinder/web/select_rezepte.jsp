@@ -4,7 +4,7 @@
             <h3>Kreuzen Sie die Zutaten an, die Sie besitzen.</h3>
         <table>
             
-            <fieldset> 
+            
             
                 <c:forEach items="${artikels}" var="artikel">
                     <label>
@@ -13,10 +13,18 @@
                         </tr>
                     </label>
                 </c:forEach>
-            </fieldset>
+          
         </table>
+            <br />
+            <br />
         <table>
-                
+              <c:forEach items="${geraete}" var="geraet">
+                    <label>
+                        
+                            <td><input type="checkbox" name="kuechengeraet" value="${geraet.geraetebezeichnung}">${geraet.geraetebezeichnung}</td>
+                        
+                    </label>
+                </c:forEach>  
         </table>    
     </body>
 </html>
