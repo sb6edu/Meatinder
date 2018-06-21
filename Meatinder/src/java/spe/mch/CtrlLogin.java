@@ -42,7 +42,7 @@ public class CtrlLogin extends HttpServlet {
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
         
-        String sql = "select pw from kunden where uname is"+uname;
+        String sql = "select pw from kunden where uname ="+uname;
         
         try {
             PreparedStatement pstm = conn.prepareStatement(sql);
