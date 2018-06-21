@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author 103098
  */
-@WebServlet(name = "ControllerInsert", urlPatterns = {"/ctrlinsert.do"})
-public class ControllerInsert extends HttpServlet {
+@WebServlet(name = "Ctrlfinder", urlPatterns = {"/ctrlfinder.do"})
+public class Ctrlfinder extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

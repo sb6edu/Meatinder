@@ -3,7 +3,7 @@
         <h1>Rezeptefinder</h1>
             <h3>Kreuzen Sie die Zutaten an, die Sie besitzen.</h3>
             
-            <form method="post" action="ctrlinsert.do">
+            <form method="post" action="ctrlfinder.do">
                 <fieldset>
         <table>
             <% int i = 0; %> 
