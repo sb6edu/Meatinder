@@ -6,8 +6,10 @@
 package spe.mch;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,10 +35,22 @@ public class CtrlLogin extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
-        Connection conn = pool.getConnection();
+        
         String uname = request.getParameter("uname");
         String psw = request.getParameter("psw");
+        
+        DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
+        Connection conn = pool.getConnection();
+        
+        String sql = "select pw from kunden where uname is"+uname;
+        
+        try {
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            ResultSet rs = pstm.executeQuery();
+        }
+        catch(SQLException ex){
+                
+                }
         
         RequestDispatcher view = request.getRequestDispatcher("ctrlselect.do");
         view.forward(request, response);
