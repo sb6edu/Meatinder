@@ -1,15 +1,10 @@
-//Tabellen ausgeben
 select * from artikel;
 select * from rezepte;
 select * from geraete;
 select * from kunden;
 select * from rezeptartikel;
 
-
-//Rezept nr 1 ausgeben
 select rezeptname, zubereitungszeit, geraetebezeichnung, artname, menge, einheit from rezepte a, geraete s, artikel d, rezeptartikel f where s.gid = a.gid and a.id = f.RID and d.artid = f.artid and rid = 1; 
-
-//Beispieldaten
 
 insert into rezeptartikel (rid, artid, menge, einheit) values (1, 1, 500, 'Gramm');
 insert into rezeptartikel (rid, artid, menge, einheit) values (1, 2, 200, 'Gramm');
@@ -28,21 +23,40 @@ insert into artikel (artname) values ('Pfeffer');
 
 insert into rezepte (gid, rezeptname, zubereitungszeit) values (1, 'Nudeln', '10 Minuten');
 
-//Tabellen erstellen
+CREATE TABLE KUNDEN (KUNID INTEGER GENERATED ALWAYS AS IDENTITY, 
+VORNAME VARCHAR(30) NOT NULL, 
+NACHNAME VARCHAR(30) NOT NULL, 
+USERNAME VARCHAR(20) NOT NULL, 
+EMAIL VARCHAR(50) NOT NULL, 
+PASSWORT VARCHAR(20) NOT NULL, 
+PRIMARY KEY (KUNID));
 
-CREATE TABLE KUNDEN (KUNID INTEGER GENERATED ALWAYS AS IDENTITY, VORNAME VARCHAR(30) NOT NULL, NACHNAME VARCHAR(30) NOT NULL, USERNAME VARCHAR(20) NOT NULL, EMAIL VARCHAR(50) NOT NULL, PASSWORT VARCHAR(20) NOT NULL, PRIMARY KEY (KUNID));
+create table geraete (GID integer generated always as identity,
+ geraetebezeichnung varchar(30) not null, 
+primary key(GID));
 
-create table geraete (GID integer generated always as identity, geraetebezeichnung varchar(30) not null, primary key(GID));
-
-CREATE TABLE ARTIKEL (ARTID INTEGER GENERATED ALWAYS AS IDENTITY, ARTNAME VARCHAR(30), PRIMARY KEY (ARTID));
-
-
-CREATE TABLE REZEPTARTIKEL (RID INTEGER NOT NULL, ARTID INTEGER NOT NULL, MENGE INTEGER NOT NULL, EINHEIT VARCHAR(15) NOT NULL, foreign key (rid) references rezepte(ID), foreign key (artid) references artikel(artid), PRIMARY KEY (RID, ARTID));
+CREATE TABLE ARTIKEL (ARTID INTEGER GENERATED ALWAYS AS IDENTITY,
+ARTNAME VARCHAR(30), 
+PRIMARY KEY (ARTID));
 
 
-CREATE TABLE REZEPTE (ID INTEGER GENERATED ALWAYS AS IDENTITY, REZEPTNAME VARCHAR(50), ZUBEREITUNGSZEIT VARCHAR(20), gid integer, foreign key (gid) references geraete(gid), PRIMARY KEY (ID));
+CREATE TABLE REZEPTARTIKEL (RID INTEGER NOT NULL, 
+ARTID INTEGER NOT NULL, 
+MENGE INTEGER NOT NULL, 
+EINHEIT VARCHAR(15) NOT NULL, 
+foreign key (rid) references rezepte(ID), 
+foreign key (artid) references artikel(artid), 
+PRIMARY KEY (RID, ARTID));
 
-//Tabellen droppen
+
+CREATE TABLE REZEPTE (ID INTEGER GENERATED ALWAYS AS IDENTITY,
+REZEPTNAME VARCHAR(50), 
+ZUBEREITUNGSZEIT VARCHAR(20), 
+gid integer,
+rezeptbeschreibung varchar(1500), 
+foreign key (gid) references geraete(gid), 
+PRIMARY KEY (ID));
+
 drop table rezeptartikel;
 drop table kunden;
 drop table artikel;
