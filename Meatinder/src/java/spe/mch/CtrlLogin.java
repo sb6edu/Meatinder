@@ -37,8 +37,6 @@ public class CtrlLogin extends HttpServlet {
         Connection conn = pool.getConnection();
         String uname = request.getParameter("uname");
         String psw = request.getParameter("psw");
-        System.out.println(uname);
-        System.out.println(psw);
         
         RequestDispatcher view = request.getRequestDispatcher("ctrlselect.do");
         view.forward(request, response);
