@@ -7,29 +7,29 @@ package spe.mch;
 
 /**
  *
- * @author 103098
+ * @author 103095
  */
 public class Rezept {
-    private int rid;
+    private int id;
     private String rezeptname;
     private String zubereitungszeit;
     private int gid;
     private String rezeptbeschreibung;
 
-    public Rezept(int rid, String rezeptname, String zubereitungszeit, int gid, String rezeptbeschreibung) {
-        this.rid = rid;
+    public Rezept(int id, String rezeptname, String zubereitungszeit, int gid, String rezeptbeschreibung) {
+        this.id = id;
         this.rezeptname = rezeptname;
         this.zubereitungszeit = zubereitungszeit;
         this.gid = gid;
         this.rezeptbeschreibung = rezeptbeschreibung;
     }
 
-    public int getRid() {
-        return rid;
+    public int getId() {
+        return id;
     }
 
-    public void setRid(int rid) {
-        this.rid = rid;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getRezeptname() {
