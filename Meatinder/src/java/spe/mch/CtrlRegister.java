@@ -6,9 +6,9 @@
 package spe.mch;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author 103095
  */
-@WebServlet(name = "CtrlLogin", urlPatterns = {"/ctrllogin.do"})
-public class CtrlLogin extends HttpServlet {
+@WebServlet(name = "Ctrlregister", urlPatterns = {"/ctrlregister.do"})
+public class CtrlRegister extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,43 +35,37 @@ public class CtrlLogin extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String uname = request.getParameter("uname");
-        String psw = request.getParameter("psw");
-        String passwort = "Wird später aus der Datenbank geholt, hier nur initialisiert";
+        String vorname = request.getParameter("vorname");
+        String nachname = request.getParameter("nachname");
+        String email = request.getParameter("email");
+        String psw1 = request.getParameter("psw1");
+        String psw2 = request.getParameter("psw2");
+
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
 
-        String sql = "select PASSWORT from KUNDEN where USERNAME="+"'"+uname+"'";
+        String sql = "Insert into Kunden (vorname, nachname, username, email, passwort) values(?,?,?,?,?)";
+        if (psw1.equals(psw2)) {
+            try {
+                PreparedStatement pstm = conn.prepareStatement(sql);
+                pstm.setString(1, vorname);
+                pstm.setString(2, nachname);
+                pstm.setString(3, uname);
+                pstm.setString(4, email);
+                pstm.setString(5, psw1);
 
-        try {
-            PreparedStatement pstm = conn.prepareStatement(sql);
-            ResultSet rs = pstm.executeQuery();
-            if(rs.next()){
-                passwort = rs.getString("PASSWORT");
+                pstm.executeUpdate();
+                pool.releaseConnection(conn);
+            } catch (SQLException ex) {
             }
-            else{
-                RequestDispatcher view = request.getRequestDispatcher("login.jsp");
-                    view.forward(request, response);
-            }
-            
-            
-                if (passwort.equals(psw)) {
-                    RequestDispatcher view = request.getRequestDispatcher("ctrlselect.do");
-                    view.forward(request, response);
-                } else {
-                    uname = "";
-                    psw = "";
-                    RequestDispatcher view = request.getRequestDispatcher("login.jsp");
-                    view.forward(request, response);
-                }
-            
-        } catch (SQLException ex) {
-            response.getWriter().println(ex.getMessage());
+
+            RequestDispatcher view = request.getRequestDispatcher("login.jsp");
+            view.forward(request, response);
+        } else {
+            RequestDispatcher view = request.getRequestDispatcher("registrierung.jsp");
+            view.forward(request, response);
         }
-
-        //RequestDispatcher view = request.getRequestDispatcher("ctrlselect.do");
-        //view.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
