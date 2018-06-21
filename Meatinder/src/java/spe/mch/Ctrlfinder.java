@@ -45,8 +45,7 @@ public class Ctrlfinder extends HttpServlet {
             if (nudeln.equals("Tomaten")) {
                 RequestDispatcher view = request.getRequestDispatcher("login.jsp");
                 view.forward(request, response);
-            }
-            else{
+            } else {
                 RequestDispatcher view = request.getRequestDispatcher("registrierung.jsp");
                 view.forward(request, response);
             }
@@ -54,12 +53,11 @@ public class Ctrlfinder extends HttpServlet {
             response.getWriter().println(ex.getMessage());
         }
     }
-   
+
     private ArrayList zutatenliste(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
-
         String sql = "select * from artikel";
         ArrayList<Artikel> artikels = new ArrayList<>();
         try {
@@ -67,12 +65,9 @@ public class Ctrlfinder extends HttpServlet {
             ResultSet rs = pstm.executeQuery();
             String artid;
             String artname;
-            
-
             while (rs.next()) {
                 artid = rs.getString("ARTID");
                 artname = rs.getString("ARTNAME");
-
                 artikels.add(new Artikel(artid, artname));
             }
         } catch (SQLException ex) {
@@ -85,24 +80,19 @@ public class Ctrlfinder extends HttpServlet {
     private ArrayList inventarliste(HttpServletRequest request, HttpServletResponse response, ArrayList<Artikel> artikels)
             throws ServletException, IOException {
         ArrayList<Artikel> inventar = new ArrayList<>();
-        for(Artikel artikel: artikels){
+        for (Artikel artikel : artikels) {
             String artikelname = artikel.getArtname();
             String zutat = request.getParameter(artikelname);
             try {
-            if (artikelname.equals(zutat)) {
-                inventar.add(artikel);
+                if (artikelname.equals(zutat)) {
+                    inventar.add(artikel);
+                }
+            } catch (NullPointerException ex) {
+                response.getWriter().println(ex.getMessage());
             }
-        } catch (NullPointerException ex) {
-            response.getWriter().println(ex.getMessage());
         }
-                
-            
-        }
-            DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
-        Connection conn = pool.getConnection();
-            return inventar;
-        }
-
+        return inventar;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -142,12 +132,13 @@ public class Ctrlfinder extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    private void johannesdenkmal(){
-    /*artikels.forEach((Artikel artikel) -> {
+
+    private void johannesdenkmal() {
+        /*artikels.forEach((Artikel artikel) -> {
             String bla = artikel.getArtname();
         });
         
         artikels.stream().map((Artikel artikel) ->  artikel.getArtname());*/
-        
-}
+
+    }
 }
