@@ -93,6 +93,9 @@ public class Ctrlfinder extends HttpServlet {
         }
         return inventar;
     }
+    private ArrayList rezeptartids(){
+        String sql = "select ID from Rezepte"
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
