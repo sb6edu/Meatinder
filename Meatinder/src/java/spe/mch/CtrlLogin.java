@@ -62,7 +62,7 @@ public class CtrlLogin extends HttpServlet {
                 } else {
                     uname = "";
                     psw = "";
-                    RequestDispatcher view = request.getRequestDispatcher("login.jsp");
+                    RequestDispatcher view = request.getRequestDispatcher("failedlogin.jsp");
                     view.forward(request, response);
                 }
             
