@@ -9,11 +9,11 @@
             <% int i = 0; %> 
             <tr>
             <c:forEach items="${artikels}" var="artikel">
-                <% if (i < 5) { %>
+                <% if ((i++ % 5) != 0) { %>
                 <label>
                     <td><input type="checkbox" name="zutat" value="${artikel.artname}">${artikel.artname}</td>
                 </label>
-                <% i++; } else {%>
+                <%  } else {%>
                 </tr>
                 <label>
 
@@ -21,8 +21,9 @@
                     <td><input type="checkbox" name="zutat" value="${artikel.artname}">${artikel.artname}</td>
 
                 </label>
-                     <% i = 1; } %>  
+                     <%  } %>  
         </c:forEach>
+        </tr>
         </table>
         </fieldset>  
             <br />
@@ -38,9 +39,7 @@
                         
                     </label>
                 </c:forEach>  
-            
-                        
-                    
+                       
         </table>  
             <br />
             <input type="submit" value="Rezepte finden!" />
