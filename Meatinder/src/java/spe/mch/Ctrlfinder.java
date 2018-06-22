@@ -40,12 +40,13 @@ public class Ctrlfinder extends HttpServlet {
             throws ServletException, IOException {
         //zwischentest(request, response);
         
-        rezepteliste(request, response);
+        zwischentest(request, response);
+        //rezepteliste(request, response);
             
         RequestDispatcher view = request.getRequestDispatcher("rezepte.jsp");
         view.forward(request,response);
+       
     }
-
     private ArrayList zutatenliste(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
@@ -197,7 +198,7 @@ public class Ctrlfinder extends HttpServlet {
         }
     }
     
-    private ArrayList rezepteliste(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public ArrayList rezepteliste(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
         ArrayList<Rezept> rezepte = new ArrayList<>();
@@ -263,6 +264,7 @@ public class Ctrlfinder extends HttpServlet {
         }catch (Exception ex) {
             response.getWriter().println(ex.getMessage());
         }
+        request.setAttribute("rezepte", rezepte);
         pool.releaseConnection(conn);
         return rezepte;
     }

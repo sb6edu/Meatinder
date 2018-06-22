@@ -8,7 +8,8 @@
 <c:forEach items="${rezepte}" var="rezept">
         <table>
             <tr>
-                <td>${rezept.rezeptname}</a></td>
+                <td>${rezept.rezeptname}</td>
+                <td>${rezept.artname}</td>
             </tr> 
         </table>
 </c:forEach>
