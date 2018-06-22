@@ -5,30 +5,40 @@
  */
 package spe.mch;
 
+import java.util.ArrayList;
+
+
+
 /**
  *
  * @author 103095
  */
 public class Rezept {
-    private int id;
+    private String id;
     private String rezeptname;
+    private ArrayList<String> artname;
+    private ArrayList<String> menge;
+    private ArrayList<String> einheit;
+    private String geraetebezeichnung;
     private String zubereitungszeit;
-    private int gid;
     private String rezeptbeschreibung;
 
-    public Rezept(int id, String rezeptname, String zubereitungszeit, int gid, String rezeptbeschreibung) {
+    public Rezept(String id, String rezeptname, ArrayList<String> artname, ArrayList<String> menge, ArrayList<String> einheit, String geraetebezeichnung, String zubereitungszeit, String rezeptbeschreibung) {
         this.id = id;
         this.rezeptname = rezeptname;
+        this.artname = artname;
+        this.menge = menge;
+        this.einheit = einheit;
+        this.geraetebezeichnung = geraetebezeichnung;
         this.zubereitungszeit = zubereitungszeit;
-        this.gid = gid;
         this.rezeptbeschreibung = rezeptbeschreibung;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -40,20 +50,44 @@ public class Rezept {
         this.rezeptname = rezeptname;
     }
 
+    public ArrayList<String> getArtname() {
+        return artname;
+    }
+
+    public void setArtname(ArrayList<String> artname) {
+        this.artname = artname;
+    }
+
+    public ArrayList<String> getMenge() {
+        return menge;
+    }
+
+    public void setMenge(ArrayList<String> menge) {
+        this.menge = menge;
+    }
+
+    public ArrayList<String> getEinheit() {
+        return einheit;
+    }
+
+    public void setEinheit(ArrayList<String> einheit) {
+        this.einheit = einheit;
+    }
+
+    public String getGeraetebezeichnung() {
+        return geraetebezeichnung;
+    }
+
+    public void setGeraetebezeichnung(String geraetebezeichnung) {
+        this.geraetebezeichnung = geraetebezeichnung;
+    }
+
     public String getZubereitungszeit() {
         return zubereitungszeit;
     }
 
     public void setZubereitungszeit(String zubereitungszeit) {
         this.zubereitungszeit = zubereitungszeit;
-    }
-
-    public int getGid() {
-        return gid;
-    }
-
-    public void setGid(int gid) {
-        this.gid = gid;
     }
 
     public String getRezeptbeschreibung() {
@@ -63,6 +97,7 @@ public class Rezept {
     public void setRezeptbeschreibung(String rezeptbeschreibung) {
         this.rezeptbeschreibung = rezeptbeschreibung;
     }
+
     
     
 }

@@ -7,6 +7,5 @@
 <c:forEach items="${rezepte}" var="rezept">
     <h1>${rezept.rezeptname}</h1>
     
-    
 </c:forEach>
 <%@include file="WEB-INF/footer.jspf" %>

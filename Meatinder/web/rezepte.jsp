@@ -8,7 +8,7 @@
 <c:forEach items="${rezepte}" var="rezept">
         <table>
             <tr>
-                <td><a href="ctrlselect.do?orderkrit=${rezept.rezeptname}">${rezept.rezeptname}</a></td>
+                <td>${rezept.rezeptname}</a></td>
             </tr> 
         </table>
 </c:forEach>
