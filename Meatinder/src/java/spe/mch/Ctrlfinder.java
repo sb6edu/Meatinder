@@ -52,6 +52,7 @@ public class Ctrlfinder extends HttpServlet {
         } catch (NullPointerException ex) {
             response.getWriter().println(ex.getMessage());
         }
+        
     }
 
     private ArrayList zutatenliste(HttpServletRequest request, HttpServletResponse response)
