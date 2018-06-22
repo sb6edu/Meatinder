@@ -42,6 +42,4 @@
             <input type="submit" value="Rezepte finden!" />
             </fieldset>
             </form>
-            
-    </body>
-</html>
+<%@include file="WEB-INF/footer.jspf" %>

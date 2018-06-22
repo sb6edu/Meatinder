@@ -9,6 +9,4 @@
     
     
 </c:forEach>
-        
-    </body>
-</html>
+<%@include file="WEB-INF/footer.jspf" %>
