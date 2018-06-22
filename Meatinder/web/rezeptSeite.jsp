@@ -8,6 +8,4 @@
     <h1>${rezept.rezeptname}</h1>
     
 </c:forEach>
-        
-    </body>
-</html>
+<%@include file="WEB-INF/footer.jspf" %>

@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,6 +40,11 @@ public class CtrlLogin extends HttpServlet {
         String uname = request.getParameter("uname");
         String psw = request.getParameter("psw");
         String passwort = "Wird später aus der Datenbank geholt, hier nur initialisiert";
+        
+        Cookie c = new Cookie("User", uname);
+        c.setMaxAge(12000);
+        response.addCookie(c);
+        
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
 
