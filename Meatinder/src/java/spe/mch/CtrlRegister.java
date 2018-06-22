@@ -6,9 +6,9 @@
 package spe.mch;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -46,31 +46,40 @@ public class CtrlRegister extends HttpServlet {
         Connection conn = pool.getConnection();
 
         String sql = "Insert into Kunden (vorname, nachname, username, email, passwort) values(?,?,?,?,?)";
+        //Hat er alle Felder ausgefüllt?
         if (warerbrav(vorname, nachname, uname, psw1, psw2, email)) {
-            if (psw1.equals(psw2)) {
-                try {
-                    PreparedStatement pstm = conn.prepareStatement(sql);
-                    pstm.setString(1, vorname);
-                    pstm.setString(2, nachname);
-                    pstm.setString(3, uname);
-                    pstm.setString(4, email);
-                    pstm.setString(5, psw1);
+            //Ist der Benutzername bereits vergeben?
+            if (unamenochfrei(uname)) {
+                //Hat er zweimal das gleiche Passwort eingegeben?
+                if (psw1.equals(psw2)) {
+                    try {
+                        PreparedStatement pstm = conn.prepareStatement(sql);
+                        pstm.setString(1, vorname);
+                        pstm.setString(2, nachname);
+                        pstm.setString(3, uname);
+                        pstm.setString(4, email);
+                        pstm.setString(5, psw1);
 
-                    pstm.executeUpdate();
-                    pool.releaseConnection(conn);
-                } catch (SQLException ex) {
+                        pstm.executeUpdate();
+
+                    } catch (SQLException ex) {
+                    }
+
+                    RequestDispatcher view = request.getRequestDispatcher("login.jsp");
+                    view.forward(request, response);
+                } else {
+                    RequestDispatcher view = request.getRequestDispatcher("failedpwregistrierung.jsp");
+                    view.forward(request, response);
                 }
-
-                RequestDispatcher view = request.getRequestDispatcher("login.jsp");
-                view.forward(request, response);
-            } else {
-                RequestDispatcher view = request.getRequestDispatcher("failedpwregistrierung.jsp");
-                view.forward(request, response);
             }
+            else {
+            RequestDispatcher view = request.getRequestDispatcher("select_rezepte.jsp");//hier noch eine jspf für den fall, das es besetzt ist erstellen
+            view.forward(request, response);}
         } else {
             RequestDispatcher view = request.getRequestDispatcher("plsallregistrierung.jsp");
             view.forward(request, response);
         }
+        pool.releaseConnection(conn);
     }
 
     public static boolean warerbrav(String... strings) {
@@ -80,6 +89,27 @@ public class CtrlRegister extends HttpServlet {
             }
         }
         return true;
+    }
+
+    public boolean unamenochfrei(String uname) {
+        DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
+        Connection conn = pool.getConnection();
+        String bla = "";
+            try {
+                String sql = "select username from kunden where username="+uname;
+                PreparedStatement pstm = conn.prepareStatement(sql);
+                ResultSet rs = pstm.executeQuery();
+                while(rs.next()) {
+                    bla = rs.getString("username");
+                }
+                if(bla.equals(uname)){
+                    return false;
+                }
+                
+            } catch (SQLException ex) {
+            }
+        pool.releaseConnection(conn);
+        return false;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

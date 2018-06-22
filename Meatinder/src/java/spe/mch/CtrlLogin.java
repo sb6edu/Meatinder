@@ -39,11 +39,14 @@ public class CtrlLogin extends HttpServlet {
 
         String uname = request.getParameter("uname");
         String psw = request.getParameter("psw");
-        String passwort = "Wird später aus der Datenbank geholt, hier nur initialisiert";
+        String vorname = request.getParameter("vorname");
+        response.getWriter().println(vorname);
+        String passwort = "Wird weiter unten aus der Datenbank geholt, hier nur initialisiert";
         
-        Cookie c = new Cookie("User", uname);
-        c.setMaxAge(12000);
-        response.addCookie(c);
+        Cookie u = new Cookie("User", uname);
+        u.setMaxAge(12000);
+        response.addCookie(u);
+
         
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
