@@ -38,20 +38,7 @@ public class Ctrlfinder extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String nudeln = request.getParameter("Tomaten");
-        response.getWriter().println(nudeln);
-        try {
-            if (nudeln.equals("Tomaten")) {
-                RequestDispatcher view = request.getRequestDispatcher("login.jsp");
-                view.forward(request, response);
-            } else {
-                RequestDispatcher view = request.getRequestDispatcher("registrierung.jsp");
-                view.forward(request, response);
-            }
-        } catch (NullPointerException ex) {
-            response.getWriter().println(ex.getMessage());
-        }
+        zwischentest(request, response);
     }
 
     private ArrayList zutatenliste(HttpServletRequest request, HttpServletResponse response)
@@ -76,25 +63,65 @@ public class Ctrlfinder extends HttpServlet {
         pool.releaseConnection(conn);
         return artikels;
     }
-
-    private ArrayList inventarliste(HttpServletRequest request, HttpServletResponse response, ArrayList<Artikel> artikels)
+    private ArrayList geraeteliste(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<Artikel> inventar = new ArrayList<>();
+        DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
+        Connection conn = pool.getConnection();
+        String sql = "select * from geraete";
+        ArrayList<Geraet> geraetes = new ArrayList<>();
+        try {
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            ResultSet rs = pstm.executeQuery();
+            String geraetid;
+            String geraetname;
+            while (rs.next()) {
+                geraetid = rs.getString("GID");
+                geraetname = rs.getString("GERAETEBEZEICHNUNG");
+                geraetes.add(new Geraet(geraetid, geraetname));
+            }
+        } catch (SQLException ex) {
+            response.getWriter().println(ex.getMessage());
+        }
+        pool.releaseConnection(conn);
+        return geraetes;
+    }
+
+    private ArrayList zinventarliste(HttpServletRequest request, HttpServletResponse response, ArrayList<Artikel> artikels)
+            throws ServletException, IOException {
+        ArrayList<Artikel> zinventar = new ArrayList<>();
         for (Artikel artikel : artikels) {
             String artikelname = artikel.getArtname();
             String zutat = request.getParameter(artikelname);
             try {
                 if (artikelname.equals(zutat)) {
-                    inventar.add(artikel);
+                    zinventar.add(artikel);
                 }
             } catch (NullPointerException ex) {
                 response.getWriter().println(ex.getMessage());
             }
         }
-        return inventar;
+        return zinventar;
+    }
+    
+    private ArrayList ginventarliste(HttpServletRequest request, HttpServletResponse response, ArrayList<Geraet> geraetes)
+            throws ServletException, IOException {
+        ArrayList<Geraet> ginventar = new ArrayList<>();
+        for (Geraet geraet : geraetes) {
+            String geraetname = geraet.getGeraetebezeichnung();
+            String ding = request.getParameter(geraetname);
+            try {
+                if (geraetname.equals(ding)) {
+                    ginventar.add(geraet);
+                }
+            } catch (NullPointerException ex) {
+                response.getWriter().println(ex.getMessage());
+            }
+        }
+        return ginventar;
     }
     private ArrayList rezeptartids(){
-        String sql = "select ID from Rezepte"
+        String sql = "select ID from Rezepte";
+        return null;//platzhalter, um compilerfehler missing return statement zu umgehen
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -143,5 +170,19 @@ public class Ctrlfinder extends HttpServlet {
         
         artikels.stream().map((Artikel artikel) ->  artikel.getArtname());*/
 
+    }
+    private void zwischentest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ArrayList<Artikel> zinventar = new ArrayList <>();
+        zinventar = zinventarliste(request,response, zutatenliste(request, response));
+        for (Artikel artikel : zinventar) {
+            String artikelname = artikel.getArtname();
+            response.getWriter().println(artikelname);
+        }
+        ArrayList<Geraet> ginventar = new ArrayList <>();
+        ginventar = ginventarliste(request,response, geraeteliste(request, response));
+        for (Geraet geraet : ginventar) {
+            String geraetname = geraet.getGeraetebezeichnung();
+            response.getWriter().println(geraetname);
+        }
     }
 }
