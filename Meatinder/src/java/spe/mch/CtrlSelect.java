@@ -70,11 +70,11 @@ public class CtrlSelect extends HttpServlet {
             
             ResultSet rs2 = pstm2.executeQuery();
             
-            int gid;
+            String gid;
             String geraetebezeichnung;
             
             while(rs2.next()){
-                gid = rs2.getInt("gid");
+                gid = rs2.getString("gid");
                 geraetebezeichnung = rs2.getString("geraetebezeichnung");               
                 
                 geraete.add(new Geraet(gid, geraetebezeichnung));
