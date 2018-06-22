@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class Rezept {
     private String id;
     private String rezeptname;
+    private ArrayList<Integer> artid;
     private ArrayList<String> artname;
     private ArrayList<String> menge;
     private ArrayList<String> einheit;
@@ -23,9 +24,10 @@ public class Rezept {
     private String zubereitungszeit;
     private String rezeptbeschreibung;
 
-    public Rezept(String id, String rezeptname, ArrayList<String> artname, ArrayList<String> menge, ArrayList<String> einheit, String geraetebezeichnung, String zubereitungszeit, String rezeptbeschreibung) {
+    public Rezept(String id, String rezeptname, ArrayList<Integer> artid, ArrayList<String> artname, ArrayList<String> menge, ArrayList<String> einheit, String geraetebezeichnung, String zubereitungszeit, String rezeptbeschreibung) {
         this.id = id;
         this.rezeptname = rezeptname;
+        this.artid = artid;
         this.artname = artname;
         this.menge = menge;
         this.einheit = einheit;
@@ -48,6 +50,14 @@ public class Rezept {
 
     public void setRezeptname(String rezeptname) {
         this.rezeptname = rezeptname;
+    }
+
+    public ArrayList<Integer> getArtid() {
+        return artid;
+    }
+
+    public void setArtid(ArrayList<Integer> artid) {
+        this.artid = artid;
     }
 
     public ArrayList<String> getArtname() {
@@ -98,6 +108,7 @@ public class Rezept {
         this.rezeptbeschreibung = rezeptbeschreibung;
     }
 
+    
     
     
 }

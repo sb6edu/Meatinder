@@ -53,11 +53,11 @@ public class CtrlSelect extends HttpServlet {
             
             ResultSet rs = pstm.executeQuery();
             
-            String artid;
+            int artid;
             String artname;
             
             while(rs.next()){
-                artid = rs.getString("ARTID");
+                artid = rs.getInt("ARTID");
                 artname = rs.getString("ARTNAME");               
                 
                 artikels.add(new Artikel(artid, artname));

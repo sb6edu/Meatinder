@@ -10,19 +10,19 @@ package spe.mch;
  * @author 103098
  */
 public class Artikel {
-    private String artid;
+    private int artid;
     private String artname;
 
-    public Artikel(String artid, String artname) {
+    public Artikel(int artid, String artname) {
         this.artid = artid;
         this.artname = artname;
     }
 
-    public String getArtid() {
+    public int getArtid() {
         return artid;
     }
 
-    public void setArtid(String artid) {
+    public void setArtid(int artid) {
         this.artid = artid;
     }
 

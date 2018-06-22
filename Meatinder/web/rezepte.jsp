@@ -5,12 +5,15 @@
 --%>
 
 <%@include file="WEB-INF/header.jspf" %>
-<c:forEach items="${rezepte}" var="rezept">
+
+<c:forEach items="${verfuegbareRezepte}" var="rezept">
         <table>
             <tr>
                 <td>${rezept.rezeptname}</td>
-                <td>${rezept.artname}</td>
+                
             </tr> 
         </table>
 </c:forEach>
+
+
 <%@include file="WEB-INF/footer.jspf" %>

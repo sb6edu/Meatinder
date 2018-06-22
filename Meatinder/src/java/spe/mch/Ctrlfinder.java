@@ -39,7 +39,7 @@ public class Ctrlfinder extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //zwischentest(request, response);
-        
+        //verfuegbareRezepte(request, response);
         zwischentest(request, response);
         //rezepteliste(request, response);
             
@@ -56,10 +56,10 @@ public class Ctrlfinder extends HttpServlet {
         try {
             PreparedStatement pstm = conn.prepareStatement(sql);
             ResultSet rs = pstm.executeQuery();
-            String artid;
+            int artid;
             String artname;
             while (rs.next()) {
-                artid = rs.getString("ARTID");
+                artid = rs.getInt("ARTID");
                 artname = rs.getString("ARTNAME");
                 artikels.add(new Artikel(artid, artname));
             }
@@ -178,7 +178,7 @@ public class Ctrlfinder extends HttpServlet {
 
     }
     private void zwischentest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ArrayList<Artikel> zinventar = new ArrayList <>();
+        /*ArrayList<Artikel> zinventar = new ArrayList <>();
         zinventar = zinventarliste(request,response, zutatenliste(request, response));
         for (Artikel artikel : zinventar) {
             String artikelname = artikel.getArtname();
@@ -193,6 +193,12 @@ public class Ctrlfinder extends HttpServlet {
         ArrayList<Rezept> rezeptelist = new ArrayList<>();
         rezeptelist = rezepteliste(request, response);
         for (Rezept rezept : rezeptelist) {
+            String rezeptname = rezept.getRezeptname();
+            response.getWriter().println(rezeptname);
+        }*/
+        ArrayList<Rezept> reze = new ArrayList<>();
+        reze = verfuegbareRezepte(request, response, zinventarliste(request, response, zutatenliste(request, response)), ginventarliste(request, response, geraeteliste(request, response)), rezepteliste(request, response));;
+        for (Rezept rezept : reze) {
             String rezeptname = rezept.getRezeptname();
             response.getWriter().println(rezeptname);
         }
@@ -216,6 +222,7 @@ public class Ctrlfinder extends HttpServlet {
                     ResultSet rs = pstm.executeQuery();
                     String rezeptid = "";
                     String rezeptname =  "";
+                    int artid = 0;
                     String artname;
                     String menge;
                     String einheit;
@@ -225,11 +232,13 @@ public class Ctrlfinder extends HttpServlet {
                     ArrayList<String> artnamen = new ArrayList<>();
                     ArrayList<String> mengen = new ArrayList<>();
                     ArrayList<String> einheiten = new ArrayList<>();
+                    ArrayList<Integer> artids = new ArrayList<>();
                     
                     if(rs.next()){
                     while(rs.next()) {
                         rezeptid = rs.getString("id");
                         rezeptname = rs.getString("rezeptname");
+                        artid = rs.getInt("artid");
                         artname = rs.getString("artname");
                         menge = rs.getString("menge");
                         einheit = rs.getString("einheit");
@@ -240,10 +249,12 @@ public class Ctrlfinder extends HttpServlet {
                         artnamen.add(artname);
                         mengen.add(menge);
                         einheiten.add(einheit);
+                        artids.add(artid);
                     } 
                     } else {
                         rezeptid = "Nicht vorhanden";
                         rezeptname = "Nicht vorhanden";
+                        artid = 0;
                         artname = "Nicht vorhanden";
                         menge = "Nicht vorhanden";
                         einheit = "Nicht vorhanden";
@@ -251,11 +262,9 @@ public class Ctrlfinder extends HttpServlet {
                         zubereitungszeit = "Nicht vorhanden";
                         rezeptbeschreibung = "Nicht vorhanden";
                         
-                        artnamen.add(artname);
-                        mengen.add(menge);
-                        einheiten.add(einheit);
+                        
                     }
-                    rezepte.add(new Rezept(rezeptid, rezeptname, artnamen, mengen, einheiten, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung));
+                    rezepte.add(new Rezept(rezeptid, rezeptname, artids, artnamen, mengen, einheiten, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung));
                     
                 } catch (SQLException ex) {
                     response.getWriter().println(ex.getMessage());
@@ -267,6 +276,28 @@ public class Ctrlfinder extends HttpServlet {
         request.setAttribute("rezepte", rezepte);
         pool.releaseConnection(conn);
         return rezepte;
+    }
+    
+    public ArrayList verfuegbareRezepte(HttpServletRequest request, HttpServletResponse response, ArrayList<Artikel> verfuegbareArtikel, ArrayList<Geraet> verfuegbareGeraete, ArrayList<Rezept> rezepte) throws ServletException, IOException {
+        DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
+        Connection conn = pool.getConnection();
+        ArrayList<Rezept> verfuegbareRezepte = new ArrayList<>();
+        
+        for(Rezept rezept : rezepte) {
+            ArrayList artidr = new ArrayList<>();
+            artidr = rezept.getArtid();
+            ArrayList artida = new ArrayList<>();
+            for(Artikel artikel : verfuegbareArtikel) {
+                int artid = artikel.getArtid();
+                artida.add(artid);
+            }
+            if(artida.contains(artidr)) {
+                verfuegbareRezepte.add(rezept);
+            }
+        }
+        request.setAttribute("verfuegbareRezepte", verfuegbareRezepte);
+        pool.releaseConnection(conn);
+        return verfuegbareRezepte;
     }
 }
 
