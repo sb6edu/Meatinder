@@ -6,19 +6,19 @@
 package spe.mch;
         
 public class Geraet {
-    private int gid;
+    private String gid;
     private String geraetebezeichnung;
 
-    public Geraet(int gid, String geraetebezeichnung) {
+    public Geraet(String gid, String geraetebezeichnung) {
         this.gid = gid;
         this.geraetebezeichnung = geraetebezeichnung;
     }
 
-    public int getGid() {
+    public String getGid() {
         return gid;
     }
 
-    public void setGid(int gid) {
+    public void setGid(String gid) {
         this.gid = gid;
     }
 

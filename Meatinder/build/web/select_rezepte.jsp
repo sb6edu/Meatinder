@@ -16,12 +16,10 @@
                 <%  } else {%>
                 </tr>
                 <label>
-
                     <tr>
                     <td><input type="checkbox" name="${artikel.artname}" value="${artikel.artname}" id="${artikel.artname}">${artikel.artname}</td>
-
                 </label>
-                     <%  } %>  
+                <%  } %>  
         </c:forEach>
         </tr>
         </table>
@@ -29,7 +27,6 @@
             <br />
             <h3>Kreuzen Sie Ihre vorhandenen Küchengeräte an.</h3>
             <fieldset>
-                
         <table>  
                 <c:forEach items="${geraete}" var="geraet">
                     
