@@ -46,8 +46,11 @@ public class CtrlRegister extends HttpServlet {
         Connection conn = pool.getConnection();
 
         String sql = "Insert into Kunden (vorname, nachname, username, email, passwort) values(?,?,?,?,?)";
+        //Hat er alle Felder ausgefüllt?
         if (warerbrav(vorname, nachname, uname, psw1, psw2, email)) {
-            if (nochfrei(uname, email)) {
+            //Ist der Benutzername bereits vergeben?
+            if (unamenochfrei(uname)) {
+                //Hat er zweimal das gleiche Passwort eingegeben?
                 if (psw1.equals(psw2)) {
                     try {
                         PreparedStatement pstm = conn.prepareStatement(sql);
@@ -69,6 +72,9 @@ public class CtrlRegister extends HttpServlet {
                     view.forward(request, response);
                 }
             }
+            else {
+            RequestDispatcher view = request.getRequestDispatcher("select_rezepte.jsp");//hier noch eine jspf für den fall, das es besetzt ist erstellen
+            view.forward(request, response);}
         } else {
             RequestDispatcher view = request.getRequestDispatcher("plsallregistrierung.jsp");
             view.forward(request, response);
@@ -85,22 +91,25 @@ public class CtrlRegister extends HttpServlet {
         return true;
     }
 
-    public boolean nochfrei(String... strings) {
+    public boolean unamenochfrei(String uname) {
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
-        for (String s : strings) {
+        String bla = "";
             try {
-                String sql = "select "+s+" from kunden";
+                String sql = "select username from kunden where username="+uname;
                 PreparedStatement pstm = conn.prepareStatement(sql);
                 ResultSet rs = pstm.executeQuery();
-                if (rs.next()==false) {
+                while(rs.next()) {
+                    bla = rs.getString("username");
+                }
+                if(bla.equals(uname)){
                     return false;
                 }
+                
             } catch (SQLException ex) {
             }
-        }
         pool.releaseConnection(conn);
-        return true;
+        return false;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
