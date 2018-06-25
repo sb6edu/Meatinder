@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package spe.mch;
 
 import java.io.IOException;
@@ -14,10 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author 103095
- */
 @WebServlet(name = "Ctrllogout", urlPatterns = {"/ctrllogout.do"})
 public class Ctrllogout extends HttpServlet {
 
@@ -26,10 +17,11 @@ public class Ctrllogout extends HttpServlet {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                cookie.setValue("");
-                cookie.setPath("/");
-                cookie.setMaxAge(0);
-                response.addCookie(cookie);
+                if (cookie.getName().equals("u")) {
+                    cookie.setMaxAge(0);
+                    //do something
+                    //value can be retrieved using #cookie.getValue()
+                }
             }
         }
         RequestDispatcher view = request.getRequestDispatcher("logout.jsp");

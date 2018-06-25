@@ -4,20 +4,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Unser Gästebuch</title>
+        <title>Meatinder</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
     </head>
     <body>
-        <form  method="post" action="ctrllogout.do">
-            <label class="logoutLblPos">
-                <input align="right" name="submit2" type="submit" id="submit2" value="log out">
-            </label>
-        </form>
         <nav>
             <a href="login.jsp">Login   </a>
             <a href="registrierung.jsp">Registrierung   </a>
             <a href="ctrlselect.do">Rezepte finden  </a>
         </nav>
-        <br />
-        Hallo, ${cookie.User.value}
+        

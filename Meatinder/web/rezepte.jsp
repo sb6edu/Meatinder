@@ -8,11 +8,13 @@
 
 <table>
 <c:forEach items="${verfuegbareRezepte}" var="rezept">
+    
             <tr>
                 <td><a href="rezeptfinden.do?rn=${rezept.rezeptname}" id="rezeptname">${rezept.rezeptname}</a></td>
             </tr> 
 </c:forEach>
 </table>
+Hallo ${cookie.User.value}
 
 
 <%@include file="WEB-INF/footer.jspf" %>

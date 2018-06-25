@@ -37,6 +37,12 @@ public class CtrlLogin extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        /*To do: Funktion für zufällige Salts schreiben
+        java hashing lib sha3 oder besser finden
+        hier implementieren
+        Datenbank für Salt erweitern
+        Token anstatt cookie verwenden
+        */
         String uname = request.getParameter("uname");
         String psw = request.getParameter("psw");
         String vorname = request.getParameter("vorname");

@@ -17,8 +17,7 @@
                     </tr>
 
                 </table>
-            </fieldset>
-                            
+            </fieldset>               
 </form>
 <a href="ctrlselect.do">Weiter als Gast</a>
 <a href="registrierung.jsp">Registrieren</a>
