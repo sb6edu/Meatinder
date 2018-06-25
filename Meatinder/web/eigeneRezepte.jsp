@@ -1,4 +1,4 @@
-<%@include file="WEB-INF/header.jspf" %>
+<%@include file="WEB-INF/personalheader.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
         <h1>Erstellen von eigenen Rezepten</h1>

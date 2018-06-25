@@ -1,4 +1,4 @@
-<%@include file="WEB-INF/header.jspf" %>
+<%@include file="WEB-INF/anonymusheader.jspf" %>
 <h1>Registrierung</h1>
 <form method="post" action="ctrlregister.do">
     <fieldset>
