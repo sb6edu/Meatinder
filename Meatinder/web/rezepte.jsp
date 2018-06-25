@@ -6,14 +6,13 @@
 
 <%@include file="WEB-INF/header.jspf" %>
 
+<table>
 <c:forEach items="${verfuegbareRezepte}" var="rezept">
-        <table>
             <tr>
-                <td>${rezept.rezeptname}</td>
-                
+                <td><a href="rezeptfinden.do?rn=${rezept.rezeptname}" id="rezeptname">${rezept.rezeptname}</a></td>
             </tr> 
-        </table>
 </c:forEach>
+</table>
 
 
 <%@include file="WEB-INF/footer.jspf" %>

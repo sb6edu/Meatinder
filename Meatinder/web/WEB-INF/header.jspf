@@ -6,7 +6,14 @@
     <head>
         <title>Unser Gästebuch</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
     </head>
-<body>
-    Hallo, ${cookie.User.value}
+    <body>
+        <div align="right"><a href="ctrllogout.do">Logout</a></div>
+        <nav>
+            <a href="login.jsp">Login   </a>
+            <a href="registrierung.jsp">Registrierung   </a>
+            <a href="ctrlselect.do">Rezepte finden  </a>
+        </nav>
+        <br />
+        Hallo, ${cookie.User.value}
