@@ -6,6 +6,7 @@
 package spe.mch;
 
 import java.io.IOException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -19,20 +20,21 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "Ctrllogout", urlPatterns = {"/ctrllogout.do"})
 public class Ctrllogout extends HttpServlet {
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        eraseCookie(request, response);
-    }
-    private void eraseCookie(HttpServletRequest req, HttpServletResponse resp) {
-    Cookie[] cookies = req.getCookies();
-    if (cookies != null)
-        for (Cookie cookie : cookies) {
-            cookie.setValue("");
-            cookie.setPath("/");
-            cookie.setMaxAge(0);
-            resp.addCookie(cookie);
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                cookie.setValue("");
+                cookie.setPath("/");
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+            }
         }
-}
+        RequestDispatcher view = request.getRequestDispatcher("logout.jsp");
+        view.forward(request, response);
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
