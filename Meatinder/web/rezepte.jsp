@@ -4,7 +4,7 @@
     Author     : 103098
 --%>
 
-<%@include file="WEB-INF/header.jspf" %>
+<%@include file="WEB-INF/anonymusheader.jspf" %>
 
 <table>
 <c:forEach items="${verfuegbareRezepte}" var="rezept">
