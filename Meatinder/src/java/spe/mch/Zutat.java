@@ -11,14 +11,24 @@ package spe.mch;
  */
 public class Zutat {
     
+    private int artid;
     private String artname;
     private String menge;
     private String einheit;
 
-    public Zutat(String artname, String menge, String einheit) {
+    public Zutat(int artid, String artname, String menge, String einheit) {
+        this.artid = artid;
         this.artname = artname;
         this.menge = menge;
         this.einheit = einheit;
+    }
+
+    public int getArtid() {
+        return artid;
+    }
+
+    public void setArtid(int artid) {
+        this.artid = artid;
     }
 
     public String getArtname() {
@@ -44,6 +54,8 @@ public class Zutat {
     public void setEinheit(String einheit) {
         this.einheit = einheit;
     }
+
+    
 
     
     

@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author 103097
  */
-@WebServlet(name = "CtrlEinfuegen", urlPatterns = {"/CtrlEinfuegen.do"})
+@WebServlet(name = "CtrlEinfuegen", urlPatterns = {"/ctrleinfuegen.do"})
 public class CtrlEinfuegen extends HttpServlet {
 
     /**
@@ -38,23 +38,14 @@ public class CtrlEinfuegen extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        zutatenliste(request, response);
-        geraeteliste(request, response);
         
-            RequestDispatcher view = request.getRequestDispatcher("eigeneRezepte.jsp");
-        view.forward(request,response);
-        
-        
-          
-    }
-     private ArrayList zutatenliste(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        //Alle Artikel auswählen
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
-        String sql = "select * from artikel";
+        String sqlartikels = "select * from artikel";
         ArrayList<Artikel> artikels = new ArrayList<>();
         try {
-            PreparedStatement pstm = conn.prepareStatement(sql);
+            PreparedStatement pstm = conn.prepareStatement(sqlartikels);
             ResultSet rs = pstm.executeQuery();
             int artid = 0;
             String artname;
@@ -71,19 +62,14 @@ public class CtrlEinfuegen extends HttpServlet {
         /*for(Artikel artikel : artikels) {
             System.out.println(artikel);
         }*/
-        pool.releaseConnection(conn);
+        
         request.setAttribute("artikels", artikels);
-        return artikels;
-    }
-     
-     private ArrayList geraeteliste(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
-        Connection conn = pool.getConnection();
-        String sql = "select * from geraete";
+        
+        //Geraete auswählen
+        String sqlgeraete = "select * from geraete";
         ArrayList<Geraet> geraetes = new ArrayList<>();
         try {
-            PreparedStatement pstm = conn.prepareStatement(sql);
+            PreparedStatement pstm = conn.prepareStatement(sqlgeraete);
             ResultSet rs = pstm.executeQuery();
             String geraetid;
             String geraetname;
@@ -95,14 +81,106 @@ public class CtrlEinfuegen extends HttpServlet {
         } catch (SQLException ex) {
             response.getWriter().println(ex.getMessage());
         }
-         
-        pool.releaseConnection(conn);
         request.setAttribute("geraetes", geraetes);
-        return geraetes;
+        
+        
+        //Ausgewählte Artikel
+        ArrayList<Zutat> zutaten = new ArrayList<>();
+        for (Artikel artikel : artikels) {
+            int artid = artikel.getArtid();
+            String artikelname = artikel.getArtname();
+            String zutat = request.getParameter(artikelname);
+            String menge = request.getParameter(artikelname + "-Menge");
+            String einheit = request.getParameter(artikelname + "-Einheit");
+            try {
+                if (artikelname.equals(zutat)) {
+                    zutaten.add(new Zutat(artid, artikelname, menge, einheit));
+                }
+            } catch (NullPointerException ex) {
+                response.getWriter().println(ex.getMessage());
+            }
+        }
+        request.setAttribute("zutaten", zutaten);
+        
+        //Ausgewählte Geräte
+        ArrayList<Geraet> ginventar = new ArrayList<>();
+        for (Geraet geraet : geraetes) {
+            String geraetname = geraet.getGeraetebezeichnung();
+            String ding = request.getParameter(geraetname);
+            try {
+                if (geraetname.equals(ding)) {
+                    ginventar.add(geraet);
+                }
+            } catch (NullPointerException ex) {
+                response.getWriter().println(ex.getMessage());
+            }
+        }
+        request.setAttribute("ginventar", ginventar);
+        
+        
+        
+        String rezeptname = request.getParameter("rezeptname");
+        String zubereitungszeit = request.getParameter("zubereitungszeit");
+        String rezeptbeschreibung = request.getParameter("rezeptbeschreibung");
+        //ArrayList ginventar
+        //ArrayList zutaten (artname, menge, einheit)
+        
+        String sql = "insert into rezepte (gid, rezeptname, zubereitungszeit, rezeptbeschreibung) values (?,?,?,?)";
+        String gid = "";
+        for(Geraet geraet : ginventar){
+            gid = geraet.getGid();
+        }
+        
+        try{
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setString(1, gid);
+            pstm.setString(2, rezeptname);
+            pstm.setString(3, zubereitungszeit);
+            pstm.setString(4, rezeptbeschreibung);
+            
+            pstm.executeUpdate();
+            
+        } catch(SQLException ex){}
+        
+        
+        String sql2 = "select id from rezepte where rezeptname = " + "'" + rezeptname + "'";
+        String rid = "";
+        try{
+            PreparedStatement pstm = conn.prepareStatement(sql2);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                rid = rs.getString("id");
+            }
+        } catch (SQLException ex) {
+            response.getWriter().println(ex.getMessage());
+        }
+        
+        for(Zutat zutat : zutaten) {
+            sql = "insert into rezeptartikel (rid, artid, menge, einheit) values (?, ?, ?, ?)";
+            int artid = zutat.getArtid();
+            String menge = zutat.getMenge();
+            String einheit = zutat.getEinheit();
+            
+            try {
+                PreparedStatement pstm = conn.prepareStatement(sql);
+                pstm.setString(1, rid);
+                pstm.setInt(2, artid);
+                pstm.setString(3, menge);
+                pstm.setString(4, einheit);
+                
+                pstm.executeUpdate();
+            } catch (SQLException ex) {
+                
+            }
+        }
+        
+        RequestDispatcher view = request.getRequestDispatcher("eigeneRezepte.jsp");
+        view.forward(request,response);
     }
      
     
 
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

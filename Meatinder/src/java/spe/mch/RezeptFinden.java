@@ -76,7 +76,7 @@ public class RezeptFinden extends HttpServlet {
                     zubereitungszeit = rs.getString("zubereitungszeit");
                     rezeptbeschreibung = rs.getString("rezeptbeschreibung");
 
-                    Zutat zutat = new Zutat(artname, menge, einheit);
+                    Zutat zutat = new Zutat(artid, artname, menge, einheit);
                     
                     artnamen.add(artname);
                     mengen.add(menge);
