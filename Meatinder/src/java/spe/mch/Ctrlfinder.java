@@ -62,8 +62,8 @@ public class Ctrlfinder extends HttpServlet {
                 artid = rs.getInt("ARTID");
                 artname = rs.getString("ARTNAME");
                 artikels.add(new Artikel(artid, artname));
-                System.out.println(artid);
-                System.out.println(artname);
+                //System.out.println(artid);
+                //System.out.println(artname);
             }
         } catch (SQLException ex) {
             response.getWriter().println(ex.getMessage());
@@ -292,52 +292,39 @@ public class Ctrlfinder extends HttpServlet {
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
         ArrayList<Rezept> verfuegbareRezepte = new ArrayList<>();
+        ArrayList<Integer> artidr = new ArrayList<>();
+        ArrayList<Integer> artida = new ArrayList<>();
+        String gid;
+        String gid2;
+        for(Geraet geraet : verfuegbareGeraete) {
+            gid2 = geraet.getGeraetebezeichnung();
         
-        for(Rezept rezept : rezepte) {
-            ArrayList artidr = new ArrayList<>();
-            artidr = rezept.getArtid();
-            ArrayList artida = new ArrayList<>();
-            for(Artikel artikel : verfuegbareArtikel) {
+        for(Artikel artikel : verfuegbareArtikel) {
                 int artid = artikel.getArtid();
                 artida.add(artid);
+        }
+        
+        for(Rezept rezept : rezepte) {
+            Boolean hatAlles = true;
+            gid = rezept.getGeraetebezeichnung();
+            artidr = rezept.getArtid();
+            for(Integer s : artidr){
+                if(!artida.contains(s)) {
+                    hatAlles = false;
+                }
             }
-            if(artida.contains(artidr)) {
-                verfuegbareRezepte.add(rezept);
+            
+            if(!gid.equals(gid2)) {
+                hatAlles = false;
             }
+            
+            if(hatAlles) {
+            verfuegbareRezepte.add(rezept);
+            }
+        }
         }
         request.setAttribute("verfuegbareRezepte", verfuegbareRezepte);
         pool.releaseConnection(conn);
         return verfuegbareRezepte;
     }
 }
-
-/*String sql = "select id, rezeptname, s.artid, artname, menge, einheit, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung from geraete a, artikel s, rezepte d, rezeptartikel f where a.gid = d.gid and s.artid = f.artid and d.id = f.RID and id= " + id;
-        ArrayList<Rezept> rezepte = new ArrayList<>();
-        try {
-            PreparedStatement pstm = conn.prepareStatement(sql);
-            ResultSet rs = pstm.executeQuery();
-            String rezeptid;
-            String rezeptname;
-            String artname;
-            String menge;
-            String einheit;
-            String geraetebezeichnung;
-            String zubereitungszeit;
-            String rezeptbeschreibung;
-            
-            while (rs.next()) {
-                rezeptid = rs.getString("id");
-                rezeptname = rs.getString("rezeptname");
-                artname = rs.getString("artname");
-                menge = rs.getString("menge");
-                einheit = rs.getString("einheit");
-                geraetebezeichnung = rs.getString("geraetebezeichnung");
-                zubereitungszeit = rs.getString("zubereitungszeit");
-                rezeptbeschreibung = rs.getString("rezeptbeschreibung");
-                String[] artikel;
-                rezepte.add(new Geraet(geraetid, geraetname));
-            }
-        } catch (SQLException ex) {
-            response.getWriter().println(ex.getMessage());
-        }
-        }*/
