@@ -6,11 +6,20 @@
 
 <%@include file="WEB-INF/header.jspf" %>
 
-<c:forEach items="${verfuegbareRezepte}" var="rezept">
+<c:forEach items="${rezepte}" var="rezept">
         <table>
             <tr>
                 <td>${rezept.rezeptname}</td>
+                <td>${rezept.artid}</td>
                 
+            </tr> 
+        </table>
+</c:forEach>
+
+<c:forEach items="${zinventar}" var="artikel">
+        <table>
+            <tr>
+                <td>${artikel.artid}</td>
             </tr> 
         </table>
 </c:forEach>

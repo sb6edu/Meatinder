@@ -56,19 +56,25 @@ public class Ctrlfinder extends HttpServlet {
         try {
             PreparedStatement pstm = conn.prepareStatement(sql);
             ResultSet rs = pstm.executeQuery();
-            int artid;
+            int artid = 0;
             String artname;
             while (rs.next()) {
                 artid = rs.getInt("ARTID");
                 artname = rs.getString("ARTNAME");
                 artikels.add(new Artikel(artid, artname));
+                System.out.println(artid);
+                System.out.println(artname);
             }
         } catch (SQLException ex) {
             response.getWriter().println(ex.getMessage());
         }
+        /*for(Artikel artikel : artikels) {
+            System.out.println(artikel);
+        }*/
         pool.releaseConnection(conn);
         return artikels;
     }
+    
     private ArrayList geraeteliste(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
@@ -106,6 +112,10 @@ public class Ctrlfinder extends HttpServlet {
                 response.getWriter().println(ex.getMessage());
             }
         }
+        /*for(Artikel artikel : zinventar) {
+            System.out.println(artikel);
+        }*/
+        request.setAttribute("zinventar", zinventar);
         return zinventar;
     }
     
@@ -178,7 +188,7 @@ public class Ctrlfinder extends HttpServlet {
 
     }
     private void zwischentest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        /*ArrayList<Artikel> zinventar = new ArrayList <>();
+        ArrayList<Artikel> zinventar = new ArrayList <>();
         zinventar = zinventarliste(request,response, zutatenliste(request, response));
         for (Artikel artikel : zinventar) {
             String artikelname = artikel.getArtname();
@@ -195,7 +205,7 @@ public class Ctrlfinder extends HttpServlet {
         for (Rezept rezept : rezeptelist) {
             String rezeptname = rezept.getRezeptname();
             response.getWriter().println(rezeptname);
-        }*/
+        }
         ArrayList<Rezept> reze = new ArrayList<>();
         reze = verfuegbareRezepte(request, response, zinventarliste(request, response, zutatenliste(request, response)), ginventarliste(request, response, geraeteliste(request, response)), rezepteliste(request, response));;
         for (Rezept rezept : reze) {
