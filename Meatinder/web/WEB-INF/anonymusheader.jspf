@@ -13,5 +13,7 @@
             <a href="login.jsp">Login   </a>
             <a href="registrierung.jsp">Registrierung   </a>
             <a href="ctrlselect.do">Rezepte finden  </a>
+            <a href="ctrleinfuegen.do">Rezept einfügen  </a>
+            
         </nav>
         
