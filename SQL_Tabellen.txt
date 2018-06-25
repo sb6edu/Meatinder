@@ -50,7 +50,7 @@ PRIMARY KEY (RID, ARTID));
 --Geräte:
 insert into geraete (geraetebezeichnung) values ('Herd');
 insert into geraete (geraetebezeichnung) values ('Ofen');
-insert into geraete (geraetebezeichnung) values ('Mikrowelle');
+
 
 --Artikel
 insert into artikel (artname) values ('Nudeln');
@@ -104,46 +104,46 @@ insert into rezeptartikel (rid, artid, menge, einheit) values (1, 2, 75, 'Gramm'
 insert into rezeptartikel (rid, artid, menge, einheit) values (1, 3, 1, 'Stück');
 insert into rezeptartikel (rid, artid, menge, einheit) values (1, 8, 200, 'Gramm');
 insert into rezeptartikel (rid, artid, menge, einheit) values (1, 5, 1, 'Stück');
-insert into rezeptartikel (rid, artid, menge, einheit) values (1, 4, 3/4, 'EL');
+insert into rezeptartikel (rid, artid, menge, einheit) values (1, 4, 0.75, 'EL');
 --Gefüllte Paprika
 insert into rezeptartikel (rid, artid, menge, einheit) values (2, 6, 3, 'Stück');
 insert into rezeptartikel (rid, artid, menge, einheit) values (2, 2, 30, 'Gramm');
 insert into rezeptartikel (rid, artid, menge, einheit) values (2, 7, 75, 'Gramm');
-insert into rezeptartikel (rid, artid, menge, einheit) values (2, 5, 3/4, 'Stück');
+insert into rezeptartikel (rid, artid, menge, einheit) values (2, 5, 0.75, 'Stück');
 --Pastasauce
 insert into rezeptartikel (rid, artid, menge, einheit) values (3, 7, 150, 'Gramm');
 insert into rezeptartikel (rid, artid, menge, einheit) values (3, 3, 2, 'Stück');
-insert into rezeptartikel (rid, artid, menge, einheit) values (3, 9, 1/4, 'Tube');
-insert into rezeptartikel (rid, artid, menge, einheit) values (3, 6, 3/4, 'Stück');
+insert into rezeptartikel (rid, artid, menge, einheit) values (3, 9, 0.25, 'Tube');
+insert into rezeptartikel (rid, artid, menge, einheit) values (3, 6, 0.25, 'Stück');
 insert into rezeptartikel (rid, artid, menge, einheit) values (3, 4, 2, 'EL');
 insert into rezeptartikel (rid, artid, menge, einheit) values (3, 1, 100, 'Gramm');
 --Paprika-Zwiebel-Tomatenpfanne mit Reis
 insert into rezeptartikel (rid, artid, menge, einheit) values (4, 6, 1, 'Stück');
-insert into rezeptartikel (rid, artid, menge, einheit) values (4, 5, 1/2, 'Stück');
-insert into rezeptartikel (rid, artid, menge, einheit) values (4, 3, 1/2, 'Stück');
-insert into rezeptartikel (rid, artid, menge, einheit) values (4, 9, 1/8, 'Tube');
-insert into rezeptartikel (rid, artid, menge, einheit) values (4, 2, 1/2, 'Tasse');
-insert into rezeptartikel (rid, artid, menge, einheit) values (4, 4, 1/2, 'EL');
+insert into rezeptartikel (rid, artid, menge, einheit) values (4, 5, 0.5, 'Stück');
+insert into rezeptartikel (rid, artid, menge, einheit) values (4, 3, 0.5, 'Stück');
+insert into rezeptartikel (rid, artid, menge, einheit) values (4, 9, 0.125, 'Tube');
+insert into rezeptartikel (rid, artid, menge, einheit) values (4, 2, 0.5, 'Tasse');
+insert into rezeptartikel (rid, artid, menge, einheit) values (4, 4, 0.5, 'EL');
 --Gebratene Nudeln mit Ei
 insert into rezeptartikel (rid, artid, menge, einheit) values (5, 1, 100, 'Gramm');
 insert into rezeptartikel (rid, artid, menge, einheit) values (5, 13, 1, 'Stück');
-insert into rezeptartikel (rid, artid, menge, einheit) values (5, 4, 1/2, 'EL');
+insert into rezeptartikel (rid, artid, menge, einheit) values (5, 4, 0.5, 'EL');
 --Paprika,Reis und Gehacktes
 insert into rezeptartikel (rid, artid, menge, einheit) values (6, 7, 125, 'Gramm');
 insert into rezeptartikel (rid, artid, menge, einheit) values (6, 2, 60, 'Gramm');
-insert into rezeptartikel (rid, artid, menge, einheit) values (6, 5, 1/4, 'Stück');
-insert into rezeptartikel (rid, artid, menge, einheit) values (6, 4, 1/2, 'EL');
-insert into rezeptartikel (rid, artid, menge, einheit) values (6, 11, 1/2, 'EL');
-insert into rezeptartikel (rid, artid, menge, einheit) values (6, 9, 1/4, 'EL');
-insert into rezeptartikel (rid, artid, menge, einheit) values (6, 6, 1/4, 'Stück');
+insert into rezeptartikel (rid, artid, menge, einheit) values (6, 5, 0.25, 'Stück');
+insert into rezeptartikel (rid, artid, menge, einheit) values (6, 4, 0.5, 'EL');
+insert into rezeptartikel (rid, artid, menge, einheit) values (6, 11, 0.5, 'EL');
+insert into rezeptartikel (rid, artid, menge, einheit) values (6, 9, 0.25, 'EL');
+insert into rezeptartikel (rid, artid, menge, einheit) values (6, 6, 0.25, 'Stück');
 insert into rezeptartikel (rid, artid, menge, einheit) values (6, 14, 125, 'Milliliter');
 --Pasta mit Tomaten-Paprika-Bolognese-Sauce
 insert into rezeptartikel (rid, artid, menge, einheit) values (7, 7, 125, 'Gramm');
-insert into rezeptartikel (rid, artid, menge, einheit) values (7, 5, 1/4, 'Stück');
-insert into rezeptartikel (rid, artid, menge, einheit) values (7, 4, 1/2, 'EL');
+insert into rezeptartikel (rid, artid, menge, einheit) values (7, 5, 0.25, 'Stück');
+insert into rezeptartikel (rid, artid, menge, einheit) values (7, 4, 0.5, 'EL');
 insert into rezeptartikel (rid, artid, menge, einheit) values (7, 3, 1, 'Stück');
-insert into rezeptartikel (rid, artid, menge, einheit) values (7, 6, 1/4, 'Stück');
-insert into rezeptartikel (rid, artid, menge, einheit) values (7, 9, 1/2, 'EL');
+insert into rezeptartikel (rid, artid, menge, einheit) values (7, 6, 0.35, 'Stück');
+insert into rezeptartikel (rid, artid, menge, einheit) values (7, 9, 0.5, 'EL');
 insert into rezeptartikel (rid, artid, menge, einheit) values (7, 12, 3, 'EL');
 insert into rezeptartikel (rid, artid, menge, einheit) values (7, 14, 125, 'Milliliter');
 insert into rezeptartikel (rid, artid, menge, einheit) values (7, 1, 125, 'Gramm');
@@ -157,7 +157,7 @@ insert into rezeptartikel (rid, artid, menge, einheit) values (8, 3, 1, 'Stück'
 insert into rezeptartikel (rid, artid, menge, einheit) values (8, 11, 2, 'EL');
 --Tomatensalat mit Schinken und Käse
 insert into rezeptartikel (rid, artid, menge, einheit) values (9, 3, 3, 'Stück');
-insert into rezeptartikel (rid, artid, menge, einheit) values (9, 5, 1/2, 'Stück');
+insert into rezeptartikel (rid, artid, menge, einheit) values (9, 5, 0.5, 'Stück');
 insert into rezeptartikel (rid, artid, menge, einheit) values (9, 16, 1, 'Scheibe');
 insert into rezeptartikel (rid, artid, menge, einheit) values (9, 12, 1.5, 'EL');
 insert into rezeptartikel (rid, artid, menge, einheit) values (9, 4, 1.5, 'EL');
@@ -167,7 +167,7 @@ insert into rezeptartikel (rid, artid, menge, einheit) values (10, 1, 125, 'Gram
 insert into rezeptartikel (rid, artid, menge, einheit) values (10, 16, 40, 'Gramm');
 insert into rezeptartikel (rid, artid, menge, einheit) values (10, 4, 1, 'EL');
 insert into rezeptartikel (rid, artid, menge, einheit) values (10, 10, 60, 'Gramm');
---Nudeln mit Rührei und Schinken ************************************************************************************
+--Nudeln mit Rührei und Schinken 
 insert into rezeptartikel (rid, artid, menge, einheit) values (11, 1, 125, 'Gramm');
 insert into rezeptartikel (rid, artid, menge, einheit) values (11, 16, 75, 'Gramm');
 insert into rezeptartikel (rid, artid, menge, einheit) values (11, 13, 2, 'Stück');
@@ -177,9 +177,9 @@ insert into rezeptartikel (rid, artid, menge, einheit) values (11, 10, 50, 'Gram
 insert into rezeptartikel (rid, artid, menge, einheit) values (12, 1, 125, 'Gramm');
 insert into rezeptartikel (rid, artid, menge, einheit) values (12, 8, 100, 'Gramm');
 insert into rezeptartikel (rid, artid, menge, einheit) values (12, 16, 50, 'Gramm');
-insert into rezeptartikel (rid, artid, menge, einheit) values (12, 6, 1/2, 'Stück');
+insert into rezeptartikel (rid, artid, menge, einheit) values (12, 6, 0.5, 'Stück');
 insert into rezeptartikel (rid, artid, menge, einheit) values (12, 10, 150, 'Gramm');
-insert into rezeptartikel (rid, artid, menge, einheit) values (12, 5, 1/2, 'Stück');
+insert into rezeptartikel (rid, artid, menge, einheit) values (12, 5, 0.5, 'Stück');
 insert into rezeptartikel (rid, artid, menge, einheit) values (12, 18, 125, 'Milliliter');
 insert into rezeptartikel (rid, artid, menge, einheit) values (12, 14, 1, 'TL');
 insert into rezeptartikel (rid, artid, menge, einheit) values (12, 4, 1, 'EL');
@@ -213,7 +213,7 @@ insert into rezeptartikel (rid, artid, menge, einheit) values (16, 21, 250, 'Gra
 insert into rezeptartikel (rid, artid, menge, einheit) values (16, 4, 2, 'EL');
 --Nudeln Aglio olio
 insert into rezeptartikel (rid, artid, menge, einheit) values (17, 1, 125, 'Gramm');
-insert into rezeptartikel (rid, artid, menge, einheit) values (17, 5, 1/2, 'Stück');
+insert into rezeptartikel (rid, artid, menge, einheit) values (17, 5, 0.5, 'Stück');
 insert into rezeptartikel (rid, artid, menge, einheit) values (17, 4, 1.5, 'EL');
 --Schwein in Käse-Ei-Hülle
 insert into rezeptartikel (rid, artid, menge, einheit) values (18, 20, 1.5, 'EL');
