@@ -57,9 +57,9 @@ public class CtrlLogin extends HttpServlet {
                 view.forward(request, response);
             }
             if (passwort.equals(psw)) {
-                Cookie u = new Cookie("User", uname);
-                u.setMaxAge(12000);
-                response.addCookie(u);
+                //Cookie u = new Cookie("User", uname);
+                //u.setMaxAge(12000);
+                //response.addCookie(u);
                 RequestDispatcher view = request.getRequestDispatcher("ctrlselect.do");
                 view.forward(request, response);
             } else {
