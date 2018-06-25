@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Unser Gästebuch</title>
+        <title>Meatinder</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
     </head>
@@ -14,3 +14,4 @@
             <a href="registrierung.jsp">Registrierung   </a>
             <a href="ctrlselect.do">Rezepte finden  </a>
         </nav>
+        
