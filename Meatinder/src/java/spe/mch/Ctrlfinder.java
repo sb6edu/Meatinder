@@ -72,6 +72,7 @@ public class Ctrlfinder extends HttpServlet {
             System.out.println(artikel);
         }*/
         pool.releaseConnection(conn);
+        request.setAttribute("artikels", artikels);
         return artikels;
     }
     
