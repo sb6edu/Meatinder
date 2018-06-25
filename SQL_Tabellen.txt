@@ -26,19 +26,18 @@ insert into rezepte (gid, rezeptname, zubereitungszeit) values (1, 'Nudeln', '10
 CREATE TABLE KUNDEN (KUNID INTEGER GENERATED ALWAYS AS IDENTITY, 
 VORNAME VARCHAR(30) NOT NULL, 
 NACHNAME VARCHAR(30) NOT NULL, 
-USERNAME VARCHAR(20) NOT NULL, 
-EMAIL VARCHAR(50) NOT NULL, 
+USERNAME VARCHAR(20) NOT NULL unique, 
+EMAIL VARCHAR(50) NOT NULL unique, 
 PASSWORT VARCHAR(20) NOT NULL, 
 PRIMARY KEY (KUNID));
 
 create table geraete (GID integer generated always as identity,
- geraetebezeichnung varchar(30) not null, 
+ geraetebezeichnung varchar(30) not null unique, 
 primary key(GID));
 
 CREATE TABLE ARTIKEL (ARTID INTEGER GENERATED ALWAYS AS IDENTITY,
-ARTNAME VARCHAR(30), 
+ARTNAME VARCHAR(30) unique, 
 PRIMARY KEY (ARTID));
-
 
 CREATE TABLE REZEPTARTIKEL (RID INTEGER NOT NULL, 
 ARTID INTEGER NOT NULL, 
@@ -48,9 +47,8 @@ foreign key (rid) references rezepte(ID),
 foreign key (artid) references artikel(artid), 
 PRIMARY KEY (RID, ARTID));
 
-
 CREATE TABLE REZEPTE (ID INTEGER GENERATED ALWAYS AS IDENTITY,
-REZEPTNAME VARCHAR(50), 
+REZEPTNAME VARCHAR(50) unique, 
 ZUBEREITUNGSZEIT VARCHAR(20), 
 gid integer,
 rezeptbeschreibung varchar(1500), 
