@@ -6,6 +6,7 @@
 package spe.mch;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -40,14 +41,7 @@ public class CtrlLogin extends HttpServlet {
         String uname = request.getParameter("uname");
         String psw = request.getParameter("psw");
         String vorname = request.getParameter("vorname");
-        response.getWriter().println(vorname);
         String passwort = "Wird weiter unten aus der Datenbank geholt, hier nur initialisiert";
-        
-        Cookie u = new Cookie("User", uname);
-        u.setMaxAge(12000);
-        response.addCookie(u);
-
-        
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
 
@@ -56,31 +50,32 @@ public class CtrlLogin extends HttpServlet {
         try {
             PreparedStatement pstm = conn.prepareStatement(sql);
             ResultSet rs = pstm.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 passwort = rs.getString("PASSWORT");
-            }
-            else{
+            } else {
                 RequestDispatcher view = request.getRequestDispatcher("login.jsp");
-                    view.forward(request, response);
+                view.forward(request, response);
             }
-            
-            
-                if (passwort.equals(psw)) {
-                    RequestDispatcher view = request.getRequestDispatcher("ctrlselect.do");
-                    view.forward(request, response);
-                } else {
-                    uname = "";
-                    psw = "";
-                    RequestDispatcher view = request.getRequestDispatcher("failedlogin.jsp");
-                    view.forward(request, response);
-                }
-            
+            if (passwort.equals(psw)) {
+                Cookie u = new Cookie("User", uname);
+                u.setMaxAge(12000);
+                response.addCookie(u);
+                RequestDispatcher view = request.getRequestDispatcher("ctrlselect.do");
+                view.forward(request, response);
+            } else {
+                uname = "";
+                psw = "";
+                RequestDispatcher view = request.getRequestDispatcher("failedlogin.jsp");
+                view.forward(request, response);
+            }
+
         } catch (SQLException ex) {
             response.getWriter().println(ex.getMessage());
         }
 
         //RequestDispatcher view = request.getRequestDispatcher("ctrlselect.do");
         //view.forward(request, response);
+        pool.releaseConnection(conn);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

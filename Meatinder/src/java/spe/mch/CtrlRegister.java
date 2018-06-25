@@ -48,33 +48,27 @@ public class CtrlRegister extends HttpServlet {
         String sql = "Insert into Kunden (vorname, nachname, username, email, passwort) values(?,?,?,?,?)";
         //Hat er alle Felder ausgefüllt?
         if (warerbrav(vorname, nachname, uname, psw1, psw2, email)) {
-            //Ist der Benutzername bereits vergeben?
-            if (unamenochfrei(uname)) {
-                //Hat er zweimal das gleiche Passwort eingegeben?
-                if (psw1.equals(psw2)) {
-                    try {
-                        PreparedStatement pstm = conn.prepareStatement(sql);
-                        pstm.setString(1, vorname);
-                        pstm.setString(2, nachname);
-                        pstm.setString(3, uname);
-                        pstm.setString(4, email);
-                        pstm.setString(5, psw1);
+            //Hat er zweimal das gleiche Passwort eingegeben?
+            if (psw1.equals(psw2)) {
+                try {
+                    PreparedStatement pstm = conn.prepareStatement(sql);
+                    pstm.setString(1, vorname);
+                    pstm.setString(2, nachname);
+                    pstm.setString(3, uname);
+                    pstm.setString(4, email);
+                    pstm.setString(5, psw1);
 
-                        pstm.executeUpdate();
+                    pstm.executeUpdate();
 
-                    } catch (SQLException ex) {
-                    }
-
-                    RequestDispatcher view = request.getRequestDispatcher("login.jsp");
-                    view.forward(request, response);
-                } else {
-                    RequestDispatcher view = request.getRequestDispatcher("failedpwregistrierung.jsp");
-                    view.forward(request, response);
+                } catch (SQLException ex) {
                 }
+
+                RequestDispatcher view = request.getRequestDispatcher("login.jsp");
+                view.forward(request, response);
+            } else {
+                RequestDispatcher view = request.getRequestDispatcher("failedpwregistrierung.jsp");
+                view.forward(request, response);
             }
-            else {
-            RequestDispatcher view = request.getRequestDispatcher("select_rezepte.jsp");//hier noch eine jspf für den fall, das es besetzt ist erstellen
-            view.forward(request, response);}
         } else {
             RequestDispatcher view = request.getRequestDispatcher("plsallregistrierung.jsp");
             view.forward(request, response);
@@ -91,7 +85,7 @@ public class CtrlRegister extends HttpServlet {
         return true;
     }
 
-    public boolean unamenochfrei(String uname) {
+    /*public boolean unamenochfrei(String uname) {
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
         String bla = "";
@@ -109,9 +103,8 @@ public class CtrlRegister extends HttpServlet {
             } catch (SQLException ex) {
             }
         pool.releaseConnection(conn);
-        return false;
-    }
-
+        return return true;
+    }*/
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
