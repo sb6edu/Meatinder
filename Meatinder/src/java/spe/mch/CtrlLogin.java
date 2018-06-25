@@ -37,7 +37,6 @@ public class CtrlLogin extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String uname = request.getParameter("uname");
         String psw = request.getParameter("psw");
         String vorname = request.getParameter("vorname");
@@ -57,9 +56,9 @@ public class CtrlLogin extends HttpServlet {
                 view.forward(request, response);
             }
             if (passwort.equals(psw)) {
-                //Cookie u = new Cookie("User", uname);
-                //u.setMaxAge(12000);
-                //response.addCookie(u);
+                Cookie u = new Cookie("User", uname);
+                u.setMaxAge(120);
+                response.addCookie(u);
                 RequestDispatcher view = request.getRequestDispatcher("ctrlselect.do");
                 view.forward(request, response);
             } else {

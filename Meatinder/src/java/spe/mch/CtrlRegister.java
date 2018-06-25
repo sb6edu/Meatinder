@@ -60,11 +60,13 @@ public class CtrlRegister extends HttpServlet {
 
                     pstm.executeUpdate();
 
-                } catch (SQLException ex) {
-                }
+                    RequestDispatcher view = request.getRequestDispatcher("login.jsp");
+                    view.forward(request, response);
 
-                RequestDispatcher view = request.getRequestDispatcher("login.jsp");
-                view.forward(request, response);
+                } catch (SQLException ex) {
+                    RequestDispatcher view = request.getRequestDispatcher("schonvergeben.jsp");
+                    view.forward(request, response);
+                }
             } else {
                 RequestDispatcher view = request.getRequestDispatcher("failedpwregistrierung.jsp");
                 view.forward(request, response);
@@ -84,27 +86,6 @@ public class CtrlRegister extends HttpServlet {
         }
         return true;
     }
-
-    /*public boolean unamenochfrei(String uname) {
-        DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
-        Connection conn = pool.getConnection();
-        String bla = "";
-            try {
-                String sql = "select username from kunden where username="+uname;
-                PreparedStatement pstm = conn.prepareStatement(sql);
-                ResultSet rs = pstm.executeQuery();
-                while(rs.next()) {
-                    bla = rs.getString("username");
-                }
-                if(bla.equals(uname)){
-                    return false;
-                }
-                
-            } catch (SQLException ex) {
-            }
-        pool.releaseConnection(conn);
-        return return true;
-    }*/
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
