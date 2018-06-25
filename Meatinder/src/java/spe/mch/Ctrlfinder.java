@@ -62,8 +62,8 @@ public class Ctrlfinder extends HttpServlet {
                 artid = rs.getInt("ARTID");
                 artname = rs.getString("ARTNAME");
                 artikels.add(new Artikel(artid, artname));
-                System.out.println(artid);
-                System.out.println(artname);
+                //System.out.println(artid);
+                //System.out.println(artname);
             }
         } catch (SQLException ex) {
             response.getWriter().println(ex.getMessage());
@@ -292,18 +292,34 @@ public class Ctrlfinder extends HttpServlet {
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
         ArrayList<Rezept> verfuegbareRezepte = new ArrayList<>();
-        
-        for(Rezept rezept : rezepte) {
-            ArrayList artidr = new ArrayList<>();
-            artidr = rezept.getArtid();
-            ArrayList artida = new ArrayList<>();
-            for(Artikel artikel : verfuegbareArtikel) {
+        ArrayList<Integer> artidr = new ArrayList<>();
+        ArrayList<Integer> artida = new ArrayList<>();
+        for(Artikel artikel : verfuegbareArtikel) {
                 int artid = artikel.getArtid();
                 artida.add(artid);
             }
-            if(artida.contains(artidr)) {
-                verfuegbareRezepte.add(rezept);
+        
+        /*for(Integer i : artida) {
+            System.out.println(i);
+        }*/
+        for(Rezept rezept : rezepte) {
+            Boolean hatAlles = true;
+            artidr = rezept.getArtid();
+            /*for(Integer a : artidr){
+                System.out.println(a);
             }
+            System.out.println("--------------------");*/
+            for(Integer s : artidr){
+                if(!artida.contains(s)) {
+                    hatAlles = false;
+                }
+            }
+            if(hatAlles) {
+            verfuegbareRezepte.add(rezept);
+            }
+        }
+        for(Rezept rezept : verfuegbareRezepte) {
+            System.out.println(rezept);
         }
         request.setAttribute("verfuegbareRezepte", verfuegbareRezepte);
         pool.releaseConnection(conn);
