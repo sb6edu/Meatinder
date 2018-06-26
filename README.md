@@ -5,8 +5,6 @@
 --Kommentare zu Rezepten
 --Differenzierung der Berechtigung und des Zugriffs
 --Favoriten
---History
---Timestamptabelle
 --Fehlerbehandlung(z.b Exceptions catchen ->Registrierung)
 -
 -
