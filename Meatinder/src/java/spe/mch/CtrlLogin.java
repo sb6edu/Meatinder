@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -93,11 +94,11 @@ public class CtrlLogin extends HttpServlet {
         pool.releaseConnection(conn);
     }
 
-    public boolean eingeloggt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public static boolean eingeloggt(HttpServletRequest request, HttpServletResponse response, ServletContext sc) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String sid = session.getId();
         try {
-            DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
+            DBConnectionPool pool = (DBConnectionPool) sc.getAttribute("pool");
             Connection conn = pool.getConnection();
             String sql = "select sid from kunden where sid = " + "'" + sid + "'";
             PreparedStatement pstm = conn.prepareStatement(sql);
@@ -114,6 +115,13 @@ public class CtrlLogin extends HttpServlet {
         }
         return false;
     }
+    
+    /* Funktionsaufruf:
+    if(CtrlLogin.eingeloggt(request, response, getServletContext())){
+            
+        }
+    
+    */
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
