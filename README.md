@@ -1,4 +1,17 @@
 # Meatinder
+To do:
+-CSS
+-Tokens
+-Update und Delete Rezepte
+-Kommentare zu Rezepten
+-Differenzierung der Berechtigung und des Zugriffs
+-Favoriten
+-History
+-Eigene Zutaten "erstellen" für Rezepteingabe
+-Random Rezept
+-Timestamptabelle
+
+
 Ziel dieses Projekts ist es eine Website zu schreiben, auf der man auf Basis angegebener Zutaten, Rezepte vorgeschlagen bekommt.
 
 Bestandteil:
