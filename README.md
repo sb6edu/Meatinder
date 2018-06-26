@@ -10,6 +10,7 @@ To do:
 -Eigene Zutaten "erstellen" für Rezepteingabe
 -Random Rezept
 -Timestamptabelle
+-Einmal Alle Rezepte(alphabetisch)
 
 
 Ziel dieses Projekts ist es eine Website zu schreiben, auf der man auf Basis angegebener Zutaten, Rezepte vorgeschlagen bekommt.
