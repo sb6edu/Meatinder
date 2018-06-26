@@ -12,6 +12,7 @@ USERNAME VARCHAR(20) NOT NULL unique,
 EMAIL VARCHAR(50) NOT NULL unique, 
 PASSWORT VARCHAR(70) NOT NULL, 
 SID varchar(50),
+SALT varchar(70) unique,
 PRIMARY KEY (KUNID));
 
 create table kundenrezepte (krid integer generated always as identity,
