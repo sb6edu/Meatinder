@@ -8,9 +8,9 @@ To do:
 -Favoriten
 -History
 -Eigene Zutaten "erstellen" für Rezepteingabe
--Random Rezept
+-Random Rezept (erledigt)
 -Timestamptabelle
--Einmal Alle Rezepte(alphabetisch)
+-Einmal Alle Rezepte(alphabetisch) (erledigt)
 -Fehlerbehandlung(z.b Exceptions catchen ->Registrierung)
 
 
