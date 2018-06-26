@@ -19,7 +19,7 @@ username varchar(20) not null,
 datum timestamp,
 rezid integer,
 primary key (krid),
-foreign key (username) references kunden(username)
+foreign key (username) references kunden(username),
 foreign key (rezid) references rezepte(id));
 
 create table geraete (GID integer generated always as identity,
