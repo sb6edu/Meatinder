@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author 103095
  */
-public class Rezept {
+public class Rezept implements Comparable<Rezept>{
     private String id;
     private String rezeptname;
     private ArrayList<Integer> artid;
@@ -106,6 +106,13 @@ public class Rezept {
 
     public void setRezeptbeschreibung(String rezeptbeschreibung) {
         this.rezeptbeschreibung = rezeptbeschreibung;
+    }
+
+    
+
+    @Override
+    public int compareTo(Rezept rezept) {
+        return this.rezeptname.compareTo(rezept.getRezeptname());
     }
 
     

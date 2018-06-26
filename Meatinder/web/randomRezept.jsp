@@ -1,13 +1,15 @@
 <%-- 
-    Document   : rezepte
-    Created on : 21.06.2018, 12:46:28
+    Document   : randomRezept
+    Created on : 26.06.2018, 08:21:01
     Author     : 103098
 --%>
 
+
 <%@include file="WEB-INF/anonymusheader.jspf" %>
-<h3>Wählen Sie das Rezept aus, das Sie zubereiten möchten.</h3>
+
+<h3>Zufallsrezept</h3>
 <table>
-<c:forEach items="${verfuegbareRezepte}" var="rezept">
+<c:forEach items="${zufallsrezept}" var="rezept">
     
             <tr>
                 <td><a href="rezeptfinden.do?rn=${rezept.rezeptname}" id="rezeptname">${rezept.rezeptname}</a></td>

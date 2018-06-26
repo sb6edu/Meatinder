@@ -1,13 +1,13 @@
 <%-- 
-    Document   : rezepte
-    Created on : 21.06.2018, 12:46:28
+    Document   : alleRezepte
+    Created on : 26.06.2018, 07:41:06
     Author     : 103098
 --%>
-
 <%@include file="WEB-INF/anonymusheader.jspf" %>
-<h3>Wählen Sie das Rezept aus, das Sie zubereiten möchten.</h3>
+
+<h2>Rezept finden!</h2>
 <table>
-<c:forEach items="${verfuegbareRezepte}" var="rezept">
+<c:forEach items="${rezepte}" var="rezept">
     
             <tr>
                 <td><a href="rezeptfinden.do?rn=${rezept.rezeptname}" id="rezeptname">${rezept.rezeptname}</a></td>
