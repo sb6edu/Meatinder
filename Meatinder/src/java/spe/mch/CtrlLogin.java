@@ -6,7 +6,6 @@
 package spe.mch;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +17,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -65,6 +65,14 @@ public class CtrlLogin extends HttpServlet {
                 Cookie u = new Cookie("User", uname);
                 u.setMaxAge(120);
                 response.addCookie(u);
+                /*HttpSession session = request.getSession();
+                String sid = session.getId();
+                session.setMaxInactiveInterval(2*60*60);//2 Stunden
+                sql = "insert into kunden (sid) values ? where uname = '?'";
+                pstm = conn.prepareStatement(sql);
+                pstm.setString(1, sid);
+                pstm.setString(2, uname);
+                pstm.executeUpdate();*/
                 RequestDispatcher view = request.getRequestDispatcher("ctrlselect.do");
                 view.forward(request, response);
             } else {
@@ -81,6 +89,28 @@ public class CtrlLogin extends HttpServlet {
         //RequestDispatcher view = request.getRequestDispatcher("ctrlselect.do");
         //view.forward(request, response);
         pool.releaseConnection(conn);
+    }
+    
+    public boolean eingeloggt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String sid = session.getId();
+        try {
+            DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
+            Connection conn = pool.getConnection();
+            String sql = "select sid from kunden where sid = " + "'" + sid + "'";
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            ResultSet rs = pstm.executeQuery();
+            pool.releaseConnection(conn);
+            if (rs.next()) {
+                String dsid = rs.getString("sid");
+                if(dsid.equals(sid)){
+                    return true;
+                }
+        }}
+        catch(SQLException ex){
+            response.getWriter().println(ex.getMessage());
+        }
+        return false;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

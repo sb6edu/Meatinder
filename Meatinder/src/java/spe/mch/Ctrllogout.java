@@ -8,22 +8,23 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "Ctrllogout", urlPatterns = {"/ctrllogout.do"})
 public class Ctrllogout extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Cookie[] cookies = request.getCookies();
+        HttpSession session = request.getSession();
+        session.invalidate();
+        /*Veraltete Logout Methode Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("u")) {
                     cookie.setMaxAge(0);
-                    //do something
-                    //value can be retrieved using #cookie.getValue()
                 }
             }
-        }
+        }*/
         RequestDispatcher view = request.getRequestDispatcher("logout.jsp");
         view.forward(request, response);
     }
