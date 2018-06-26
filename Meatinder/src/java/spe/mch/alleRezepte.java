@@ -19,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -118,8 +119,92 @@ public class alleRezepte extends HttpServlet {
         
         Collections.sort(rezepte);
         
+        
+        ArrayList<Integer> rezid = new ArrayList<>();
+        
+        HttpSession session = request.getSession();
+        String sid = session.getId();
+        
+        if (CtrlLogin.eingeloggt(request, response, getServletContext())) {
+            String sql = "select username from kunden where sid = " + "'" + sid + "'";
+            String username = "";
+            
+            try {
+                PreparedStatement pstm = conn.prepareStatement(sql);
+                ResultSet rs = pstm.executeQuery();
+                while(rs.next()){
+                username = rs.getString("username");
+                    
+                String sql4 = "select rezid from kundenrezepte where username = " + "'" + username + "'";
+                    
+                try {
+                    PreparedStatement pstm4 = conn.prepareStatement(sql4);
+                    ResultSet rs4 = pstm4.executeQuery();
+                    
+                    while (rs4.next()) {
+                        String rezida = rs4.getString("rezid");
+                        int rezidaInt = Integer.parseInt(rezida);
+                        System.out.println(rezidaInt);
+                        rezid.add(rezidaInt);
+                        
+                    }
+                } catch (SQLException ex) {
+                    response.getWriter().println(ex.getMessage());
+                }
+            }
+            } catch (SQLException ex) {
+                response.getWriter().println(ex.getMessage());
+            }
+            
+            ArrayList<Rezept> rezepte2 = new ArrayList<>();
+            for (Integer i : rezid) {
+                sql = "select id, rezeptname, s.artid, artname, menge, einheit, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung from geraete a, artikel s, rezepte d, rezeptartikel f where a.gid = d.gid and s.artid = f.artid and d.id = f.RID and id= " + i;
+                
+                try {
+                    PreparedStatement pstm = conn.prepareStatement(sql);
+                    ResultSet rs = pstm.executeQuery();
+                    String rezeptid = "";
+                    String rezeptname = "";
+                    int artid;
+                    String artname;
+                    String menge;
+                    String einheit;
+                    String geraetebezeichnung = "";
+                    String zubereitungszeit = "";
+                    String rezeptbeschreibung = "";
+                    ArrayList<String> artnamen = new ArrayList<>();
+                    ArrayList<String> mengen = new ArrayList<>();
+                    ArrayList<String> einheiten = new ArrayList<>();
+                    ArrayList<Integer> artids = new ArrayList<>();
+
+                    while (rs.next()) {
+                        rezeptid = rs.getString("id");
+                        rezeptname = rs.getString("rezeptname");
+                        artid = rs.getInt("artid");
+                        artname = rs.getString("artname");
+                        menge = rs.getString("menge");
+                        einheit = rs.getString("einheit");
+                        geraetebezeichnung = rs.getString("geraetebezeichnung");
+                        zubereitungszeit = rs.getString("zubereitungszeit");
+                        rezeptbeschreibung = rs.getString("rezeptbeschreibung");
+                        artnamen.add(artname);
+                        mengen.add(menge);
+                        einheiten.add(einheit);
+                        artids.add(artid);
+                    }
+
+                    rezepte.add(new Rezept(rezeptid, rezeptname, artids, artnamen, mengen, einheiten, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung));
+
+                } catch (SQLException ex) {
+                    response.getWriter().println(ex.getMessage());
+                }
+            }
+            
+            request.setAttribute("rezepte2", rezepte2);
+        
         RequestDispatcher view = request.getRequestDispatcher("alleRezepte.jsp");
         view.forward(request,response);
+        }
     }
     
 

@@ -61,6 +61,7 @@ public class CtrlSelect extends HttpServlet {
                 artname = rs.getString("ARTNAME");               
                 
                 artikels.add(new Artikel(artid, artname));
+                
             }
             pool.releaseConnection(conn);
             
@@ -83,12 +84,14 @@ public class CtrlSelect extends HttpServlet {
             
             request.setAttribute("geraete", geraete);
             
+            
+            
             RequestDispatcher view = request.getRequestDispatcher("select_rezepte.jsp");
             view.forward(request,response);
             
         }
         catch(SQLException ex){
-            
+            response.getWriter().println(ex.getMessage());
         }
         
     }

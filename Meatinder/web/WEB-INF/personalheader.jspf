@@ -21,6 +21,7 @@
             <a href="ctrleinfuegen.do">Rezept einfügen  </a>
             <a href="allerezepte.do">Alle Rezepte   </a>
             <a href="randomrezept.do">Zufälliges Rezept </a>
+            <a href="ctrlhistory.do">History    </a>
         </nav>
         <br />
         Hallo, ${cookie.User.value}

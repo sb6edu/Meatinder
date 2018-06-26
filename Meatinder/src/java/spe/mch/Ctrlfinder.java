@@ -10,15 +10,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.function.Consumer;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -38,11 +42,9 @@ public class Ctrlfinder extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //zwischentest(request, response);
-        //verfuegbareRezepte(request, response);
+        
         zwischentest(request, response);
-        //rezepteliste(request, response);
-            
+        
         RequestDispatcher view = request.getRequestDispatcher("rezepte.jsp");
         view.forward(request,response);
        
@@ -328,5 +330,9 @@ public class Ctrlfinder extends HttpServlet {
         request.setAttribute("verfuegbareRezepte", verfuegbareRezepte);
         pool.releaseConnection(conn);
         return verfuegbareRezepte;
+    }
+
+    private ServletContext getServerContext() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

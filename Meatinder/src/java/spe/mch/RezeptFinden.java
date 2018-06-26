@@ -11,13 +11,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -46,7 +49,7 @@ public class RezeptFinden extends HttpServlet {
         ArrayList<Integer> artids = new ArrayList<>();
         ArrayList<Zutat> zutaten = new ArrayList<>();
         String rn = request.getParameter("rn");
-        System.out.println(rn);
+        
         
         String sql = "select id, rezeptname, s.artid, artname, menge, einheit, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung from geraete a, artikel s, rezepte d, rezeptartikel f where a.gid = d.gid and s.artid = f.artid and d.id = f.RID and rezeptname = "+"'"+rn+"'";
 
@@ -95,9 +98,41 @@ public class RezeptFinden extends HttpServlet {
         request.setAttribute("rezeptes", rezeptes);
         //request.setAttribute("artnamen", artnamen);
         
-        System.out.println(artnamen);
-        System.out.println(mengen);
-        System.out.println(einheiten);
+        
+        
+        
+        
+        
+        HttpSession session = request.getSession();
+        String sid = session.getId();
+        
+        
+        
+        try {
+            String sql3 = "select username from kunden where sid = " + "'" + sid + "'";
+            String uname = "";
+            PreparedStatement pstm = conn.prepareStatement(sql3);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                uname = rs.getString("username");
+                String rid = "";
+                for(Rezept rezept : rezeptes) {
+                    rid = rezept.getId();
+                    System.out.println(rid);
+                }
+                int ridi = Integer.parseInt(rid);
+                try{
+                   String sql2 = "insert into kundenrezepte (username, datum, rezid) values (" + "'" + uname + "'" + ", current_timestamp, " + ridi + ")";
+                   PreparedStatement pstm2 = conn.prepareStatement(sql2);
+                   pstm2.executeUpdate();
+                } catch(SQLException ex) {
+                    
+                }
+            }
+        } catch (SQLException ex) {
+            response.getWriter().println(ex.getMessage());
+        }
+        
         
         pool.releaseConnection(conn);
         
