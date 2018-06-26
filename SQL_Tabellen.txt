@@ -10,9 +10,18 @@ VORNAME VARCHAR(30) NOT NULL,
 NACHNAME VARCHAR(30) NOT NULL, 
 USERNAME VARCHAR(20) NOT NULL unique, 
 EMAIL VARCHAR(50) NOT NULL unique, 
-PASSWORT VARCHAR(20) NOT NULL, 
+PASSWORT VARCHAR(70) NOT NULL, 
 SID varchar(50),
+SALT varchar(70) unique,
 PRIMARY KEY (KUNID));
+
+create table kundenrezepte (krid integer generated always as identity,
+username varchar(20) not null,
+datum timestamp,
+rezid integer,
+primary key (krid),
+foreign key (username) references kunden(username),
+foreign key (rezid) references rezepte(id));
 
 create table geraete (GID integer generated always as identity,
  geraetebezeichnung varchar(30) not null unique, 
