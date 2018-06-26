@@ -11,6 +11,7 @@ To do:
 -Random Rezept
 -Timestamptabelle
 -Einmal Alle Rezepte(alphabetisch)
+-Fehlerbehandlung(z.b Exceptions catchen ->Registrierung)
 
 
 Ziel dieses Projekts ist es eine Website zu schreiben, auf der man auf Basis angegebener Zutaten, Rezepte vorgeschlagen bekommt.
