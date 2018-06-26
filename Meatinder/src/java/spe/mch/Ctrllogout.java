@@ -1,6 +1,10 @@
 package spe.mch;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,18 +19,32 @@ public class Ctrllogout extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if (ausloggen(request, response) == true) {
+            RequestDispatcher view = request.getRequestDispatcher("logout.jsp");
+            view.forward(request, response);
+        } else {
+            RequestDispatcher view = request.getRequestDispatcher("failed_logout.jsp");
+            view.forward(request, response);
+        }
+    }
+
+    private boolean ausloggen(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        session.invalidate();
-        /*Veraltete Logout Methode Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("u")) {
-                    cookie.setMaxAge(0);
-                }
-            }
-        }*/
-        RequestDispatcher view = request.getRequestDispatcher("logout.jsp");
-        view.forward(request, response);
+        String sid = session.getId();
+        DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
+        Connection conn = pool.getConnection();
+        try {
+            String sql = "update kunden set sid = null where sid = " + "'" + sid + "'";
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.executeUpdate();
+            session.invalidate();
+            return true;
+        } catch (SQLException ex) {
+            response.getWriter().println(ex.getMessage());
+        }
+        pool.releaseConnection(conn);
+
+        return false;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

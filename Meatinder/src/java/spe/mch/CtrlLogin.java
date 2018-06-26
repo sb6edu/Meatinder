@@ -65,14 +65,16 @@ public class CtrlLogin extends HttpServlet {
                 Cookie u = new Cookie("User", uname);
                 u.setMaxAge(120);
                 response.addCookie(u);
-                /*HttpSession session = request.getSession();
-                String sid = session.getId();
-                session.setMaxInactiveInterval(2*60*60);//2 Stunden
-                sql = "insert into kunden (sid) values ? where uname = '?'";
-                pstm = conn.prepareStatement(sql);
-                pstm.setString(1, sid);
-                pstm.setString(2, uname);
-                pstm.executeUpdate();*/
+                HttpSession session = request.getSession();
+                String sid = session.getId(); 
+                session.setMaxInactiveInterval(2 * 60 * 60);//2 Stunden
+                sql = "update kunden set sid  = " + "'" + sid + "'" + " where username = " + "'" + uname + "'";
+                try {
+                    pstm = conn.prepareStatement(sql);
+                    pstm.executeUpdate();
+                } catch (Exception ex) {
+                    response.getWriter().println(ex.getMessage());
+                }
                 RequestDispatcher view = request.getRequestDispatcher("ctrlselect.do");
                 view.forward(request, response);
             } else {
@@ -90,7 +92,7 @@ public class CtrlLogin extends HttpServlet {
         //view.forward(request, response);
         pool.releaseConnection(conn);
     }
-    
+
     public boolean eingeloggt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String sid = session.getId();

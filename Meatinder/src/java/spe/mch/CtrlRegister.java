@@ -8,8 +8,9 @@ package spe.mch;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -86,6 +87,22 @@ public class CtrlRegister extends HttpServlet {
         }
         return true;
     }
+    /*public static String encrypt(String passwort,String strKey) throws Exception{
+	String strData="";
+	
+	try {
+		SecretKeySpec skeyspec=new SecretKeySpec(strKey.getBytes(),"Blowfish");
+		Cipher cipher=Cipher.getInstance("Blowfish");
+		cipher.init(Cipher.ENCRYPT_MODE, skeyspec);
+		byte[] encrypted=cipher.doFinal(strClearText.getBytes());
+		strData=new String(encrypted);
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+		throw new Exception(e);
+	}
+	return strData;
+}*/
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
