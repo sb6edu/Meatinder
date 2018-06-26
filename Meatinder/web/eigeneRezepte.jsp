@@ -3,7 +3,11 @@
 
         <h1>Erstellen von eigenen Rezepten</h1>
             
-            
+        <form method="post" action="artikelhinzufuegen.do">
+                <tr><td><input type="text" size="10" name="artikel" id="artikel"  placeholder="Neue Zutat" /></td>
+                    <td><input type="submit" value="Neue Zutat" /></td>
+                </tr>
+        </form>    
             <form method="post" action="ctrleinfuegen.do">
                 <h3>Geben Sie den Rezeptnamen ein</h3>
                 <input type="text" size="100" maxlength="100" name="rezeptname" id="rezeptname"/> 
@@ -29,6 +33,7 @@
                 </label>
                 <%  } %>  
         </c:forEach>
+                
         </tr>
         </table> 
             <br />

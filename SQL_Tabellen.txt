@@ -1,11 +1,3 @@
-select * from artikel;
-select * from rezepte;
-select * from geraete;
-select * from kunden;
-select * from rezeptartikel;
-
-select rezeptname, zubereitungszeit, geraetebezeichnung, artname, menge, einheit from rezepte a, geraete s, artikel d, rezeptartikel f where s.gid = a.gid and a.id = f.RID and d.artid = f.artid and rid = 1; 
-
 drop table rezeptartikel;
 drop table kunden;
 drop table artikel;
@@ -19,6 +11,7 @@ NACHNAME VARCHAR(30) NOT NULL,
 USERNAME VARCHAR(20) NOT NULL unique, 
 EMAIL VARCHAR(50) NOT NULL unique, 
 PASSWORT VARCHAR(20) NOT NULL, 
+SID varchar(50),
 PRIMARY KEY (KUNID));
 
 create table geraete (GID integer generated always as identity,
@@ -231,3 +224,5 @@ insert into rezeptartikel (rid, artid, menge, einheit) values (19, 13, 1, 'Stüc
 insert into rezeptartikel (rid, artid, menge, einheit) values (20, 21, 250, 'Gramm');
 insert into rezeptartikel (rid, artid, menge, einheit) values (20, 4, 1.5, 'EL');
 insert into rezeptartikel (rid, artid, menge, einheit) values (20, 17, 1, 'EL');
+
+
