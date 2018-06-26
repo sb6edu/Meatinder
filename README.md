@@ -7,7 +7,7 @@
 --Differenzierung der Berechtigung und des Zugriffs
 --Favoriten
 --History
---Eigene Zutaten "erstellen" für Rezepteingabe
+--Eigene Zutaten "erstellen" für Rezepteingabe (erledigt/ temporäres speichern noch benötigt)
 --Random Rezept (erledigt)
 --Timestamptabelle
 --Einmal Alle Rezepte(alphabetisch) (erledigt)
