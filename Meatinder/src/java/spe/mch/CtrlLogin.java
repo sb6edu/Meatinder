@@ -6,15 +6,18 @@
 package spe.mch;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,31 +46,44 @@ public class CtrlLogin extends HttpServlet {
         hier implementieren
         Datenbank für Salt erweitern
         Token anstatt cookie verwenden
-        */
-        String uname = request.getParameter("uname");
-        String psw = request.getParameter("psw");
-        String vorname = request.getParameter("vorname");
-        String passwort = "Wird weiter unten aus der Datenbank geholt, hier nur initialisiert";
+         */
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
+        String salt = "bla";
 
-        String sql = "select PASSWORT from KUNDEN where USERNAME="+"'"+uname+"'";
+        String uname = request.getParameter("uname");
+
+        String sql = "select salt from kunden where username = " + "'" + uname + "'";
+        try {
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            ResultSet rs = pstm.executeQuery();
+            if (rs.next()) {
+                salt = rs.getString("salt");
+                System.out.println("Salt: "+salt);
+            }
+        } catch (Exception ex) {
+            response.getWriter().println(ex.getMessage());
+        }
+        String psw = pepperedsaltedhashedpw(request, response, request.getParameter("psw"), salt);
+        System.out.println("psw:"+psw);
+        String vorname = request.getParameter("vorname");
+        String passwort = "Wird weiter unten aus der Datenbank geholt, hier nur initialisiert";
+
+        sql = "select PASSWORT from KUNDEN where USERNAME=" + "'" + uname + "'";
 
         try {
             PreparedStatement pstm = conn.prepareStatement(sql);
             ResultSet rs = pstm.executeQuery();
             if (rs.next()) {
                 passwort = rs.getString("PASSWORT");
+                System.out.println("Passwort aus DB: "+passwort);
             } else {
                 RequestDispatcher view = request.getRequestDispatcher("login.jsp");
                 view.forward(request, response);
             }
             if (passwort.equals(psw)) {
-                Cookie u = new Cookie("User", uname);
-                u.setMaxAge(120);
-                response.addCookie(u);
                 HttpSession session = request.getSession();
-                String sid = session.getId(); 
+                String sid = session.getId();
                 session.setMaxInactiveInterval(2 * 60 * 60);//2 Stunden
                 sql = "update kunden set sid  = " + "'" + sid + "'" + " where username = " + "'" + uname + "'";
                 try {
@@ -79,6 +95,8 @@ public class CtrlLogin extends HttpServlet {
                 RequestDispatcher view = request.getRequestDispatcher("ctrlselect.do");
                 view.forward(request, response);
             } else {
+                System.out.println("psw: "+psw);
+                System.out.println("passwort: "+passwort);
                 uname = "";
                 psw = "";
                 RequestDispatcher view = request.getRequestDispatcher("failedlogin.jsp");
@@ -97,6 +115,7 @@ public class CtrlLogin extends HttpServlet {
     public static boolean eingeloggt(HttpServletRequest request, HttpServletResponse response, ServletContext sc) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String sid = session.getId();
+
         try {
             DBConnectionPool pool = (DBConnectionPool) sc.getAttribute("pool");
             Connection conn = pool.getConnection();
@@ -106,25 +125,62 @@ public class CtrlLogin extends HttpServlet {
             pool.releaseConnection(conn);
             if (rs.next()) {
                 String dsid = rs.getString("sid");
-                if(dsid.equals(sid)){
+                if (dsid.equals(sid)) {
                     return true;
                 }
-        }}
-        catch(SQLException ex){
+            }
+        } catch (SQLException ex) {
             response.getWriter().println(ex.getMessage());
         }
         return false;
     }
-    
-   
-    
+
+    private static String pepperedsaltedhashedpw(HttpServletRequest request, HttpServletResponse response, String passwort, String salt) throws ServletException, IOException {
+        String pepperedpasswort = passwort + "4894415610498408940561234196840456489f4asd9f4das1fg";
+        String pepperedsaltedpasswort = pepperedpasswort + salt;
+        byte[] pepperedsaltedhash = "fjsaoi".getBytes();//nur initialisieren
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            pepperedsaltedhash = digest.digest(
+                    pepperedsaltedpasswort.getBytes(StandardCharsets.UTF_8));
+        } catch (NoSuchAlgorithmException no) {
+            response.getWriter().println(no.getMessage());
+        }
+
+        return bytesToHex(pepperedsaltedhash);
+    }
+    private static String pepperedhashedpw(HttpServletRequest request, HttpServletResponse response, String passwort) throws ServletException, IOException {
+        String pepperedpasswort = passwort + "4894415610498408940561234196840456489f4asd9f4das1fg";
+        byte[] pepperedhash = "fjsaoi".getBytes();//nur initialisieren
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            pepperedhash = digest.digest(
+                    pepperedpasswort.getBytes(StandardCharsets.UTF_8));
+        } catch (NoSuchAlgorithmException no) {
+            response.getWriter().println(no.getMessage());
+        }
+
+        return bytesToHex(pepperedhash);
+    }
+
+    private static String bytesToHex(byte[] hash) {
+        StringBuffer hexString = new StringBuffer();
+        for (int i = 0; i < hash.length; i++) {
+            String hex = Integer.toHexString(0xff & hash[i]);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
+
     /* Funktionsaufruf:
     if(CtrlLogin.eingeloggt(request, response, getServletContext())){
             
         }
     
-    */
-
+     */
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
