@@ -6,7 +6,12 @@
 package spe.mch;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,7 +36,48 @@ public class Ctrluserverwaltung extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        System.out.println("start");
+        ArrayList<User> users = new ArrayList<>();
+        String sql = "select username from kunden";
+        String username = "bla";
+        String rechte = "ois";
+        DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
+        Connection conn = pool.getConnection();
+        System.out.println("pretry");
+        try {
+            System.out.println("try");
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                System.out.println("anfangwhile");
+                username = rs.getString("username");
+                System.out.println(username);
+                String sql2 = "select berechtigung from kunden where username = " + "'" + username + "'";
+                System.out.println(sql2);
+                try {
+                    System.out.println("zweitestry");
+                    PreparedStatement pstm2 = conn.prepareStatement(sql2);
+                    ResultSet rs2 = pstm2.executeQuery();
+                    rs2.next();
+                    System.out.println("zweite query erfolgreich");
+                    rechte = rs2.getString("BERECHTIGUNG");
+                    System.out.println(rechte);
+                    users.add(new User(rechte, username));
+                    System.out.println("while");
+                } catch (SQLException ex) {
+                    response.getWriter().println(ex.getMessage());
+                }
+                for(User user: users){
+                    System.out.println(user.getUsername());
+                } 
+            }
+        } catch (SQLException ex) {
+            response.getWriter().println(ex.getMessage());
+        }
+        pool.releaseConnection(conn);
+        request.setAttribute("users", users);
+        RequestDispatcher view = request.getRequestDispatcher("userverwaltung.jsp");
+        view.forward(request,response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
