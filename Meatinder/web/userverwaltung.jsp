@@ -7,7 +7,7 @@
         <tr>
             <td>${user.username}</td>
             <td>${user.rechte}</td>
-            <td><a href="ctrluserloeschen.do?username=${user.username}">Löschen</a></td>
+            <c:if test="${user.rechte=='user'}"><td><a href="ctrluserloeschen.do?username=${user.username}">Löschen</a></td></c:if>
             <td style="color:white">${user.bearbeiten}${user.username}${user.a}${user.rechte}${user.b}</td>
         </tr> 
     </c:forEach>
