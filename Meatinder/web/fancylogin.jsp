@@ -1,6 +1,6 @@
 <!-- Funktioniert noch nicht. Bitte login,jsp benutzen! -->
 
-<%@include file="WEB-INF/header.jspf" %>
+<%@include file="WEB-INF/personalheader.jspf" %>
 <h2>Modal Login Form</h2>
 <form method="post" action="ctrllogin.do">
     <button onclick="document.getElementById('id01').style.display = 'block'" style="width:auto;">Login</button>

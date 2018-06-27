@@ -39,7 +39,8 @@ public class alleRezepte extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().println("test");
+        
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
         ArrayList<Rezept> rezepte = new ArrayList<>();
@@ -199,12 +200,13 @@ public class alleRezepte extends HttpServlet {
                     response.getWriter().println(ex.getMessage());
                 }
             }
-            
+            //response.getWriter().println("test");
             request.setAttribute("rezepte2", rezepte2);
         
+        
+        }
         RequestDispatcher view = request.getRequestDispatcher("alleRezepte.jsp");
         view.forward(request,response);
-        }
     }
     
 

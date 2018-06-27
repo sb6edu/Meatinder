@@ -5,7 +5,7 @@
 --%>
 
 
-<%@include file="WEB-INF/anonymusheader.jspf" %>
+<%@include file="WEB-INF/personalheader.jspf" %>
 
 <h3>Zufallsrezept</h3>
 <table>

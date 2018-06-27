@@ -4,7 +4,7 @@
     Author     : 103098
 --%>
 
-<%@include file="WEB-INF/anonymusheader.jspf" %>
+<%@include file="WEB-INF/personalheader.jspf" %>
         <h1>History</h1>
         
         <table>

@@ -1,4 +1,4 @@
-<%@include file="WEB-INF/anonymusheader.jspf" %>
+<%@include file="WEB-INF/personalheader.jspf" %>
 
         <h1>Rezeptefinder</h1>
             <h3>Kreuzen Sie die Zutaten an, die Sie besitzen.</h3>

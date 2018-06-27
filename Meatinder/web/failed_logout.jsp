@@ -1,4 +1,4 @@
-<%@include file="WEB-INF/anonymusheader.jspf" %>
+<%@include file="WEB-INF/personalheader.jspf" %>
 <h2 style="color:red">Upsi, irgendetwas ist falsch gelaufen. Tut uns leid.</h2>
 <br />
 <h3>2 Stunden nach ihrem Login werden sie automatisch ausgeloggt. Sie müssen nichts weiter tun.</h3>
