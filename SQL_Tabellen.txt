@@ -1,3 +1,5 @@
+drop table eigenerezepte;
+drop table kundenrezepte;
 drop table rezeptartikel;
 drop table kunden;
 drop table artikel;
@@ -14,14 +16,6 @@ PASSWORT VARCHAR(70) NOT NULL,
 SID varchar(50),
 SALT varchar(70) unique,
 PRIMARY KEY (KUNID));
-
-create table kundenrezepte (krid integer generated always as identity,
-username varchar(20) not null,
-datum timestamp,
-rezid integer,
-primary key (krid),
-foreign key (username) references kunden(username),
-foreign key (rezid) references rezepte(id));
 
 create table geraete (GID integer generated always as identity,
  geraetebezeichnung varchar(30) not null unique, 
@@ -47,7 +41,19 @@ foreign key (rid) references rezepte(ID),
 foreign key (artid) references artikel(artid), 
 PRIMARY KEY (RID, ARTID));
 
+create table kundenrezepte (krid integer generated always as identity,
+username varchar(20) not null,
+datum timestamp,
+rezid integer,
+unique(username, rezid),
+primary key (krid),
+foreign key (username) references kunden(username),
+foreign key (rezid) references rezepte(id));
 
+create table eigenerezepte (RID integer not null unique,
+username varchar(20) not null,
+foreign key (username) references kunden(username),
+foreign key (rid) references rezepte(id));
 
 --Geräte:
 insert into geraete (geraetebezeichnung) values ('Herd');
