@@ -4,14 +4,13 @@
     Author     : 103098
 --%>
 <%@include file="WEB-INF/personalheader.jspf" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
+<h2>Ihre eingefügten Rezepte: </h2>
+<table>
+<c:forEach items="${rezepte}" var="rezept">
+        <tr>
+            <td><a href="rezeptfinden.do?rn=${rezept.rezeptname}" id="rezeptname">${rezept.rezeptname}</a></td>
+        </tr> 
+</c:forEach>
+</table>
     </body>
 </html>

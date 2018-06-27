@@ -25,15 +25,12 @@
             <a href="allerezepte.do">Alle Rezepte   </a>
             <a href="randomrezept.do">Zufälliges Rezept </a>
             <a href="ctrlhistory.do">History    </a>
+            <a href="ctrlerstellt.do">Eigene Rezepte    </a>
         </nav>
         <br />
         Hallo, ${cookie.User.value}
         <% } else { %>
-        <form  method="post" action="ctrllogout.do">
-            <label class="logoutLblPos">
-                <input align="right" name="submit2" type="submit" id="submit2" value="log out">
-            </label>
-        </form>
+        
         <nav>
             <a href="login.jsp">Login   </a>
             <a href="registrierung.jsp">Registrierung   </a>
