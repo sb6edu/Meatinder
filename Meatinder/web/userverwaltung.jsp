@@ -12,5 +12,6 @@
         </tr> 
     </c:forEach>
 </table>
+<a href="useradden.jsp">Neuen Benutzer hinzufügen</a>
 <%@include file="WEB-INF/footer.jspf" %>
 
