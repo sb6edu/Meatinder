@@ -29,11 +29,6 @@
         <br />
         Hallo, ${cookie.User.value}
         <% } else { %>
-        <form  method="post" action="ctrllogout.do">
-            <label class="logoutLblPos">
-                <input align="right" name="submit2" type="submit" id="submit2" value="log out">
-            </label>
-        </form>
         <nav>
             <a href="login.jsp">Login   </a>
             <a href="registrierung.jsp">Registrierung   </a>
