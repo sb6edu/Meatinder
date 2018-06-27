@@ -45,9 +45,6 @@ public class CtrlRegister extends HttpServlet {
         String psw1 = request.getParameter("psw1");
         String psw2 = request.getParameter("psw2");
         String salt = generateSalt();
-        System.out.println(salt);
-        System.out.println(psw1);
-        
 
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
@@ -59,7 +56,6 @@ public class CtrlRegister extends HttpServlet {
             if (psw1.equals(psw2)) {
                 try {
                     psw1 = pepperedsaltedhashedpw(request, response, psw1, salt);
-                    System.out.println(psw1);
                     PreparedStatement pstm = conn.prepareStatement(sql);
                     pstm.setString(1, vorname);
                     pstm.setString(2, nachname);

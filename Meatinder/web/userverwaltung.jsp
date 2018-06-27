@@ -3,12 +3,14 @@
 <table>
     <th>Username</th>
     <th>Berechtigung</th>
-<c:forEach items="${users}" var="user">
-            <tr>
-                <td>${user.username}</td>
-                <td>${user.rechte}</td>
-            </tr> 
-</c:forEach>
+    <th></th>
+        <c:forEach items="${users}" var="user">
+        <tr>
+            <td>${user.username}</td>
+            <td>${user.rechte}</td>
+            <td><form method="post" action="ctrluserverwaltung.do"><input type="submit" value="Löschen" name="${user.username}loeschen"/></form></td>
+        </tr> 
+    </c:forEach>
 </table>
 <%@include file="WEB-INF/footer.jspf" %>
 
