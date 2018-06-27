@@ -1,5 +1,5 @@
 
-<%@include file="WEB-INF/anonymusheader.jspf" %>
+<%@include file="WEB-INF/personalheader.jspf" %>
 <table>
 <c:forEach items="${rezeptes}" var="rezept">
     <table>    

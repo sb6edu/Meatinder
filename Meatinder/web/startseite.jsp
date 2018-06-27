@@ -1,4 +1,4 @@
-<%@include file="WEB-INF/anonymusheader.jspf" %>
+<%@include file="WEB-INF/personalheader.jspf" %>
 <h1>Willkommen bei Meatinder!</h1>
 <h3>Was macht Meatinder?</h3>
 <p>Meatinder ist die clevere Website für Ihren Kühlschrank. 

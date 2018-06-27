@@ -1,4 +1,4 @@
-<%@include file="WEB-INF/anonymusheader.jspf" %>
+<%@include file="WEB-INF/personalheader.jspf" %>
 
 <form method="post" action="ctrllogin.do">
     <fieldset>

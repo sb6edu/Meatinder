@@ -174,6 +174,9 @@ public class CtrlEinfuegen extends HttpServlet {
             }
         }
         
+        String sql3 = "";
+        String sql4 = "insert into eigenerezepte (rid, username) values (?,?)";
+        
         RequestDispatcher view = request.getRequestDispatcher("eigeneRezepte.jsp");
         view.forward(request,response);
     }
