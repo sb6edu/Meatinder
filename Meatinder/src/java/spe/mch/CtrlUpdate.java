@@ -22,10 +22,10 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author 103097
+ * @author 103098
  */
-@WebServlet(name = "CtrlEinfuegen", urlPatterns = {"/ctrleinfuegen.do"})
-public class CtrlEinfuegen extends HttpServlet {
+@WebServlet(name = "CtrlUpdate", urlPatterns = {"/ctrlupdate.do"})
+public class CtrlUpdate extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,11 +38,45 @@ public class CtrlEinfuegen extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
-        //Alle Artikel auswählen
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
+        
+        int rid = 0;
+        try {
+            rid = Integer.parseInt(request.getParameter("id"));
+        } catch (NumberFormatException ex) {
+            throw new RuntimeException("Ungültiger Löschversuch!");
+        }
+        String sql = "delete from eigenerezepte where rid = ?";
+        String sql2 = "delete from rezeptartikel where rid = ?";
+        String sql4 = "delete from kundenrezepte where rezid = ?";
+        //String sql3 = "delete from rezepte where id=?";
+        
+
+        try {
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setInt(1, rid);
+            pstm.executeUpdate();
+            
+            PreparedStatement pstm2 = conn.prepareStatement(sql2);
+            pstm2.setInt(1, rid);
+            pstm2.executeUpdate();
+            
+            PreparedStatement pstm4 = conn.prepareStatement(sql4);
+            pstm4.setInt(1, rid);
+            pstm4.executeUpdate();
+            
+            /*PreparedStatement pstm3 = conn.prepareStatement(sql3);
+            pstm3.setInt(1, rid);
+            pstm3.executeUpdate();
+            */
+            
+
+        } catch (SQLException ex) {
+            response.getWriter().println(ex.getMessage());
+        }
+        
+        
         String sqlartikels = "select * from artikel";
         ArrayList<Artikel> artikels = new ArrayList<>();
         try {
@@ -54,8 +88,6 @@ public class CtrlEinfuegen extends HttpServlet {
                 artid = rs.getInt("ARTID");
                 artname = rs.getString("ARTNAME");
                 artikels.add(new Artikel(artid, artname));
-                //System.out.println(artid);
-                //System.out.println(artname);
             }
         } catch (SQLException ex) {
             response.getWriter().println(ex.getMessage());
@@ -103,6 +135,10 @@ public class CtrlEinfuegen extends HttpServlet {
         }
         request.setAttribute("zutaten", zutaten);
         
+        for(Zutat zutat : zutaten) {
+            System.out.println(zutat.getArtname());
+        }
+        
         //Ausgewählte Geräte
         ArrayList<Geraet> ginventar = new ArrayList<>();
         for (Geraet geraet : geraetes) {
@@ -126,35 +162,30 @@ public class CtrlEinfuegen extends HttpServlet {
         //ArrayList ginventar
         //ArrayList zutaten (artname, menge, einheit)
         
-        String sql = "insert into rezepte (gid, rezeptname, zubereitungszeit, rezeptbeschreibung) values (?,?,?,?)";
+        sql = "update rezepte set gid = ?, rezeptname = ?, zubereitungszeit = ?, rezeptbeschreibung = ? where id = ?";
         String gid = "";
         for(Geraet geraet : ginventar){
             gid = geraet.getGid();
+            System.out.println(gid);
         }
         
         try{
             PreparedStatement pstm = conn.prepareStatement(sql);
+            
             pstm.setString(1, gid);
             pstm.setString(2, rezeptname);
             pstm.setString(3, zubereitungszeit);
             pstm.setString(4, rezeptbeschreibung);
+            pstm.setInt(5, rid);
             
             pstm.executeUpdate();
             
-        } catch(SQLException ex){}
-        
-        
-        String sql2 = "select id from rezepte where rezeptname = " + "'" + rezeptname + "'";
-        String rid = "";
-        try{
-            PreparedStatement pstm = conn.prepareStatement(sql2);
-            ResultSet rs = pstm.executeQuery();
-            while (rs.next()) {
-                rid = rs.getString("id");
-            }
-        } catch (SQLException ex) {
-            response.getWriter().println(ex.getMessage());
+        } catch(SQLException ex){
+        response.getWriter().println(ex.getMessage());
         }
+        
+        
+        
         
         for(Zutat zutat : zutaten) {
             sql = "insert into rezeptartikel (rid, artid, menge, einheit) values (?, ?, ?, ?)";
@@ -163,15 +194,16 @@ public class CtrlEinfuegen extends HttpServlet {
             String einheit = zutat.getEinheit();
             
             try {
+                
                 PreparedStatement pstm = conn.prepareStatement(sql);
-                pstm.setString(1, rid);
+                pstm.setInt(1, rid);
                 pstm.setInt(2, artid);
                 pstm.setString(3, menge);
                 pstm.setString(4, einheit);
                 
                 pstm.executeUpdate();
             } catch (SQLException ex) {
-                
+                response.getWriter().println(ex.getMessage());
             }
         }
         
@@ -188,28 +220,24 @@ public class CtrlEinfuegen extends HttpServlet {
                 username = rs.getString("username");
                     System.out.println(username);
                 }
-        } catch(SQLException SQL) {
-            
+        } catch(SQLException ex) {
+            response.getWriter().println(ex.getMessage());
         }
-        String sql4 = "insert into eigenerezepte (rid, username) values (?,?)";
+        sql4 = "insert into eigenerezepte (rid, username) values (?,?)";
         
         try{
             PreparedStatement pstm = conn.prepareStatement(sql4);
-            pstm.setString(1, rid);
+            pstm.setInt(1, rid);
             pstm.setString(2, username);
             pstm.executeUpdate();
             
         } catch(SQLException ex){
-            
+            response.getWriter().println(ex.getMessage());
         }
         pool.releaseConnection(conn);
-        RequestDispatcher view = request.getRequestDispatcher("eigeneRezepte.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("ctrlerstellt.do");
         view.forward(request,response);
     }
-     
-    
-
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
