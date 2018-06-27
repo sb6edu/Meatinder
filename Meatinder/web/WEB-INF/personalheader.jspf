@@ -30,7 +30,6 @@
         <br />
         Hallo, ${cookie.User.value}
         <% } else { %>
-        
         <nav>
             <a href="login.jsp">Login   </a>
             <a href="registrierung.jsp">Registrierung   </a>

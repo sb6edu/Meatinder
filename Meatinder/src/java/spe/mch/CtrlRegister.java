@@ -88,7 +88,7 @@ public class CtrlRegister extends HttpServlet {
         pool.releaseConnection(conn);
     }
 
-    public static boolean warerbrav(String... strings) {
+    private static boolean warerbrav(String... strings) {
         for (String s : strings) {
             if (s == null || s.isEmpty()) {
                 return false;
@@ -110,7 +110,7 @@ public class CtrlRegister extends HttpServlet {
     
         return bytesToHex(pepperedsaltedhash);
     }
-    public static String generateSalt() {
+    private static String generateSalt() {
     //Nur Buchstaben fürs Salz
     int leftLimit = 65; // Buchstabe A
     int rightLimit = 122; // Buchstabe z
