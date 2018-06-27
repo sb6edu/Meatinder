@@ -18,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -174,9 +175,34 @@ public class CtrlEinfuegen extends HttpServlet {
             }
         }
         
-        String sql3 = "";
+        HttpSession session = request.getSession();
+        String sid = session.getId();
+        
+        String sql3 = "select username from kunden where sid = " + "'" + sid + "'";
+        
+        String username ="";
+        try {
+                PreparedStatement pstm = conn.prepareStatement(sql3);
+                ResultSet rs = pstm.executeQuery();
+                while(rs.next()){
+                username = rs.getString("username");
+                    System.out.println(username);
+                }
+        } catch(SQLException SQL) {
+            
+        }
         String sql4 = "insert into eigenerezepte (rid, username) values (?,?)";
         
+        try{
+            PreparedStatement pstm = conn.prepareStatement(sql4);
+            pstm.setString(1, rid);
+            pstm.setString(2, username);
+            pstm.executeUpdate();
+            
+        } catch(SQLException ex){
+            
+        }
+        pool.releaseConnection(conn);
         RequestDispatcher view = request.getRequestDispatcher("eigeneRezepte.jsp");
         view.forward(request,response);
     }

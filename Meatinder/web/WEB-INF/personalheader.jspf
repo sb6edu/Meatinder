@@ -24,6 +24,7 @@
             <a href="allerezepte.do">Alle Rezepte   </a>
             <a href="randomrezept.do">Zufälliges Rezept </a>
             <a href="ctrlhistory.do">History    </a>
+            <a href="ctrlerstellt.do">Eigene Rezepte    </a>
         </nav>
         <br />
         <% } else { %>
