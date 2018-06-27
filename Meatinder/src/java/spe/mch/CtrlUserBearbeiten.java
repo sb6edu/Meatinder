@@ -9,9 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author 103095
  */
-@WebServlet(name = "Ctrluserverwaltung", urlPatterns = {"/ctrluserverwaltung.do"})
-public class Ctrluserverwaltung extends HttpServlet {
+@WebServlet(name = "CtrlUserBearbeiten", urlPatterns = {"/ctrluserbearbeiten.do"})
+public class CtrlUserBearbeiten extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,48 +35,20 @@ public class Ctrluserverwaltung extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<User> users = new ArrayList<>();
-        String sql = "select username from kunden";
-        String username = "bla";
-        String rechte = "ois";
-        String bearbeiten = "<a href='ctrluserbearbeiten.do?username=";
-        String a = "&userrechte=";
-        String b = "'>Zum Admin machen.</a>";
+        String username = request.getParameter("username");
+        String rechte = request.getParameter("userrechte");
+        String sql = "update kunden set BERECHTIGUNG = 'admin' where username = "+"'"+username+"'";
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
         try {
             PreparedStatement pstm = conn.prepareStatement(sql);
-            ResultSet rs = pstm.executeQuery();
-            while (rs.next()) {
-                username = rs.getString("username");
-                String sql2 = "select berechtigung from kunden where username = " + "'" + username + "'";
-                try {
-                    PreparedStatement pstm2 = conn.prepareStatement(sql2);
-                    ResultSet rs2 = pstm2.executeQuery();
-                    rs2.next();
-                    rechte = rs2.getString("BERECHTIGUNG");
-                    System.out.println("bla");
-                    if (rechte.equals("admin")) {
-                        bearbeiten = "";
-                        a = "";
-                        b = "";
-                    } else {
-                        bearbeiten = "<a href='ctrluserbearbeiten.do?username=";
-                        a = "&userrechte=";
-                        b = "'>Zum Admin machen.</a>";
-                    }
-                    users.add(new User(rechte, username, bearbeiten, a, b));
-                } catch (SQLException ex) {
-                    response.getWriter().println(ex.getMessage());
-                }
-            }
+            pstm.executeUpdate();
         } catch (SQLException ex) {
             response.getWriter().println(ex.getMessage());
         }
 
         pool.releaseConnection(conn);
-        request.setAttribute("users", users);
-        RequestDispatcher view = request.getRequestDispatcher("userverwaltung.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("ctrluserverwaltung.do");
         view.forward(request, response);
     }
 
