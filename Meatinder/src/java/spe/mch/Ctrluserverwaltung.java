@@ -18,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -37,6 +38,25 @@ public class Ctrluserverwaltung extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String sid = session.getId();
+        try {
+            DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
+            Connection conn = pool.getConnection();
+            String sql = "select berechtigung from kunden where sid = " + "'" + sid + "'";
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            ResultSet rs = pstm.executeQuery();
+            pool.releaseConnection(conn);
+            if (rs.next()) {
+                String rechte = rs.getString("berechtigung");
+                if (rechte.equals("user")) {
+                    RequestDispatcher view = request.getRequestDispatcher("adminsonly.jsp");
+                    view.forward(request, response);
+                }
+            }
+        } catch (SQLException ex) {
+            response.getWriter().println(ex.getMessage());
+        }
         ArrayList<User> users = new ArrayList<>();
         String sql = "select username from kunden";
         String username = "bla";
