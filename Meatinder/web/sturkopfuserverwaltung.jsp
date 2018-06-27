@@ -3,15 +3,14 @@
 <table>
     <th>Username</th>
     <th>Berechtigung</th>
+    <th></th>
         <c:forEach items="${users}" var="user">
         <tr>
             <td>${user.username}</td>
             <td>${user.rechte}</td>
-            <c:if test="${user.rechte=='user'}"><td><a href="ctrluserloeschen.do?username=${user.username}">Löschen</a></td></c:if>
-            <td style="color:white">${user.bearbeiten}${user.username}${user.a}${user.rechte}${user.b}</td>
+            <td><form method="post" action="ctrluserverwaltung.do"><input type="submit" value="Löschen" name="${user.username}loeschen"/></form></td>
         </tr> 
     </c:forEach>
 </table>
-<a href="useradden.jsp">Neuen Benutzer hinzufügen</a>
 <%@include file="WEB-INF/footer.jspf" %>
 

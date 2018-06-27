@@ -6,7 +6,6 @@
 package spe.mch;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,14 +17,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author 103095
  */
-@WebServlet(name = "Ctrluserverwaltung", urlPatterns = {"/ctrluserverwaltung.do"})
-public class Ctrluserverwaltung extends HttpServlet {
+@WebServlet(name = "SturkopfCtrluserverwaltung", urlPatterns = {"/sturkopfctrluserverwaltung.do"})
+public class SturkopfCtrluserverwaltung extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,32 +36,14 @@ public class Ctrluserverwaltung extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String sid = session.getId();
-        try {
-            DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
-            Connection conn = pool.getConnection();
-            String sql = "select berechtigung from kunden where sid = " + "'" + sid + "'";
-            PreparedStatement pstm = conn.prepareStatement(sql);
-            ResultSet rs = pstm.executeQuery();
-            pool.releaseConnection(conn);
-            if (rs.next()) {
-                String rechte = rs.getString("berechtigung");
-                if (rechte.equals("user")) {
-                    RequestDispatcher view = request.getRequestDispatcher("adminsonly.jsp");
-                    view.forward(request, response);
-                }
-            }
-        } catch (SQLException ex) {
-            response.getWriter().println(ex.getMessage());
-        }
         ArrayList<User> users = new ArrayList<>();
         String sql = "select username from kunden";
         String username = "bla";
         String rechte = "ois";
-        String bearbeiten = "<a href='ctrluserbearbeiten.do?username=";
-        String a = "&userrechte=";
-        String b = "'>Zum Admin machen.</a>";
+        String loeschen = "null";
+        String a="";
+        String b="";
+        String bearbeiten="";
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
         try {
@@ -71,31 +51,26 @@ public class Ctrluserverwaltung extends HttpServlet {
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
                 username = rs.getString("username");
-                String sql2 = "select berechtigung from kunden where username = " + "'" + username + "'";
-                try {
-                    PreparedStatement pstm2 = conn.prepareStatement(sql2);
-                    ResultSet rs2 = pstm2.executeQuery();
-                    rs2.next();
-                    rechte = rs2.getString("BERECHTIGUNG");
-                    System.out.println("bla");
-                    if (rechte.equals("admin")) {
-                        bearbeiten = "";
-                        a = "";
-                        b = "";
+                loeschen = request.getParameter(username + "loeschen");
+                if (loeschen != null) {
+                    if (loeschen.equals("Löschen")) {
                     } else {
-                        bearbeiten = "<a href='ctrluserbearbeiten.do?username=";
-                        a = "&userrechte=";
-                        b = "'>Zum Admin machen.</a>";
+                        String sql2 = "select berechtigung from kunden where username = " + "'" + username + "'";
+                        try {
+                            PreparedStatement pstm2 = conn.prepareStatement(sql2);
+                            ResultSet rs2 = pstm2.executeQuery();
+                            rs2.next();
+                            rechte = rs2.getString("BERECHTIGUNG");
+                            users.add(new User(rechte, username,bearbeiten,a,b));
+                        } catch (SQLException ex) {
+                            response.getWriter().println(ex.getMessage());
+                        }
                     }
-                    users.add(new User(rechte, username, bearbeiten, a, b));
-                } catch (SQLException ex) {
-                    response.getWriter().println(ex.getMessage());
                 }
             }
         } catch (SQLException ex) {
             response.getWriter().println(ex.getMessage());
         }
-
         pool.releaseConnection(conn);
         request.setAttribute("users", users);
         RequestDispatcher view = request.getRequestDispatcher("userverwaltung.jsp");

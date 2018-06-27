@@ -59,13 +59,11 @@ public class CtrlLogin extends HttpServlet {
             ResultSet rs = pstm.executeQuery();
             if (rs.next()) {
                 salt = rs.getString("salt");
-                System.out.println("Salt: "+salt);
             }
         } catch (Exception ex) {
             response.getWriter().println(ex.getMessage());
         }
         String psw = pepperedsaltedhashedpw(request, response, request.getParameter("psw"), salt);
-        System.out.println("psw:"+psw);
         String vorname = request.getParameter("vorname");
         String passwort = "Wird weiter unten aus der Datenbank geholt, hier nur initialisiert";
 
@@ -76,7 +74,6 @@ public class CtrlLogin extends HttpServlet {
             ResultSet rs = pstm.executeQuery();
             if (rs.next()) {
                 passwort = rs.getString("PASSWORT");
-                System.out.println("Passwort aus DB: "+passwort);
             } else {
                 RequestDispatcher view = request.getRequestDispatcher("login.jsp");
                 view.forward(request, response);
@@ -95,8 +92,6 @@ public class CtrlLogin extends HttpServlet {
                 RequestDispatcher view = request.getRequestDispatcher("ctrlselect.do");
                 view.forward(request, response);
             } else {
-                System.out.println("psw: "+psw);
-                System.out.println("passwort: "+passwort);
                 uname = "";
                 psw = "";
                 RequestDispatcher view = request.getRequestDispatcher("failedlogin.jsp");

@@ -18,7 +18,6 @@
             </label>
         </form>
         <nav>
-            <a href="login.jsp">Login   </a>
             <a href="registrierung.jsp">Registrierung   </a>
             <a href="ctrlselect.do">Rezepte finden  </a>
             <a href="ctrleinfuegen.do">Rezept einfügen  </a>
@@ -26,9 +25,9 @@
             <a href="randomrezept.do">Zufälliges Rezept </a>
             <a href="ctrlhistory.do">History    </a>
             <a href="ctrlerstellt.do">Eigene Rezepte    </a>
+            <a href="ctrluserverwaltung.do">Userverwaltung(Admins only)   </a>
         </nav>
         <br />
-        Hallo, ${cookie.User.value}
         <% } else { %>
         <nav>
             <a href="login.jsp">Login   </a>

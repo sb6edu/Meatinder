@@ -6,6 +6,7 @@
 package spe.mch;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -24,8 +25,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author 103095
  */
-@WebServlet(name = "Ctrlregister", urlPatterns = {"/ctrlregister.do"})
-public class CtrlRegister extends HttpServlet {
+@WebServlet(name = "CtrlAddUser", urlPatterns = {"/ctrladduser.do"})
+public class CtrlAddUser extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,11 +46,12 @@ public class CtrlRegister extends HttpServlet {
         String psw1 = request.getParameter("psw1");
         String psw2 = request.getParameter("psw2");
         String salt = generateSalt();
+        String rechte = request.getParameter("rechte");
 
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
 
-        String sql = "Insert into Kunden (vorname, nachname, username, email, passwort, salt) values(?,?,?,?,?,?)";
+        String sql = "Insert into Kunden (vorname, nachname, username, email, passwort, salt, berechtigung) values(?,?,?,?,?,?,?)";
         //Hat er alle Felder ausgefüllt?
         if (warerbrav(vorname, nachname, uname, psw1, psw2, email)) {
             //Hat er zweimal das gleiche Passwort eingegeben?
@@ -63,6 +65,7 @@ public class CtrlRegister extends HttpServlet {
                     pstm.setString(4, email);
                     pstm.setString(5, psw1);
                     pstm.setString(6, salt);
+                    pstm.setString(7, rechte);
 
                     pstm.executeUpdate();
 
@@ -70,15 +73,15 @@ public class CtrlRegister extends HttpServlet {
                     view.forward(request, response);
 
                 } catch (SQLException ex) {
-                    RequestDispatcher view = request.getRequestDispatcher("schonvergebenregistrierung.jsp");
+                    RequestDispatcher view = request.getRequestDispatcher("schonvergebenadd.jsp");
                     view.forward(request, response);
                 }
             } else {
-                RequestDispatcher view = request.getRequestDispatcher("failedpwregistrierung.jsp");
+                RequestDispatcher view = request.getRequestDispatcher("failedpwadd.jsp");
                 view.forward(request, response);
             }
         } else {
-            RequestDispatcher view = request.getRequestDispatcher("plsallregistrierung.jsp");
+            RequestDispatcher view = request.getRequestDispatcher("plsalladd.jsp");
             view.forward(request, response);
         }
         pool.releaseConnection(conn);
