@@ -8,7 +8,7 @@
         <title>Meatinder</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/style.css" type="text/css">
-
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <body>
         <% if (CtrlLogin.eingeloggt(request, response, getServletContext())) { %>
@@ -38,7 +38,7 @@
                 <span class="search-container navigation-action">
                     <form method="post" action="ctrlsearch.do">
                         <input type="text" class="search-input" placeholder="Search.." name="search">
-                        <button type="submit"><i></i></button>
+                        <button type="submit" class="search-button"><i class="fa fa-search"></i></button>
                     </form>
                 </span>
             </nav> 
@@ -55,7 +55,7 @@
             <div class="search-container navigation-action">
                 <form method="post" action="ctrlsearch.do">
                     <input type="text" placeholder="Search.." name="search">
-                    <button type="submit"><i class=""></i></button>
+                    <button type="submit" class="search-button"><i class="fa fa-search"></i></button>
                 </form>
             </div>
         </nav>
