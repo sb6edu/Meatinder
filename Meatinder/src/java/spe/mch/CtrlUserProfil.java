@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -37,7 +38,7 @@ public class CtrlUserProfil extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");
-        ArrayList<ProfilRezept> rezepte = new ArrayList<>();
+        ArrayList<ProfilRezept> profilrezepte = new ArrayList<>();
         ArrayList<ProfilUser> profiluser = new ArrayList<>();
         profiluser.add(new ProfilUser(username));
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
@@ -53,16 +54,81 @@ public class CtrlUserProfil extends HttpServlet {
                 ResultSet rs2 = pstm2.executeQuery();
                 while (rs2.next()) {
                     String rezeptname = rs2.getString("rezeptname");
-                    rezepte.add(new ProfilRezept(rezeptname));
+                    profilrezepte.add(new ProfilRezept(rezeptname));
                 }
             }
-
         } catch (SQLException ex) {
             response.getWriter().println(ex.getMessage());
         }
+
+        HttpSession session = request.getSession();
+        String sid = session.getId();
+        sql = "select * from favoriten where username = " + "'" + username + "'";
+        ArrayList<Integer> ids = new ArrayList<>();
+        int i = 0;
+        try {
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                i = rs.getInt("rid");
+                ids.add(i);
+            }
+        } catch (SQLException ex) {
+
+        }
+
+        ArrayList<Rezept> rezepte = new ArrayList<>();
+        for (Integer a : ids) {
+            sql = "select id, rezeptname, s.artid, artname, menge, einheit, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung from geraete a, artikel s, rezepte d, rezeptartikel f where a.gid = d.gid and s.artid = f.artid and d.id = f.RID and id= " + a;
+
+            try {
+                PreparedStatement pstm = conn.prepareStatement(sql);
+                ResultSet rs = pstm.executeQuery();
+                String rezeptid = "";
+                String rezeptname = "";
+                int artid;
+                String artname;
+                String menge;
+                String einheit;
+                String geraetebezeichnung = "";
+                String zubereitungszeit = "";
+                String rezeptbeschreibung = "";
+                ArrayList<String> artnamen = new ArrayList<>();
+                ArrayList<String> mengen = new ArrayList<>();
+                ArrayList<String> einheiten = new ArrayList<>();
+                ArrayList<Integer> artids = new ArrayList<>();
+                Boolean eingefuegt = false;
+                while (rs.next()) {
+                    rezeptid = rs.getString("id");
+                    rezeptname = rs.getString("rezeptname");
+                    artid = rs.getInt("artid");
+                    artname = rs.getString("artname");
+                    menge = rs.getString("menge");
+                    einheit = rs.getString("einheit");
+                    geraetebezeichnung = rs.getString("geraetebezeichnung");
+                    zubereitungszeit = rs.getString("zubereitungszeit");
+                    rezeptbeschreibung = rs.getString("rezeptbeschreibung");
+                    if (!artname.isEmpty() && !menge.isEmpty() && !einheit.isEmpty() && artid != 0) {
+                        artnamen.add(artname);
+                        mengen.add(menge);
+                        einheiten.add(einheit);
+                        artids.add(artid);
+                        eingefuegt = true;
+                    }
+                }
+                if (eingefuegt) {
+                    rezepte.add(new Rezept(rezeptid, rezeptname, artids, artnamen, mengen, einheiten, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung));
+                }
+            } catch (SQLException ex) {
+                response.getWriter().println(ex.getMessage());
+            }
+
+        }
+
         request.setAttribute("rezepte", rezepte);
+        request.setAttribute("profilrezepte", profilrezepte);
         request.setAttribute("profiluser", profiluser);
-        pool.releaseConnection(conn);
+
         RequestDispatcher view = request.getRequestDispatcher("userprofil.jsp");
         view.forward(request, response);
     }
