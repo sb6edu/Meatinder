@@ -57,11 +57,13 @@ public class CtrlFavoriten extends HttpServlet {
                 username = rs.getString("username");
                 }
                 sql = "insert into favoriten (rid, username) values (?, ?)";
+                PreparedStatement pstm2 = conn.prepareStatement(sql);
+                
                 try {
-                    pstm = conn.prepareStatement(sql);
-                    pstm.setInt(1, idi);
-                    pstm.setString(2, username);
-                    pstm.executeUpdate();
+                    pstm2 = conn.prepareStatement(sql);
+                    pstm2.setInt(1, idi);
+                    pstm2.setString(2, username);
+                    pstm2.executeUpdate();
                 } catch (SQLException ex){
                     
                 }
