@@ -5,6 +5,7 @@ body  {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background: #e5e0d8;
 }
 
 header {
@@ -101,10 +102,15 @@ td a{
   
    text-decoration: none;
    color: black;
-   margin: 0;
+   padding: 5px;
 }
-tr {
-    border-spacing: 0px;
+
+
+table{
+    border-collapse: collapse;
+}
+tr{
+    border: 1px black solid;
 }
 
 tr:nth-child(odd){
