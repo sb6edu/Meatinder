@@ -97,4 +97,19 @@ main {
 }
 
 
+td a{
+  
+   text-decoration: none;
+   color: black;
+   margin: 0;
+}
+tr {
+    border-spacing: 0px;
+}
+
+tr:nth-child(odd){
+    background-color: lightgreen;
+}
+
+
 
