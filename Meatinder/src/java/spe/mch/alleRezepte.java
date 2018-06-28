@@ -197,6 +197,7 @@ public class alleRezepte extends HttpServlet {
                 request.setAttribute("rezepte2", rezepte2);
 
             }
+            
             RequestDispatcher view = request.getRequestDispatcher("alleRezepteAdmin.jsp");
             view.forward(request, response);
         } else {

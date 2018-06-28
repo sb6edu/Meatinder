@@ -23,6 +23,8 @@
                 <a class="navigation-item" href="randomrezept.do">Zufälliges Rezept </a>
                 <a class="navigation-item" href="ctrlhistory.do">History    </a>
                 <a class="navigation-item" href="ctrlerstellt.do">Eigene Rezepte    </a>
+                <a class="navigation-item" href="ctrlfavoritenanzeigen.do">Favoriten    </a>
+                
                 <% if (CtrlLogin.currentuserisadmin(request, response, getServletContext())) { %> 
 
                 <a class="navigation-item" href="ctrluserverwaltung.do">Userverwaltung</a>
