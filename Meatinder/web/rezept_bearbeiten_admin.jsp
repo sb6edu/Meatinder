@@ -1,3 +1,8 @@
+<%-- 
+    Document   : rezept_bearbeiten_admin
+    Created on : 28.06.2018, 08:05:32
+    Author     : 103098
+--%>
 <%@include file="WEB-INF/personalheader.jspf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -8,7 +13,7 @@
         <td><input type="submit" value="Neue Zutat" /></td>
     </tr>
 </form>    
-<form method="post" action="ctrlupdate.do">
+<form method="post" action="ctrlupdateadmin.do">
     <input type="hidden" name="id" value="${rezept.id}" id="id"/>
     <h3>Geben Sie den Rezeptnamen ein</h3>
     <input type="text" size="100" maxlength="100" name="rezeptname" id="rezeptname" value="${rezept.rezeptname}"/> 
