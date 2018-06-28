@@ -1,7 +1,6 @@
 -# Meatinder
 -To do:
 --CSS
---Update und Delete Rezepte
 --Kommentare zu Rezepten
 --Differenzierung der Berechtigung und des Zugriffs
 --Favoriten
