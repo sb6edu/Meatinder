@@ -1,0 +1,88 @@
+body  {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    top: 0;
+    position: fixed;
+    background-color: #4caf50;
+    width: 100%;
+    font-size: 10pt;
+    box-shadow: 0 5px 2px grey;
+}
+footer{
+    margin-top: 10px;
+    padding: 10px;
+    line-height: 30px;
+    height: 60px;
+    color: white;
+    background-color: #555555 ;
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 10pt;
+    width: 100%;
+    bottom: 0;
+    flex-shrink: 0;
+}
+footer a {
+    color: white;
+    text-decoration: underline;
+    font-size: 12pt;
+}
+.main-navigation{
+    text-align: center;
+}
+.navigation-action, .navigation-item{
+    text-align: center;
+    padding: 1em;
+    text-decoration: none;
+    color: black;
+    display: block;
+    height: 2em;
+    line-height: 2em;
+}
+.navigation-item {
+    float: left;
+    font-family: Arial;
+    font-weight: bold;
+}
+.navigation-item:hover{
+    background-color: white;
+}
+.navigation-action{
+    float: right;
+
+}
+
+.search-input{
+    background-color: transparent;
+    color: black;
+    padding: 5px;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px black solid;
+
+}
+
+.logout-button {
+    background: none;
+    padding: 0;
+    border: none;
+    box-sizing: border-box;
+    color: brown;
+    
+}
+
+main {
+    padding: 1em;
+    flex: 1;
+    margin-top: 3em;
+}
+
+
+

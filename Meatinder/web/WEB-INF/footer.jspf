@@ -1,7 +1,9 @@
-<br />
-&copy; SPE München, Created by Johannes, Benjamin, Nadine & Stefan 
-<br />
-<a href="mailto:stefan.boneder@education-siemens.com">Kontakt</a>
-<a href="https://github.com/sb6edu/Meatinder">Sourcecode</a>
-    </body>
+</main>
+<footer>
+    <a href="mailto:stefan.boneder@education-siemens.com">Kontakt</a>
+    <a href="https://github.com/sb6edu/Meatinder">Sourcecode</a>
+    <br/>
+    &copy; SPE München, Created by Johannes, Benjamin, Nadine & Stefan
+</footer>    
+</body>
 </html>
