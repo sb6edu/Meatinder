@@ -39,328 +39,324 @@ public class alleRezepte extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        if(CtrlLogin.currentuserisadmin(request, response, getServletContext())) {
+
+        if (CtrlLogin.currentuserisadmin(request, response, getServletContext())) {
             DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
-        Connection conn = pool.getConnection();
-        ArrayList<Rezept> rezepte = new ArrayList<>();
-        String sql2 = "select id from rezepte";
-        int id = 0;
-        try {
-            PreparedStatement pstm2 = conn.prepareStatement(sql2);
-            ResultSet rs2 = pstm2.executeQuery();
-            while(rs2.next()) {
-                id++;
-                String sql = "select id, rezeptname, s.artid, artname, menge, einheit, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung from geraete a, artikel s, rezepte d, rezeptartikel f where a.gid = d.gid and s.artid = f.artid and d.id = f.RID and id= " + id;
-                
-                try {
-                    PreparedStatement pstm = conn.prepareStatement(sql);
-                    ResultSet rs = pstm.executeQuery();
-                    String rezeptid = "";
-                    String rezeptname =  "";
-                    int artid = 0;
-                    String artname;
-                    String menge;
-                    String einheit;
-                    String geraetebezeichnung = "";
-                    String zubereitungszeit = "";
-                    String rezeptbeschreibung = "";
-                    ArrayList<String> artnamen = new ArrayList<>();
-                    ArrayList<String> mengen = new ArrayList<>();
-                    ArrayList<String> einheiten = new ArrayList<>();
-                    ArrayList<Integer> artids = new ArrayList<>();
-                    Boolean eingefuegt = false;
-                    
-                    while(rs.next()) {
-                        rezeptid = rs.getString("id");
-                        rezeptname = rs.getString("rezeptname");
-                        artid = rs.getInt("artid");
-                        artname = rs.getString("artname");
-                        menge = rs.getString("menge");
-                        einheit = rs.getString("einheit");
-                        geraetebezeichnung = rs.getString("geraetebezeichnung");
-                        zubereitungszeit = rs.getString("zubereitungszeit");
-                        rezeptbeschreibung = rs.getString("rezeptbeschreibung");
-                        if(!artname.isEmpty() && !menge.isEmpty() && !einheit.isEmpty() && artid != 0) {
-                        artnamen.add(artname);
-                        mengen.add(menge);
-                        einheiten.add(einheit);
-                        artids.add(artid);
-                        eingefuegt = true;
-                        }
-                    } 
-                   
-                    if(eingefuegt){
-                    rezepte.add(new Rezept(rezeptid, rezeptname, artids, artnamen, mengen, einheiten, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung));
-                    }
-                } catch (SQLException ex) {
-                    response.getWriter().println(ex.getMessage());
-                }
-            }
-        }catch (Exception ex) {
-            response.getWriter().println(ex.getMessage());
-        }
-        request.setAttribute("rezepte", rezepte);
-        pool.releaseConnection(conn);
-        
-        for(Rezept rezept : rezepte){
-            System.out.println(rezept);
-        }
-        
-        ArrayList<Rezept> sortierteRezepte = new ArrayList<>();
-        
-        Collections.sort(rezepte);
-        
-        
-        ArrayList<Integer> rezid = new ArrayList<>();
-        
-        HttpSession session = request.getSession();
-        String sid = session.getId();
-        
-        if (CtrlLogin.eingeloggt(request, response, getServletContext())) {
-            String sql = "select username from kunden where sid = " + "'" + sid + "'";
-            String username = "";
-            
+            Connection conn = pool.getConnection();
+            ArrayList<Rezept> rezepte = new ArrayList<>();
+            String sql2 = "select id from rezepte";
+            int id = 0;
             try {
-                PreparedStatement pstm = conn.prepareStatement(sql);
-                ResultSet rs = pstm.executeQuery();
-                while(rs.next()){
-                username = rs.getString("username");
-                    
-                String sql4 = "select rezid from kundenrezepte where username = " + "'" + username + "'";
-                    
-                try {
-                    PreparedStatement pstm4 = conn.prepareStatement(sql4);
-                    ResultSet rs4 = pstm4.executeQuery();
-                    
-                    while (rs4.next()) {
-                        String rezida = rs4.getString("rezid");
-                        int rezidaInt = Integer.parseInt(rezida);
-                        System.out.println(rezidaInt);
-                        rezid.add(rezidaInt);
-                        
+                PreparedStatement pstm2 = conn.prepareStatement(sql2);
+                ResultSet rs2 = pstm2.executeQuery();
+                while (rs2.next()) {
+                    id++;
+                    String sql = "select id, rezeptname, s.artid, artname, menge, einheit, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung from geraete a, artikel s, rezepte d, rezeptartikel f where a.gid = d.gid and s.artid = f.artid and d.id = f.RID and id= " + id;
+
+                    try {
+                        PreparedStatement pstm = conn.prepareStatement(sql);
+                        ResultSet rs = pstm.executeQuery();
+                        String rezeptid = "";
+                        String rezeptname = "";
+                        int artid = 0;
+                        String artname;
+                        String menge;
+                        String einheit;
+                        String geraetebezeichnung = "";
+                        String zubereitungszeit = "";
+                        String rezeptbeschreibung = "";
+                        ArrayList<String> artnamen = new ArrayList<>();
+                        ArrayList<String> mengen = new ArrayList<>();
+                        ArrayList<String> einheiten = new ArrayList<>();
+                        ArrayList<Integer> artids = new ArrayList<>();
+                        Boolean eingefuegt = false;
+
+                        while (rs.next()) {
+                            rezeptid = rs.getString("id");
+                            rezeptname = rs.getString("rezeptname");
+                            artid = rs.getInt("artid");
+                            artname = rs.getString("artname");
+                            menge = rs.getString("menge");
+                            einheit = rs.getString("einheit");
+                            geraetebezeichnung = rs.getString("geraetebezeichnung");
+                            zubereitungszeit = rs.getString("zubereitungszeit");
+                            rezeptbeschreibung = rs.getString("rezeptbeschreibung");
+                            if (!artname.isEmpty() && !menge.isEmpty() && !einheit.isEmpty() && artid != 0) {
+                                artnamen.add(artname);
+                                mengen.add(menge);
+                                einheiten.add(einheit);
+                                artids.add(artid);
+                                eingefuegt = true;
+                            }
+                        }
+
+                        if (eingefuegt) {
+                            rezepte.add(new Rezept(rezeptid, rezeptname, artids, artnamen, mengen, einheiten, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung));
+                        }
+                    } catch (SQLException ex) {
+                        response.getWriter().println(ex.getMessage());
                     }
-                } catch (SQLException ex) {
-                    response.getWriter().println(ex.getMessage());
                 }
-            }
-            } catch (SQLException ex) {
+            } catch (Exception ex) {
                 response.getWriter().println(ex.getMessage());
             }
-            
-            ArrayList<Rezept> rezepte2 = new ArrayList<>();
-            for (Integer i : rezid) {
-                sql = "select id, rezeptname, s.artid, artname, menge, einheit, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung from geraete a, artikel s, rezepte d, rezeptartikel f where a.gid = d.gid and s.artid = f.artid and d.id = f.RID and id= " + i;
-                
+            request.setAttribute("rezepte", rezepte);
+            pool.releaseConnection(conn);
+
+            for (Rezept rezept : rezepte) {
+                System.out.println(rezept);
+            }
+
+            ArrayList<Rezept> sortierteRezepte = new ArrayList<>();
+
+            Collections.sort(rezepte);
+
+            ArrayList<Integer> rezid = new ArrayList<>();
+
+            HttpSession session = request.getSession();
+            String sid = session.getId();
+
+            if (CtrlLogin.eingeloggt(request, response, getServletContext())) {
+                String sql = "select username from kunden where sid = " + "'" + sid + "'";
+                String username = "";
+
                 try {
                     PreparedStatement pstm = conn.prepareStatement(sql);
                     ResultSet rs = pstm.executeQuery();
-                    String rezeptid = "";
-                    String rezeptname = "";
-                    int artid;
-                    String artname;
-                    String menge;
-                    String einheit;
-                    String geraetebezeichnung = "";
-                    String zubereitungszeit = "";
-                    String rezeptbeschreibung = "";
-                    ArrayList<String> artnamen = new ArrayList<>();
-                    ArrayList<String> mengen = new ArrayList<>();
-                    ArrayList<String> einheiten = new ArrayList<>();
-                    ArrayList<Integer> artids = new ArrayList<>();
-                    Boolean eingefuegt = false;
                     while (rs.next()) {
-                        rezeptid = rs.getString("id");
-                        rezeptname = rs.getString("rezeptname");
-                        artid = rs.getInt("artid");
-                        artname = rs.getString("artname");
-                        menge = rs.getString("menge");
-                        einheit = rs.getString("einheit");
-                        geraetebezeichnung = rs.getString("geraetebezeichnung");
-                        zubereitungszeit = rs.getString("zubereitungszeit");
-                        rezeptbeschreibung = rs.getString("rezeptbeschreibung");
-                        if(!artname.isEmpty() && !menge.isEmpty() && !einheit.isEmpty() && artid != 0) {
-                        artnamen.add(artname);
-                        mengen.add(menge);
-                        einheiten.add(einheit);
-                        artids.add(artid);
-                        eingefuegt = true;
+                        username = rs.getString("username");
+
+                        String sql4 = "select rezid from kundenrezepte where username = " + "'" + username + "'";
+
+                        try {
+                            PreparedStatement pstm4 = conn.prepareStatement(sql4);
+                            ResultSet rs4 = pstm4.executeQuery();
+
+                            while (rs4.next()) {
+                                String rezida = rs4.getString("rezid");
+                                int rezidaInt = Integer.parseInt(rezida);
+                                System.out.println(rezidaInt);
+                                rezid.add(rezidaInt);
+
+                            }
+                        } catch (SQLException ex) {
+                            response.getWriter().println(ex.getMessage());
                         }
-                    }
-                    if(eingefuegt){
-                    rezepte.add(new Rezept(rezeptid, rezeptname, artids, artnamen, mengen, einheiten, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung));
                     }
                 } catch (SQLException ex) {
                     response.getWriter().println(ex.getMessage());
                 }
+
+                ArrayList<Rezept> rezepte2 = new ArrayList<>();
+                for (Integer i : rezid) {
+                    sql = "select id, rezeptname, s.artid, artname, menge, einheit, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung from geraete a, artikel s, rezepte d, rezeptartikel f where a.gid = d.gid and s.artid = f.artid and d.id = f.RID and id= " + i;
+
+                    try {
+                        PreparedStatement pstm = conn.prepareStatement(sql);
+                        ResultSet rs = pstm.executeQuery();
+                        String rezeptid = "";
+                        String rezeptname = "";
+                        int artid;
+                        String artname;
+                        String menge;
+                        String einheit;
+                        String geraetebezeichnung = "";
+                        String zubereitungszeit = "";
+                        String rezeptbeschreibung = "";
+                        ArrayList<String> artnamen = new ArrayList<>();
+                        ArrayList<String> mengen = new ArrayList<>();
+                        ArrayList<String> einheiten = new ArrayList<>();
+                        ArrayList<Integer> artids = new ArrayList<>();
+                        Boolean eingefuegt = false;
+                        while (rs.next()) {
+                            rezeptid = rs.getString("id");
+                            rezeptname = rs.getString("rezeptname");
+                            artid = rs.getInt("artid");
+                            artname = rs.getString("artname");
+                            menge = rs.getString("menge");
+                            einheit = rs.getString("einheit");
+                            geraetebezeichnung = rs.getString("geraetebezeichnung");
+                            zubereitungszeit = rs.getString("zubereitungszeit");
+                            rezeptbeschreibung = rs.getString("rezeptbeschreibung");
+                            if (!artname.isEmpty() && !menge.isEmpty() && !einheit.isEmpty() && artid != 0) {
+                                artnamen.add(artname);
+                                mengen.add(menge);
+                                einheiten.add(einheit);
+                                artids.add(artid);
+                                eingefuegt = true;
+                            }
+                        }
+                        if (eingefuegt) {
+                            rezepte2.add(new Rezept(rezeptid, rezeptname, artids, artnamen, mengen, einheiten, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung));
+                        }
+                    } catch (SQLException ex) {
+                        response.getWriter().println(ex.getMessage());
+                    }
+                }
+                //response.getWriter().println("test");
+                request.setAttribute("rezepte2", rezepte2);
+
             }
-            //response.getWriter().println("test");
-            request.setAttribute("rezepte2", rezepte2);
-        
-        
-        }
-        RequestDispatcher view = request.getRequestDispatcher("alleRezepteAdmin.jsp");
-        view.forward(request,response);
+            RequestDispatcher view = request.getRequestDispatcher("alleRezepteAdmin.jsp");
+            view.forward(request, response);
         } else {
             DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
-        Connection conn = pool.getConnection();
-        ArrayList<Rezept> rezepte = new ArrayList<>();
-        String sql2 = "select id from rezepte";
-        int id = 0;
-        try {
-            PreparedStatement pstm2 = conn.prepareStatement(sql2);
-            ResultSet rs2 = pstm2.executeQuery();
-            while(rs2.next()) {
-                id++;
-                String sql = "select id, rezeptname, s.artid, artname, menge, einheit, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung from geraete a, artikel s, rezepte d, rezeptartikel f where a.gid = d.gid and s.artid = f.artid and d.id = f.RID and id= " + id;
-                
-                try {
-                    PreparedStatement pstm = conn.prepareStatement(sql);
-                    ResultSet rs = pstm.executeQuery();
-                    String rezeptid = "";
-                    String rezeptname =  "";
-                    int artid = 0;
-                    String artname;
-                    String menge;
-                    String einheit;
-                    String geraetebezeichnung = "";
-                    String zubereitungszeit = "";
-                    String rezeptbeschreibung = "";
-                    ArrayList<String> artnamen = new ArrayList<>();
-                    ArrayList<String> mengen = new ArrayList<>();
-                    ArrayList<String> einheiten = new ArrayList<>();
-                    ArrayList<Integer> artids = new ArrayList<>();
-                    Boolean eingefuegt = false;
-                    
-                    while(rs.next()) {
-                        rezeptid = rs.getString("id");
-                        rezeptname = rs.getString("rezeptname");
-                        artid = rs.getInt("artid");
-                        artname = rs.getString("artname");
-                        menge = rs.getString("menge");
-                        einheit = rs.getString("einheit");
-                        geraetebezeichnung = rs.getString("geraetebezeichnung");
-                        zubereitungszeit = rs.getString("zubereitungszeit");
-                        rezeptbeschreibung = rs.getString("rezeptbeschreibung");
-                        if(!artname.isEmpty() && !menge.isEmpty() && !einheit.isEmpty() && artid != 0) {
-                        artnamen.add(artname);
-                        mengen.add(menge);
-                        einheiten.add(einheit);
-                        artids.add(artid);
-                        eingefuegt = true;
-                        }
-                    } 
-                    if(eingefuegt){
-                    rezepte.add(new Rezept(rezeptid, rezeptname, artids, artnamen, mengen, einheiten, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung));
-                    }
-                } catch (SQLException ex) {
-                    response.getWriter().println(ex.getMessage());
-                }
-            }
-        }catch (Exception ex) {
-            response.getWriter().println(ex.getMessage());
-        }
-        request.setAttribute("rezepte", rezepte);
-        pool.releaseConnection(conn);
-        
-        for(Rezept rezept : rezepte){
-            System.out.println(rezept);
-        }
-        
-        ArrayList<Rezept> sortierteRezepte = new ArrayList<>();
-        
-        Collections.sort(rezepte);
-        
-        
-        ArrayList<Integer> rezid = new ArrayList<>();
-        
-        HttpSession session = request.getSession();
-        String sid = session.getId();
-        
-        if (CtrlLogin.eingeloggt(request, response, getServletContext())) {
-            String sql = "select username from kunden where sid = " + "'" + sid + "'";
-            String username = "";
-            
+            Connection conn = pool.getConnection();
+            ArrayList<Rezept> rezepte = new ArrayList<>();
+            String sql2 = "select id from rezepte";
+            int id = 0;
             try {
-                PreparedStatement pstm = conn.prepareStatement(sql);
-                ResultSet rs = pstm.executeQuery();
-                while(rs.next()){
-                username = rs.getString("username");
-                    
-                String sql4 = "select rezid from kundenrezepte where username = " + "'" + username + "'";
-                    
-                try {
-                    PreparedStatement pstm4 = conn.prepareStatement(sql4);
-                    ResultSet rs4 = pstm4.executeQuery();
-                    
-                    while (rs4.next()) {
-                        String rezida = rs4.getString("rezid");
-                        int rezidaInt = Integer.parseInt(rezida);
-                        System.out.println(rezidaInt);
-                        rezid.add(rezidaInt);
-                        
+                PreparedStatement pstm2 = conn.prepareStatement(sql2);
+                ResultSet rs2 = pstm2.executeQuery();
+                while (rs2.next()) {
+                    id++;
+                    String sql = "select id, rezeptname, s.artid, artname, menge, einheit, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung from geraete a, artikel s, rezepte d, rezeptartikel f where a.gid = d.gid and s.artid = f.artid and d.id = f.RID and id= " + id;
+
+                    try {
+                        PreparedStatement pstm = conn.prepareStatement(sql);
+                        ResultSet rs = pstm.executeQuery();
+                        String rezeptid = "";
+                        String rezeptname = "";
+                        int artid = 0;
+                        String artname;
+                        String menge;
+                        String einheit;
+                        String geraetebezeichnung = "";
+                        String zubereitungszeit = "";
+                        String rezeptbeschreibung = "";
+                        ArrayList<String> artnamen = new ArrayList<>();
+                        ArrayList<String> mengen = new ArrayList<>();
+                        ArrayList<String> einheiten = new ArrayList<>();
+                        ArrayList<Integer> artids = new ArrayList<>();
+                        Boolean eingefuegt = false;
+
+                        while (rs.next()) {
+                            rezeptid = rs.getString("id");
+                            rezeptname = rs.getString("rezeptname");
+                            artid = rs.getInt("artid");
+                            artname = rs.getString("artname");
+                            menge = rs.getString("menge");
+                            einheit = rs.getString("einheit");
+                            geraetebezeichnung = rs.getString("geraetebezeichnung");
+                            zubereitungszeit = rs.getString("zubereitungszeit");
+                            rezeptbeschreibung = rs.getString("rezeptbeschreibung");
+                            if (!artname.isEmpty() && !menge.isEmpty() && !einheit.isEmpty() && artid != 0) {
+                                artnamen.add(artname);
+                                mengen.add(menge);
+                                einheiten.add(einheit);
+                                artids.add(artid);
+                                eingefuegt = true;
+                            }
+                        }
+                        if (eingefuegt) {
+                            rezepte.add(new Rezept(rezeptid, rezeptname, artids, artnamen, mengen, einheiten, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung));
+                        }
+                    } catch (SQLException ex) {
+                        response.getWriter().println(ex.getMessage());
                     }
-                } catch (SQLException ex) {
-                    response.getWriter().println(ex.getMessage());
                 }
-            }
-            } catch (SQLException ex) {
+            } catch (Exception ex) {
                 response.getWriter().println(ex.getMessage());
             }
-            
-            ArrayList<Rezept> rezepte2 = new ArrayList<>();
-            for (Integer i : rezid) {
-                sql = "select id, rezeptname, s.artid, artname, menge, einheit, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung from geraete a, artikel s, rezepte d, rezeptartikel f where a.gid = d.gid and s.artid = f.artid and d.id = f.RID and id= " + i;
-                
+            request.setAttribute("rezepte", rezepte);
+            pool.releaseConnection(conn);
+
+            for (Rezept rezept : rezepte) {
+                System.out.println(rezept);
+            }
+
+            ArrayList<Rezept> sortierteRezepte = new ArrayList<>();
+
+            Collections.sort(rezepte);
+
+            ArrayList<Integer> rezid = new ArrayList<>();
+
+            HttpSession session = request.getSession();
+            String sid = session.getId();
+
+            if (CtrlLogin.eingeloggt(request, response, getServletContext())) {
+                String sql = "select username from kunden where sid = " + "'" + sid + "'";
+                String username = "";
+
                 try {
                     PreparedStatement pstm = conn.prepareStatement(sql);
                     ResultSet rs = pstm.executeQuery();
-                    String rezeptid = "";
-                    String rezeptname = "";
-                    int artid;
-                    String artname;
-                    String menge;
-                    String einheit;
-                    String geraetebezeichnung = "";
-                    String zubereitungszeit = "";
-                    String rezeptbeschreibung = "";
-                    ArrayList<String> artnamen = new ArrayList<>();
-                    ArrayList<String> mengen = new ArrayList<>();
-                    ArrayList<String> einheiten = new ArrayList<>();
-                    ArrayList<Integer> artids = new ArrayList<>();
-                    Boolean eingefuegt = false;
                     while (rs.next()) {
-                        rezeptid = rs.getString("id");
-                        rezeptname = rs.getString("rezeptname");
-                        artid = rs.getInt("artid");
-                        artname = rs.getString("artname");
-                        menge = rs.getString("menge");
-                        einheit = rs.getString("einheit");
-                        geraetebezeichnung = rs.getString("geraetebezeichnung");
-                        zubereitungszeit = rs.getString("zubereitungszeit");
-                        rezeptbeschreibung = rs.getString("rezeptbeschreibung");
-                        if(!artname.isEmpty() && !menge.isEmpty() && !einheit.isEmpty() && artid != 0) {
-                        artnamen.add(artname);
-                        mengen.add(menge);
-                        einheiten.add(einheit);
-                        artids.add(artid);
-                        eingefuegt = true;
+                        username = rs.getString("username");
+
+                        String sql4 = "select rezid from kundenrezepte where username = " + "'" + username + "'";
+
+                        try {
+                            PreparedStatement pstm4 = conn.prepareStatement(sql4);
+                            ResultSet rs4 = pstm4.executeQuery();
+
+                            while (rs4.next()) {
+                                String rezida = rs4.getString("rezid");
+                                int rezidaInt = Integer.parseInt(rezida);
+                                System.out.println(rezidaInt);
+                                rezid.add(rezidaInt);
+
+                            }
+                        } catch (SQLException ex) {
+                            response.getWriter().println(ex.getMessage());
                         }
-                    }
-                    if(eingefuegt){
-                    rezepte.add(new Rezept(rezeptid, rezeptname, artids, artnamen, mengen, einheiten, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung));
                     }
                 } catch (SQLException ex) {
                     response.getWriter().println(ex.getMessage());
                 }
+
+                ArrayList<Rezept> rezepte2 = new ArrayList<>();
+                for (Integer i : rezid) {
+                    sql = "select id, rezeptname, s.artid, artname, menge, einheit, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung from geraete a, artikel s, rezepte d, rezeptartikel f where a.gid = d.gid and s.artid = f.artid and d.id = f.RID and id= " + i;
+
+                    try {
+                        PreparedStatement pstm = conn.prepareStatement(sql);
+                        ResultSet rs = pstm.executeQuery();
+                        String rezeptid = "";
+                        String rezeptname = "";
+                        int artid;
+                        String artname;
+                        String menge;
+                        String einheit;
+                        String geraetebezeichnung = "";
+                        String zubereitungszeit = "";
+                        String rezeptbeschreibung = "";
+                        ArrayList<String> artnamen = new ArrayList<>();
+                        ArrayList<String> mengen = new ArrayList<>();
+                        ArrayList<String> einheiten = new ArrayList<>();
+                        ArrayList<Integer> artids = new ArrayList<>();
+                        Boolean eingefuegt = false;
+                        while (rs.next()) {
+                            rezeptid = rs.getString("id");
+                            rezeptname = rs.getString("rezeptname");
+                            artid = rs.getInt("artid");
+                            artname = rs.getString("artname");
+                            menge = rs.getString("menge");
+                            einheit = rs.getString("einheit");
+                            geraetebezeichnung = rs.getString("geraetebezeichnung");
+                            zubereitungszeit = rs.getString("zubereitungszeit");
+                            rezeptbeschreibung = rs.getString("rezeptbeschreibung");
+                            if (!artname.isEmpty() && !menge.isEmpty() && !einheit.isEmpty() && artid != 0) {
+                                artnamen.add(artname);
+                                mengen.add(menge);
+                                einheiten.add(einheit);
+                                artids.add(artid);
+                                eingefuegt = true;
+                            }
+                        }
+                        if (eingefuegt) {
+                            rezepte.add(new Rezept(rezeptid, rezeptname, artids, artnamen, mengen, einheiten, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung));
+                        }
+                    } catch (SQLException ex) {
+                        response.getWriter().println(ex.getMessage());
+                    }
+                }
+                request.setAttribute("rezepte2", rezepte2);
             }
-            request.setAttribute("rezepte2", rezepte2);
+            RequestDispatcher view = request.getRequestDispatcher("alleRezepte.jsp");
+            view.forward(request, response);
         }
-        RequestDispatcher view = request.getRequestDispatcher("alleRezepte.jsp");
-        view.forward(request,response);
-        }   
     }
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
