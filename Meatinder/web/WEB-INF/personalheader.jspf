@@ -95,7 +95,7 @@
             </label>
         </form>
         <nav>
-            <a href="registrierung.jsp">Registrierung   </a>
+            
             <a href="ctrlselect.do">Rezepte finden  </a>
             <a href="ctrleinfuegen.do">Rezept einfügen  </a>
             <a href="allerezepte.do">Alle Rezepte   </a>
