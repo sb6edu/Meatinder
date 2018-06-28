@@ -37,7 +37,7 @@
                 </span>
                 <span class="search-container navigation-action">
                     <form method="post" action="ctrlsearch.do">
-                        <input type="text" class="search-input" name="search">
+                        <input type="text" class="search-input" placeholder="Search.." name="search">
                         <button type="submit"><i></i></button>
                     </form>
                 </span>
@@ -52,7 +52,7 @@
             <a class="navigation-item"  href="ctrlselect.do">Rezepte finden  </a>
             <a class="navigation-item"  href="allerezepte.do">Alle Rezepte   </a>
             <a class="navigation-item"  href="randomrezept.do">Zufälliges Rezept </a>
-            <div class="search-container" class="navigation-action">
+            <div class="search-container navigation-action">
                 <form method="post" action="ctrlsearch.do">
                     <input type="text" placeholder="Search.." name="search">
                     <button type="submit"><i class=""></i></button>
