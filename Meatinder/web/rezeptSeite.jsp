@@ -27,7 +27,7 @@
             </tr>
             
             <% if(CtrlLogin.eingeloggt(request, response, getServletContext())){%>
-            <tr><td><a href="ctrlfavoriten.do?id=${rezept.id}">Zu Favoriten hinzufügen</a></td></tr>
+            <tr><td><br/><br/><a href="ctrlfavoriten.do?id=${rezept.id}">Zu Favoriten hinzufügen</a></td></tr>
             <% } %>
     </table>
 </c:forEach>

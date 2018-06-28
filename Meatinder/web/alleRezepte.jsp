@@ -13,7 +13,10 @@
     
             <tr>
                 <td><a href="rezeptfinden.do?rn=${rezept.rezeptname}" id="rezeptname">${rezept.rezeptname}</a></td>
+            
             </tr> 
+            
 </c:forEach>
+            <hr />
 </table>
 <%@include file="WEB-INF/footer.jspf" %>
