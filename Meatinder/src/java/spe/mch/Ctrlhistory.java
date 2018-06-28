@@ -108,6 +108,8 @@ public class Ctrlhistory extends HttpServlet {
                         geraetebezeichnung = rs.getString("geraetebezeichnung");
                         zubereitungszeit = rs.getString("zubereitungszeit");
                         rezeptbeschreibung = rs.getString("rezeptbeschreibung");
+                        
+                        
                         artnamen.add(artname);
                         mengen.add(menge);
                         einheiten.add(einheit);

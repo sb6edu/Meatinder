@@ -93,8 +93,10 @@ public class CtrlEinfuegen extends HttpServlet {
             String zutat = request.getParameter(artikelname);
             String menge = request.getParameter(artikelname + "-Menge");
             String einheit = request.getParameter(artikelname + "-Einheit");
-            try {
+
+                try {
                 if (artikelname.equals(zutat)) {
+                  
                     zutaten.add(new Zutat(artid, artikelname, menge, einheit));
                 }
             } catch (NullPointerException ex) {
@@ -123,15 +125,18 @@ public class CtrlEinfuegen extends HttpServlet {
         String rezeptname = request.getParameter("rezeptname");
         String zubereitungszeit = request.getParameter("zubereitungszeit");
         String rezeptbeschreibung = request.getParameter("rezeptbeschreibung");
+
+        
         //ArrayList ginventar
         //ArrayList zutaten (artname, menge, einheit)
-        
+
         String sql = "insert into rezepte (gid, rezeptname, zubereitungszeit, rezeptbeschreibung) values (?,?,?,?)";
         String gid = "";
         for(Geraet geraet : ginventar){
             gid = geraet.getGid();
         }
         
+      
         try{
             PreparedStatement pstm = conn.prepareStatement(sql);
             pstm.setString(1, gid);

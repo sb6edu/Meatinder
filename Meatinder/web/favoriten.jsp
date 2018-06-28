@@ -14,6 +14,7 @@
     
             <tr>
                 <td><a href="rezeptfinden.do?rn=${rezept.rezeptname}" id="rezeptname">${rezept.rezeptname}</a></td>
+                <td><a  href="ctrlfavoritendelete.do?id=${rezept.id}"><i class="fa fa-trash"></i></a></td>
                 
             </tr> 
 </c:forEach>
