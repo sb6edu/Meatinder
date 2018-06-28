@@ -15,7 +15,7 @@ EMAIL VARCHAR(50) NOT NULL unique,
 PASSWORT VARCHAR(70) NOT NULL, 
 SID varchar(50),
 SALT varchar(70) unique,
-Berechtigung DEFAULT 'user' NOT NULL,
+Berechtigung varchar(20) DEFAULT 'user' NOT NULL,
 PRIMARY KEY (KUNID));
 
 create table geraete (GID integer generated always as identity,
@@ -60,6 +60,9 @@ foreign key (rid) references rezepte(id));
 insert into geraete (geraetebezeichnung) values ('Herd');
 insert into geraete (geraetebezeichnung) values ('Ofen');
 
+--Kunden:
+insert into kunden (vorname,nachname,username,email,passwort,salt,berechtigung) values ('Admin','istrator','admin','administrator@siemens.com','869c4414196e8e118cabaaa30752e8a77083ca211ef8d1de3338d766e755ce04','qAaPtBswknZfGkQmWLBNmyfEjmA`RurylkjDwvQifM[oZ_CgPGJLMElhvydvihct','admin');
+--Passwort = 123
 
 --Artikel
 insert into artikel (artname) values ('Nudeln');
