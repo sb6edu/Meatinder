@@ -16,7 +16,7 @@
         <header>
             <nav class="main-navigation">
 
-                <a class="navigation-item"  href="registrierung.jsp">Registrierung   </a>
+                
                 <a class="navigation-item" href="ctrlselect.do">Rezepte finden  </a>
                 <a class="navigation-item" href="ctrleinfuegen.do">Rezept einfügen  </a>
                 <a class="navigation-item" href="allerezepte.do">Alle Rezepte   </a>

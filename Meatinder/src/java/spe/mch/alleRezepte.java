@@ -6,7 +6,6 @@
 package spe.mch;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -346,7 +345,7 @@ public class alleRezepte extends HttpServlet {
                             }
                         }
                         if (eingefuegt) {
-                            rezepte.add(new Rezept(rezeptid, rezeptname, artids, artnamen, mengen, einheiten, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung));
+                            rezepte2.add(new Rezept(rezeptid, rezeptname, artids, artnamen, mengen, einheiten, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung));
                         }
                     } catch (SQLException ex) {
                         response.getWriter().println(ex.getMessage());
