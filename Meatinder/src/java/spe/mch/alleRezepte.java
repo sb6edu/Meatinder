@@ -354,16 +354,11 @@ public class alleRezepte extends HttpServlet {
                     response.getWriter().println(ex.getMessage());
                 }
             }
-            
             request.setAttribute("rezepte2", rezepte2);
-        
-        
         }
         RequestDispatcher view = request.getRequestDispatcher("alleRezepte.jsp");
         view.forward(request,response);
-        }
-        
-        
+        }   
     }
     
 
