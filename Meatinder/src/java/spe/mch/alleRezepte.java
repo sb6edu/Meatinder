@@ -337,40 +337,6 @@ public class alleRezepte extends HttpServlet {
                             zubereitungszeit = rs.getString("zubereitungszeit");
                             rezeptbeschreibung = rs.getString("rezeptbeschreibung");
 
-                            rezeptname = rezeptname.replaceAll("ä", "&auml;");
-                            rezeptname = rezeptname.replaceAll("ö", "&ouml;");
-                            rezeptname = rezeptname.replaceAll("ü", "&uuml;");
-                            rezeptname = rezeptname.replaceAll("Ä", "&Auml;");
-                            rezeptname = rezeptname.replaceAll("Ö", "&Ouml;");
-                            rezeptname = rezeptname.replaceAll("Ü", "&Uuml;");
-
-                            artname = artname.replaceAll("ä", "&auml;");
-                            artname = artname.replaceAll("ö", "&ouml;");
-                            artname = artname.replaceAll("ü", "&uuml;");
-                            artname = artname.replaceAll("Ä", "&Auml;");
-                            artname = artname.replaceAll("Ö", "&Ouml;");
-                            artname = artname.replaceAll("Ü", "&Uuml;");
-
-                            einheit = einheit.replaceAll("ä", "&auml;");
-                            einheit = einheit.replaceAll("ö", "&ouml;");
-                            einheit = einheit.replaceAll("ü", "&uuml;");
-                            einheit = einheit.replaceAll("Ä", "&Auml;");
-                            einheit = einheit.replaceAll("Ö", "&Ouml;");
-                            einheit = einheit.replaceAll("Ü", "&Uuml;");
-
-                            zubereitungszeit = zubereitungszeit.replaceAll("ä", "&auml;");
-                            zubereitungszeit = zubereitungszeit.replaceAll("ö", "&ouml;");
-                            zubereitungszeit = zubereitungszeit.replaceAll("ü", "&uuml;");
-                            zubereitungszeit = zubereitungszeit.replaceAll("Ä", "&Auml;");
-                            zubereitungszeit = zubereitungszeit.replaceAll("Ö", "&Ouml;");
-                            zubereitungszeit = zubereitungszeit.replaceAll("Ü", "&Uuml;");
-
-                            rezeptbeschreibung = rezeptbeschreibung.replaceAll("ä", "&auml;");
-                            rezeptbeschreibung = rezeptbeschreibung.replaceAll("ö", "&ouml;");
-                            rezeptbeschreibung = rezeptbeschreibung.replaceAll("ü", "&uuml;");
-                            rezeptbeschreibung = rezeptbeschreibung.replaceAll("Ä", "&Auml;");
-                            rezeptbeschreibung = rezeptbeschreibung.replaceAll("Ö", "&Ouml;");
-                            rezeptbeschreibung = rezeptbeschreibung.replaceAll("Ü", "&Uuml;");
                             
                             if (!artname.isEmpty() && !menge.isEmpty() && !einheit.isEmpty() && artid != 0) {
                                 artnamen.add(artname);
