@@ -98,12 +98,7 @@ public class Ctrlfavoritenanzeigen extends HttpServlet {
                         zubereitungszeit = rs.getString("zubereitungszeit");
                         rezeptbeschreibung = rs.getString("rezeptbeschreibung");
                         
-                        rezeptname = rezeptname.replaceAll("ä", "&auml;");
-                        rezeptname = rezeptname.replaceAll("ö", "&ouml;");
-                        rezeptname = rezeptname.replaceAll("ü", "&uuml;");
-                        rezeptname = rezeptname.replaceAll("Ä", "&Auml;");
-                        rezeptname = rezeptname.replaceAll("Ö", "&Ouml;");
-                        rezeptname = rezeptname.replaceAll("Ü", "&Uuml;");
+                     
                         
                         if(!artname.isEmpty() && !menge.isEmpty() && !einheit.isEmpty() && artid != 0) {
                         artnamen.add(artname);

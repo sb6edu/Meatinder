@@ -105,6 +105,8 @@ public class Ctrlerstellt extends HttpServlet {
                         geraetebezeichnung = rs.getString("geraetebezeichnung");
                         zubereitungszeit = rs.getString("zubereitungszeit");
                         rezeptbeschreibung = rs.getString("rezeptbeschreibung");
+                        
+                        
                         if(!artname.isEmpty() && !menge.isEmpty() && !einheit.isEmpty() && artid != 0) {
                         artnamen.add(artname);
                         mengen.add(menge);
