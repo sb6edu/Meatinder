@@ -2,8 +2,6 @@
 -To do:
 --CSS
 --Kommentare zu Rezepten
---Differenzierung der Berechtigung und des Zugriffs
---Favoriten
 --Fehlerbehandlung(z.b Exceptions catchen ->Registrierung)
 -
 -
