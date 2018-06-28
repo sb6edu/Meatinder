@@ -15,7 +15,7 @@ EMAIL VARCHAR(50) NOT NULL unique,
 PASSWORT VARCHAR(70) NOT NULL, 
 SID varchar(50),
 SALT varchar(70) unique,
-Berechtigung DEFAULT 'user' NOT NULL,
+Berechtigung varchar(20) DEFAULT 'user' NOT NULL,
 PRIMARY KEY (KUNID));
 
 create table geraete (GID integer generated always as identity,
