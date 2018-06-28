@@ -129,6 +129,28 @@ public class CtrlLogin extends HttpServlet {
         }
         return false;
     }
+    
+    public static boolean currentuserisadmin(HttpServletRequest request, HttpServletResponse response, ServletContext sc) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String sid = session.getId();
+        try {
+            DBConnectionPool pool = (DBConnectionPool) sc.getAttribute("pool");
+            Connection conn = pool.getConnection();
+            String sql = "select berechtigung from kunden where sid = " + "'" + sid + "'";
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            ResultSet rs = pstm.executeQuery();
+            pool.releaseConnection(conn);
+            if (rs.next()) {
+                String rechte = rs.getString("berechtigung");
+                if (rechte.equals("admin")) {
+                    return true;
+                }
+            }
+        } catch (SQLException ex) {
+            response.getWriter().println(ex.getMessage());
+        }
+        return false;
+    }
 
     private static String pepperedsaltedhashedpw(HttpServletRequest request, HttpServletResponse response, String passwort, String salt) throws ServletException, IOException {
         String pepperedpasswort = passwort + "4894415610498408940561234196840456489f4asd9f4das1fg";
