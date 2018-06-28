@@ -25,7 +25,8 @@
             <a href="randomrezept.do">Zufälliges Rezept </a>
             <a href="ctrlhistory.do">History    </a>
             <a href="ctrlerstellt.do">Eigene Rezepte    </a>
-            <a href="ctrluserverwaltung.do">Userverwaltung(Admins only)   </a>
+            <% if(CtrlLogin.currentuserisadmin(request,  response, getServletContext())) { %><a href="ctrluserverwaltung.do">Userverwaltung</a><% } %>
+            
         </nav>
         <br />
         <% } else { %>

@@ -38,6 +38,9 @@ public class Ctrluserverwaltung extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if(CtrlLogin.currentuserisadmin(request,  response, getServletContext())==true){
+            System.out.println("Es is a admin");
+        }
         HttpSession session = request.getSession();
         String sid = session.getId();
         try {
@@ -77,7 +80,6 @@ public class Ctrluserverwaltung extends HttpServlet {
                     ResultSet rs2 = pstm2.executeQuery();
                     rs2.next();
                     rechte = rs2.getString("BERECHTIGUNG");
-                    System.out.println("bla");
                     if (rechte.equals("admin")) {
                         bearbeiten = "";
                         a = "";
