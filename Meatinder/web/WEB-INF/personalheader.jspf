@@ -16,7 +16,7 @@
         <header>
             <nav class="main-navigation">
 
-                <a class="navigation-item"  href="registrierung.jsp">Registrierung   </a>
+                
                 <a class="navigation-item" href="ctrlselect.do">Rezepte finden  </a>
                 <a class="navigation-item" href="ctrleinfuegen.do">Rezept einfügen  </a>
                 <a class="navigation-item" href="allerezepte.do">Alle Rezepte   </a>
@@ -57,7 +57,7 @@
                 <a class="navigation-item"  href="randomrezept.do">Zufälliges Rezept </a>
                 <div class="search-container navigation-action">
                     <form method="post" action="ctrlsearch.do">
-                        <input type="text" placeholder="Search.." name="search">
+                        <input type="text" class="search-input" placeholder="Search.." name="search">
                         <button type="submit" class="search-button"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
