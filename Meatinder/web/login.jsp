@@ -12,11 +12,8 @@
                         <td><label for="password">Password:</label></td>
                         <td><input type="password" name="psw" id="psw"></td>
                     </tr>
-                    <tr>
-                        <td><input type="submit" value="Login" /></td>
-                    </tr>
-
                 </table>
+                <input type="submit" value="Login" />
             </fieldset>               
 </form>
 <a href="ctrlselect.do">Weiter als Gast</a>
