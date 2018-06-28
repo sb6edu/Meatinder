@@ -66,18 +66,11 @@ footer a {
     box-sizing: border-box;
     border: none;
     border-bottom: 1px black solid;
-   
-}
 
-.search-button{
-    background: none;
-    padding: 0;
-    border: none;
-    box-sizing: border-box;
 }
 
 .logout-button {
-    background: none!important;
+    background: none;
     padding: 0;
     border: none;
     box-sizing: border-box;
