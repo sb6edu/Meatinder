@@ -9,12 +9,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/style.css" type="text/css">
 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <body>
         <% if (CtrlLogin.eingeloggt(request, response, getServletContext())) { %>
         <header>
             <nav class="main-navigation">
-                
+
                 <a class="navigation-item"  href="registrierung.jsp">Registrierung   </a>
                 <a class="navigation-item" href="ctrlselect.do">Rezepte finden  </a>
                 <a class="navigation-item" href="ctrleinfuegen.do">Rezept einfügen  </a>
@@ -38,7 +39,7 @@
                 <span class="search-container navigation-action">
                     <form method="post" action="ctrlsearch.do">
                         <input type="text" class="search-input" placeholder="Search.." name="search">
-                        <button type="submit"><i></i></button>
+                        <button type="submit" class="search-button"><i class="fa fa-search"></i></button>
                     </form>
                 </span>
             </nav> 
@@ -46,23 +47,23 @@
 
         <% } else { %>
         <header>
-        <nav>
-            <a class="navigation-item"  href="login.jsp">Login   </a>
-            <a class="navigation-item"  href="registrierung.jsp">Registrierung   </a>
-            <a class="navigation-item"  href="ctrlselect.do">Rezepte finden  </a>
-            <a class="navigation-item"  href="allerezepte.do">Alle Rezepte   </a>
-            <a class="navigation-item"  href="randomrezept.do">Zufälliges Rezept </a>
-            <div class="search-container navigation-action">
-                <form method="post" action="ctrlsearch.do">
-                    <input type="text" placeholder="Search.." name="search">
-                    <button type="submit"><i class=""></i></button>
-                </form>
-            </div>
-        </nav>
+            <nav>
+                <a class="navigation-item"  href="login.jsp">Login   </a>
+                <a class="navigation-item"  href="registrierung.jsp">Registrierung   </a>
+                <a class="navigation-item"  href="ctrlselect.do">Rezepte finden  </a>
+                <a class="navigation-item"  href="allerezepte.do">Alle Rezepte   </a>
+                <a class="navigation-item"  href="randomrezept.do">Zufälliges Rezept </a>
+                <div class="search-container navigation-action">
+                    <form method="post" action="ctrlsearch.do">
+                        <input type="text" placeholder="Search.." name="search">
+                        <button type="submit" class="search-button"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+            </nav>
         </header>
         <% }%>
-        
-        
+
+
         <main>
 
 

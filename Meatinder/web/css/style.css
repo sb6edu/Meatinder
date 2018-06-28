@@ -78,6 +78,15 @@ footer a {
     
 }
 
+
+.search-button {
+    background: none;
+    padding: 0;
+    border: none;
+    box-sizing: border-box;
+    
+}
+
 main {
     padding: 1em;
     flex: 1;
