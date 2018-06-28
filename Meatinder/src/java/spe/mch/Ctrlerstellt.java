@@ -82,10 +82,10 @@ public class Ctrlerstellt extends HttpServlet {
                     ResultSet rs = pstm.executeQuery();
                     String rezeptid = "";
                     String rezeptname = "";
-                    int artid;
-                    String artname;
-                    String menge;
-                    String einheit;
+                    int artid = 0;
+                    String artname = "";
+                    String menge = "";
+                    String einheit = "";
                     String geraetebezeichnung = "";
                     String zubereitungszeit = "";
                     String rezeptbeschreibung = "";
@@ -93,7 +93,8 @@ public class Ctrlerstellt extends HttpServlet {
                     ArrayList<String> mengen = new ArrayList<>();
                     ArrayList<String> einheiten = new ArrayList<>();
                     ArrayList<Integer> artids = new ArrayList<>();
-
+                    Boolean einfuegen = false;
+                    
                     while (rs.next()) {
                         rezeptid = rs.getString("id");
                         rezeptname = rs.getString("rezeptname");
@@ -104,14 +105,17 @@ public class Ctrlerstellt extends HttpServlet {
                         geraetebezeichnung = rs.getString("geraetebezeichnung");
                         zubereitungszeit = rs.getString("zubereitungszeit");
                         rezeptbeschreibung = rs.getString("rezeptbeschreibung");
+                        if(!artname.isEmpty() && !menge.isEmpty() && !einheit.isEmpty() && artid != 0) {
                         artnamen.add(artname);
                         mengen.add(menge);
                         einheiten.add(einheit);
                         artids.add(artid);
+                        einfuegen = true;
+                        }
                     }
-
+                    if(einfuegen) {
                     rezepte.add(new Rezept(rezeptid, rezeptname, artids, artnamen, mengen, einheiten, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung));
-
+                    }
                 } catch (SQLException ex) {
                     response.getWriter().println(ex.getMessage());
                 }

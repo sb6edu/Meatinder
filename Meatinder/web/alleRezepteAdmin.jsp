@@ -13,12 +13,12 @@
     
             <tr>
                 <td><a href="rezeptfinden.do?rn=${rezept.rezeptname}" id="rezeptname">${rezept.rezeptname}</a></td>
-                <td><a href="ctrldeleteupdate.do?id=${rezept.id}">Bearbeiten</a></td>
+                <td><a href="ctrldeleteupdateadmin.do?id=${rezept.id}">Bearbeiten</a></td>
                 <td><a href="ctrldelete.do?id=${rezept.id}">Löschen</a></td>
             </tr> 
 </c:forEach>
 </table>
-Hallo ${cookie.User.value}
+
 
 
 <%@include file="WEB-INF/footer.jspf" %>
