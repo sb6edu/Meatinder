@@ -14,5 +14,4 @@
         </tr> 
 </c:forEach>
 </table>
-    </body>
-</html>
+<%@include file="WEB-INF/footer.jspf" %>
