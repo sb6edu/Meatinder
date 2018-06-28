@@ -45,17 +45,21 @@
         </header>
 
         <% } else { %>
-
         <header>
-            <nav class="main-navigation">
-                <a class="navigation-item" href="login.jsp">Login   </a>
-                <a class="navigation-item" href="registrierung.jsp">Registrierung   </a>
-                <a class="navigation-item" href="ctrlselect.do">Rezepte finden  </a>
-                <a class="navigation-item" href="allerezepte.do">Alle Rezepte   </a>
-                <a class="navigation-item" href="randomrezept.do">Zufälliges Rezept </a>
-            </nav>
+        <nav>
+            <a class="navigation-item"  href="login.jsp">Login   </a>
+            <a class="navigation-item"  href="registrierung.jsp">Registrierung   </a>
+            <a class="navigation-item"  href="ctrlselect.do">Rezepte finden  </a>
+            <a class="navigation-item"  href="allerezepte.do">Alle Rezepte   </a>
+            <a class="navigation-item"  href="randomrezept.do">Zufälliges Rezept </a>
+            <div class="search-container" class="navigation-action">
+                <form method="post" action="ctrlsearch.do">
+                    <input type="text" placeholder="Search.." name="search">
+                    <button type="submit"><i class=""></i></button>
+                </form>
+            </div>
+        </nav>
         </header>
-
         <% }%>
         
         

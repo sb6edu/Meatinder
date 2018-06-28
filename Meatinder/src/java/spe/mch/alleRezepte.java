@@ -40,7 +40,7 @@ public class alleRezepte extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        if(CtrlLogin.eingeloggt(request, response, getServletContext())) {
+        if(CtrlLogin.currentuserisadmin(request, response, getServletContext())) {
             DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
         ArrayList<Rezept> rezepte = new ArrayList<>();
@@ -69,8 +69,8 @@ public class alleRezepte extends HttpServlet {
                     ArrayList<String> mengen = new ArrayList<>();
                     ArrayList<String> einheiten = new ArrayList<>();
                     ArrayList<Integer> artids = new ArrayList<>();
+                    Boolean eingefuegt = false;
                     
-                    if(rs.next()){
                     while(rs.next()) {
                         rezeptid = rs.getString("id");
                         rezeptname = rs.getString("rezeptname");
@@ -81,27 +81,18 @@ public class alleRezepte extends HttpServlet {
                         geraetebezeichnung = rs.getString("geraetebezeichnung");
                         zubereitungszeit = rs.getString("zubereitungszeit");
                         rezeptbeschreibung = rs.getString("rezeptbeschreibung");
-                        
+                        if(!artname.isEmpty() && !menge.isEmpty() && !einheit.isEmpty() && artid != 0) {
                         artnamen.add(artname);
                         mengen.add(menge);
                         einheiten.add(einheit);
                         artids.add(artid);
+                        eingefuegt = true;
+                        }
                     } 
-                    } else {
-                        rezeptid = "Nicht vorhanden";
-                        rezeptname = "Nicht vorhanden";
-                        artid = 0;
-                        artname = "Nicht vorhanden";
-                        menge = "Nicht vorhanden";
-                        einheit = "Nicht vorhanden";
-                        geraetebezeichnung = "Nicht vorhanden";
-                        zubereitungszeit = "Nicht vorhanden";
-                        rezeptbeschreibung = "Nicht vorhanden";
-                        
-                        
-                    }
+                   
+                    if(eingefuegt){
                     rezepte.add(new Rezept(rezeptid, rezeptname, artids, artnamen, mengen, einheiten, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung));
-                    
+                    }
                 } catch (SQLException ex) {
                     response.getWriter().println(ex.getMessage());
                 }
@@ -177,7 +168,7 @@ public class alleRezepte extends HttpServlet {
                     ArrayList<String> mengen = new ArrayList<>();
                     ArrayList<String> einheiten = new ArrayList<>();
                     ArrayList<Integer> artids = new ArrayList<>();
-
+                    Boolean eingefuegt = false;
                     while (rs.next()) {
                         rezeptid = rs.getString("id");
                         rezeptname = rs.getString("rezeptname");
@@ -188,14 +179,17 @@ public class alleRezepte extends HttpServlet {
                         geraetebezeichnung = rs.getString("geraetebezeichnung");
                         zubereitungszeit = rs.getString("zubereitungszeit");
                         rezeptbeschreibung = rs.getString("rezeptbeschreibung");
+                        if(!artname.isEmpty() && !menge.isEmpty() && !einheit.isEmpty() && artid != 0) {
                         artnamen.add(artname);
                         mengen.add(menge);
                         einheiten.add(einheit);
                         artids.add(artid);
+                        eingefuegt = true;
+                        }
                     }
-
+                    if(eingefuegt){
                     rezepte.add(new Rezept(rezeptid, rezeptname, artids, artnamen, mengen, einheiten, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung));
-
+                    }
                 } catch (SQLException ex) {
                     response.getWriter().println(ex.getMessage());
                 }
@@ -205,7 +199,7 @@ public class alleRezepte extends HttpServlet {
         
         
         }
-        RequestDispatcher view = request.getRequestDispatcher("alleRezepte.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("alleRezepteAdmin.jsp");
         view.forward(request,response);
         } else {
             DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
@@ -236,8 +230,8 @@ public class alleRezepte extends HttpServlet {
                     ArrayList<String> mengen = new ArrayList<>();
                     ArrayList<String> einheiten = new ArrayList<>();
                     ArrayList<Integer> artids = new ArrayList<>();
+                    Boolean eingefuegt = false;
                     
-                    if(rs.next()){
                     while(rs.next()) {
                         rezeptid = rs.getString("id");
                         rezeptname = rs.getString("rezeptname");
@@ -248,27 +242,17 @@ public class alleRezepte extends HttpServlet {
                         geraetebezeichnung = rs.getString("geraetebezeichnung");
                         zubereitungszeit = rs.getString("zubereitungszeit");
                         rezeptbeschreibung = rs.getString("rezeptbeschreibung");
-                        
+                        if(!artname.isEmpty() && !menge.isEmpty() && !einheit.isEmpty() && artid != 0) {
                         artnamen.add(artname);
                         mengen.add(menge);
                         einheiten.add(einheit);
                         artids.add(artid);
+                        eingefuegt = true;
+                        }
                     } 
-                    } else {
-                        rezeptid = "Nicht vorhanden";
-                        rezeptname = "Nicht vorhanden";
-                        artid = 0;
-                        artname = "Nicht vorhanden";
-                        menge = "Nicht vorhanden";
-                        einheit = "Nicht vorhanden";
-                        geraetebezeichnung = "Nicht vorhanden";
-                        zubereitungszeit = "Nicht vorhanden";
-                        rezeptbeschreibung = "Nicht vorhanden";
-                        
-                        
-                    }
+                    if(eingefuegt){
                     rezepte.add(new Rezept(rezeptid, rezeptname, artids, artnamen, mengen, einheiten, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung));
-                    
+                    }
                 } catch (SQLException ex) {
                     response.getWriter().println(ex.getMessage());
                 }
@@ -344,7 +328,7 @@ public class alleRezepte extends HttpServlet {
                     ArrayList<String> mengen = new ArrayList<>();
                     ArrayList<String> einheiten = new ArrayList<>();
                     ArrayList<Integer> artids = new ArrayList<>();
-
+                    Boolean eingefuegt = false;
                     while (rs.next()) {
                         rezeptid = rs.getString("id");
                         rezeptname = rs.getString("rezeptname");
@@ -355,28 +339,26 @@ public class alleRezepte extends HttpServlet {
                         geraetebezeichnung = rs.getString("geraetebezeichnung");
                         zubereitungszeit = rs.getString("zubereitungszeit");
                         rezeptbeschreibung = rs.getString("rezeptbeschreibung");
+                        if(!artname.isEmpty() && !menge.isEmpty() && !einheit.isEmpty() && artid != 0) {
                         artnamen.add(artname);
                         mengen.add(menge);
                         einheiten.add(einheit);
                         artids.add(artid);
+                        eingefuegt = true;
+                        }
                     }
-
+                    if(eingefuegt){
                     rezepte.add(new Rezept(rezeptid, rezeptname, artids, artnamen, mengen, einheiten, geraetebezeichnung, zubereitungszeit, rezeptbeschreibung));
-
+                    }
                 } catch (SQLException ex) {
                     response.getWriter().println(ex.getMessage());
                 }
             }
-            //response.getWriter().println("test");
             request.setAttribute("rezepte2", rezepte2);
-        
-        
         }
         RequestDispatcher view = request.getRequestDispatcher("alleRezepte.jsp");
         view.forward(request,response);
-        }
-        
-        
+        }   
     }
     
 

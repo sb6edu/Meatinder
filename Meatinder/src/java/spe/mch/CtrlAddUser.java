@@ -69,7 +69,7 @@ public class CtrlAddUser extends HttpServlet {
 
                     pstm.executeUpdate();
 
-                    RequestDispatcher view = request.getRequestDispatcher("login.jsp");
+                    RequestDispatcher view = request.getRequestDispatcher("ctrluserverwaltung.do");
                     view.forward(request, response);
 
                 } catch (SQLException ex) {

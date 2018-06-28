@@ -7,10 +7,6 @@ package spe.mch;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,10 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author 103098
+ * @author 103095
  */
-@WebServlet(name = "Ctrldelete", urlPatterns = {"/ctrldelete.do"})
-public class Ctrldelete extends HttpServlet {
+@WebServlet(name = "Ctrlkommentar", urlPatterns = {"/ctrlkommentar.do"})
+public class Ctrlkommentar extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,49 +31,18 @@ public class Ctrldelete extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int rid = 0;
-        try {
-            rid = Integer.parseInt(request.getParameter("id"));
-        } catch (NumberFormatException ex) {
-            throw new RuntimeException("Ungültiger Löschversuch!");
-        }
-        String sql3 = "delete from rezepte where id=?";
-        String sql2 = "delete from rezeptartikel where rid = ?";
-        String sql = "delete from eigenerezepte where rid = ?";
-        String sql4 = "delete from kundenrezepte where rezid = ?";
-        DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
-        Connection conn = pool.getConnection();
-
-        try {
-            PreparedStatement pstm = conn.prepareStatement(sql);
-            pstm.setInt(1, rid);
-            pstm.executeUpdate();
-            
-            PreparedStatement pstm2 = conn.prepareStatement(sql2);
-            pstm2.setInt(1, rid);
-            pstm2.executeUpdate();
-            
-            PreparedStatement pstm4 = conn.prepareStatement(sql4);
-            pstm4.setInt(1, rid);
-            pstm4.executeUpdate();
-            
-            PreparedStatement pstm3 = conn.prepareStatement(sql3);
-            pstm3.setInt(1, rid);
-            pstm3.executeUpdate();
-            
-            
-
-        } catch (SQLException ex) {
-
-        }
-
-        pool.releaseConnection(conn);
-        if (CtrlLogin.currentuserisadmin(request, response, getServletContext())) {
-            RequestDispatcher view = request.getRequestDispatcher("allerezepte.do");
-            view.forward(request, response);
-        } else {
-            RequestDispatcher view = request.getRequestDispatcher("ctrlerstellt.do");
-            view.forward(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet Ctrlkommentar</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet Ctrlkommentar at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 

@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author 103098
  */
-@WebServlet(name = "Ctrldelete", urlPatterns = {"/ctrldelete.do"})
-public class Ctrldelete extends HttpServlet {
+@WebServlet(name = "Ctrldeleteadmin", urlPatterns = {"/ctrldeleteadmin.do"})
+public class Ctrldeleteadmin extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

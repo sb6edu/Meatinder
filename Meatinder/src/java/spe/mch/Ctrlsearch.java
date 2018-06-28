@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,10 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author 103098
+ * @author 103095
  */
-@WebServlet(name = "Ctrldelete", urlPatterns = {"/ctrldelete.do"})
-public class Ctrldelete extends HttpServlet {
+@WebServlet(name = "Ctrlsearch", urlPatterns = {"/ctrlsearch.do"})
+public class Ctrlsearch extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,50 +37,39 @@ public class Ctrldelete extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int rid = 0;
-        try {
-            rid = Integer.parseInt(request.getParameter("id"));
-        } catch (NumberFormatException ex) {
-            throw new RuntimeException("Ungültiger Löschversuch!");
-        }
-        String sql3 = "delete from rezepte where id=?";
-        String sql2 = "delete from rezeptartikel where rid = ?";
-        String sql = "delete from eigenerezepte where rid = ?";
-        String sql4 = "delete from kundenrezepte where rezid = ?";
+        String suche = request.getParameter("search");
+        System.out.println(suche);
+        String sql1 = "select username from kunden where username = " + "'" + suche + "'";
+        String sql2 = "select rezeptname from rezepte where rezeptname = " + "'" + suche + "'";
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
-
+        ArrayList<ProfilRezept> profilrezepte = new ArrayList<>();
+        ArrayList<ProfilUser> profiluser = new ArrayList<>();
         try {
-            PreparedStatement pstm = conn.prepareStatement(sql);
-            pstm.setInt(1, rid);
-            pstm.executeUpdate();
-            
-            PreparedStatement pstm2 = conn.prepareStatement(sql2);
-            pstm2.setInt(1, rid);
-            pstm2.executeUpdate();
-            
-            PreparedStatement pstm4 = conn.prepareStatement(sql4);
-            pstm4.setInt(1, rid);
-            pstm4.executeUpdate();
-            
-            PreparedStatement pstm3 = conn.prepareStatement(sql3);
-            pstm3.setInt(1, rid);
-            pstm3.executeUpdate();
-            
-            
-
+            PreparedStatement pstm = conn.prepareStatement(sql1);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                String username = rs.getString("username");
+                profiluser.add(new ProfilUser(username));
+            }
         } catch (SQLException ex) {
-
+            response.getWriter().println(ex.getMessage());
         }
-
+        try {
+            PreparedStatement pstm2 = conn.prepareStatement(sql2);
+            ResultSet rs2 = pstm2.executeQuery();
+            while (rs2.next()) {
+                String rezeptname = rs2.getString("rezeptname");
+                profilrezepte.add(new ProfilRezept(rezeptname));
+            }
+        } catch (SQLException ex) {
+            response.getWriter().println(ex.getMessage());
+        }
         pool.releaseConnection(conn);
-        if (CtrlLogin.currentuserisadmin(request, response, getServletContext())) {
-            RequestDispatcher view = request.getRequestDispatcher("allerezepte.do");
-            view.forward(request, response);
-        } else {
-            RequestDispatcher view = request.getRequestDispatcher("ctrlerstellt.do");
-            view.forward(request, response);
-        }
+        request.setAttribute("profilrezepte", profilrezepte);
+        request.setAttribute("profiluser", profiluser);
+        RequestDispatcher view = request.getRequestDispatcher("suchanzeige.jsp");
+        view.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
