@@ -119,6 +119,12 @@
             <a href="ctrlselect.do">Rezepte finden  </a>
             <a href="allerezepte.do">Alle Rezepte   </a>
             <a href="randomrezept.do">Zufälliges Rezept </a>
+            <div class="search-container">
+                <form method="post" action="ctrlsearch.do">
+                    <input type="text" placeholder="Search.." name="search">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
         </nav>
         <br />
         <% }%>

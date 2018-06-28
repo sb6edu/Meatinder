@@ -204,7 +204,7 @@ public class CtrlEinfuegen extends HttpServlet {
         }
         pool.releaseConnection(conn);
         RequestDispatcher view = request.getRequestDispatcher("eigeneRezepte.jsp");
-        view.forward(request,response);
+        view.forward(request,response); 
     }
      
     
