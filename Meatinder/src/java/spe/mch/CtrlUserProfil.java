@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,21 +37,34 @@ public class CtrlUserProfil extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");
+        ArrayList<ProfilRezept> rezepte = new ArrayList<>();
+        ArrayList<ProfilUser> profiluser = new ArrayList<>();
+        profiluser.add(new ProfilUser(username));
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
-        String sql = "select rid from eigenerezepte where username = "+"'"+username+"+";
-        try{
+        String sql = "select rid from eigenerezepte where username = " + "'" + username + "'";
+        try {
             PreparedStatement pstm = conn.prepareStatement(sql);
             ResultSet rs = pstm.executeQuery();
-            while(rs.next()){
-                
-            }
-        
-        }
-        catch(SQLException ex){
-                response.getWriter().println(ex.getMessage());
+            while (rs.next()) {
+                int rid = rs.getInt("rid");
+                String sql2 = "select rezeptname from rezepte where id = " + rid;
+                PreparedStatement pstm2 = conn.prepareStatement(sql2);
+                ResultSet rs2 = pstm2.executeQuery();
+                while (rs2.next()) {
+                    String rezeptname = rs2.getString("rezeptname");
+                    rezepte.add(new ProfilRezept(rezeptname));
                 }
+            }
+
+        } catch (SQLException ex) {
+            response.getWriter().println(ex.getMessage());
+        }
+        request.setAttribute("rezepte", rezepte);
+        request.setAttribute("profiluser", profiluser);
         pool.releaseConnection(conn);
+        RequestDispatcher view = request.getRequestDispatcher("userprofil.jsp");
+        view.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

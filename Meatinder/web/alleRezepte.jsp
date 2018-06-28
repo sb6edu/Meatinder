@@ -16,7 +16,4 @@
             </tr> 
 </c:forEach>
 </table>
-Hallo ${cookie.User.value}
-
-
 <%@include file="WEB-INF/footer.jspf" %>
