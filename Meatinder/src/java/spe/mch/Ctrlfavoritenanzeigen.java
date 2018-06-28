@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package spe.mch;
 
 import java.io.IOException;
@@ -120,8 +115,6 @@ public class Ctrlfavoritenanzeigen extends HttpServlet {
         }
                 
                 request.setAttribute("rezepte", rezepte);
-        
-        
         
         RequestDispatcher view = request.getRequestDispatcher("favoriten.jsp");
         view.forward(request,response);

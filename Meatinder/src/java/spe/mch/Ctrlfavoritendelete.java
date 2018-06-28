@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,8 +23,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author 103098
  */
-@WebServlet(name = "CtrlFavoriten", urlPatterns = {"/ctrlfavoriten.do"})
-public class CtrlFavoriten extends HttpServlet {
+@WebServlet(name = "Ctrlfavoritendelete", urlPatterns = {"/ctrlfavoritendelete.do"})
+public class Ctrlfavoritendelete extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,52 +37,39 @@ public class CtrlFavoriten extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
-        ArrayList<Rezept> rezepte = new ArrayList<>();
-
+        
         String id = request.getParameter("id");
         int idi = Integer.parseInt(id);
+        
         HttpSession session = request.getSession();
         String sid = session.getId();
         
         String sql = "select username from kunden where sid = " + "'" + sid + "'";
         String username = "";
-            
-            try {
-                PreparedStatement pstm = conn.prepareStatement(sql);
-                ResultSet rs = pstm.executeQuery();
-                while(rs.next()){
-                username = rs.getString("username");
-                }
-                sql = "insert into favoriten (rid, username) values (?, ?)";
-                try {
-                    pstm = conn.prepareStatement(sql);
-                    pstm.setInt(1, idi);
-                    pstm.setString(2, username);
-                    pstm.executeUpdate();
-                } catch (SQLException ex){
-                    
-                }
-            } catch (SQLException ex) {
-                
-            }
-            
-            
-        sql = "select rezeptname from rezepte where id = " + idi;
-        String rezeptname = "";
         try{
             PreparedStatement pstm = conn.prepareStatement(sql);
             ResultSet rs = pstm.executeQuery();
             while(rs.next()){
-                rezeptname = rs.getString("rezeptname");
+                username = rs.getString("username");
             }
+        } catch (SQLException ex) {
+            
+        }
+        
+        sql = "delete from favoriten where rid = ? and username = ?";
+        try{
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setInt(1, idi);
+            pstm.setString(2, username);
+            pstm.executeUpdate();
         } catch(SQLException ex){
             
         }
         
-        
-        RequestDispatcher view = request.getRequestDispatcher("rezeptfinden.do?rn="+rezeptname);
+        RequestDispatcher view = request.getRequestDispatcher("ctrlfavoritenanzeigen.do");
         view.forward(request,response);
     }
 
