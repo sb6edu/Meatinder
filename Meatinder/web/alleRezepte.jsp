@@ -8,7 +8,7 @@
 
 
 <h2>Rezept finden!</h2>
-<table>
+<table >
 <c:forEach items="${rezepte}" var="rezept">
     
             <tr>
