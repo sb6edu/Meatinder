@@ -1,3 +1,4 @@
+drop table favoriten;
 drop table eigenerezepte;
 drop table kundenrezepte;
 drop table rezeptartikel;
