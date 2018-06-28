@@ -1,9 +1,12 @@
 <%@include file="WEB-INF/personalheader.jspf" %>
-<h2>${user.username}</h2>
+<table><c:forEach items="${profiluser}" var="profiluser">
+            <td><h2>Username: ${profiluser.username}</h2></td>
+            </c:forEach></table>
 <table>
-<c:forEach items="${rezepte}" var="rezept">
+    <th>Rezepte, die dieser User erstellt hat:</th>
+<c:forEach items="${rezepte}" var="profilrezept">
             <tr>
-                <td><a href="rezeptfinden.do?rn=${rezept.rezeptname}" id="rezeptname">${rezept.rezeptname}</a></td>
+                <td><a href="rezeptfinden.do?rn=${profilrezept.rezeptname}" id="rezeptname">${profilrezept.rezeptname}</a></td>
             </tr> 
 </c:forEach>
 </table>

@@ -56,13 +56,14 @@ username varchar(20) not null,
 foreign key (username) references kunden(username),
 foreign key (rid) references rezepte(id));
 
+create table favoriten (RID integer not null,
+username varchar(20) not null,
+unique(rid, username));
+
 --Geräte:
 insert into geraete (geraetebezeichnung) values ('Herd');
 insert into geraete (geraetebezeichnung) values ('Ofen');
 
---Kunden:
-insert into kunden (vorname,nachname,username,email,passwort,salt,berechtigung) values ('Admin','istrator','admin','administrator@siemens.com','869c4414196e8e118cabaaa30752e8a77083ca211ef8d1de3338d766e755ce04','qAaPtBswknZfGkQmWLBNmyfEjmA`RurylkjDwvQifM[oZ_CgPGJLMElhvydvihct','admin');
---Passwort = 123
 
 --Artikel
 insert into artikel (artname) values ('Nudeln');
@@ -244,4 +245,6 @@ insert into rezeptartikel (rid, artid, menge, einheit) values (20, 21, 250, 'Gra
 insert into rezeptartikel (rid, artid, menge, einheit) values (20, 4, 1.5, 'EL');
 insert into rezeptartikel (rid, artid, menge, einheit) values (20, 17, 1, 'EL');
 
-
+--Kunden:
+insert into kunden (vorname,nachname,username,email,passwort,salt,berechtigung) values ('Admin','istrator','admin','administrator@siemens.com','869c4414196e8e118cabaaa30752e8a77083ca211ef8d1de3338d766e755ce04','qAaPtBswknZfGkQmWLBNmyfEjmA`RurylkjDwvQifM[oZ_CgPGJLMElhvydvihct','admin');
+--Passwort = 123
