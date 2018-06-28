@@ -106,7 +106,7 @@
             <% if (CtrlLogin.currentuserisadmin(request, response, getServletContext())) { %><a href="ctrluserverwaltung.do">Userverwaltung</a><% } %>
             <div class="search-container">
                 <form method="post" action="ctrlsearch.do">
-                    <input type="text" placeholder="Search.." name="search">
+                    <input type="text" placeholder="Suchbegriff" name="search">
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
             </div>

@@ -17,7 +17,7 @@ import java.util.Stack;
  * @author 103098
  */
 public class DBConnectionPool {
-    private static final int MAX_CONNECTIONS = 5;
+    private static final int MAX_CONNECTIONS = 50;
     private static DBConnectionPool pool = null;
     private final Stack<Connection> myDBStack = new Stack<>();
     

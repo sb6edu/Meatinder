@@ -7,12 +7,6 @@ package spe.mch;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author 103095
  */
-@WebServlet(name = "Ctrlsearch", urlPatterns = {"/ctrlsearch.do"})
-public class Ctrlsearch extends HttpServlet {
+@WebServlet(name = "Ctrlkommentar", urlPatterns = {"/ctrlkommentar.do"})
+public class Ctrlkommentar extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,39 +31,19 @@ public class Ctrlsearch extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String suche = request.getParameter("search");
-        System.out.println(suche);
-        String sql1 = "select username from kunden where username = " + "'" + suche + "'";
-        String sql2 = "select rezeptname from rezepte where rezeptname = " + "'" + suche + "'";
-        DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
-        Connection conn = pool.getConnection();
-        ArrayList<ProfilRezept> profilrezepte = new ArrayList<>();
-        ArrayList<ProfilUser> profiluser = new ArrayList<>();
-        try {
-            PreparedStatement pstm = conn.prepareStatement(sql1);
-            ResultSet rs = pstm.executeQuery();
-            while (rs.next()) {
-                String username = rs.getString("username");
-                profiluser.add(new ProfilUser(username));
-            }
-        } catch (SQLException ex) {
-            response.getWriter().println(ex.getMessage());
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet Ctrlkommentar</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet Ctrlkommentar at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-        try {
-            PreparedStatement pstm2 = conn.prepareStatement(sql2);
-            ResultSet rs2 = pstm2.executeQuery();
-            while (rs2.next()) {
-                String rezeptname = rs2.getString("rezeptname");
-                profilrezepte.add(new ProfilRezept(rezeptname));
-            }
-        } catch (SQLException ex) {
-            response.getWriter().println(ex.getMessage());
-        }
-        pool.releaseConnection(conn);
-        request.setAttribute("profilrezepte", profilrezepte);
-        request.setAttribute("profiluser", profiluser);
-        RequestDispatcher view = request.getRequestDispatcher("suchanzeige.jsp");
-        view.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

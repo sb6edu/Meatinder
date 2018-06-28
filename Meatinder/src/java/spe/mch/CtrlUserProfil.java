@@ -128,6 +128,7 @@ public class CtrlUserProfil extends HttpServlet {
         request.setAttribute("rezepte", rezepte);
         request.setAttribute("profilrezepte", profilrezepte);
         request.setAttribute("profiluser", profiluser);
+        pool.releaseConnection(conn);
 
         RequestDispatcher view = request.getRequestDispatcher("userprofil.jsp");
         view.forward(request, response);
