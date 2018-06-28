@@ -337,6 +337,12 @@ public class alleRezepte extends HttpServlet {
                             geraetebezeichnung = rs.getString("geraetebezeichnung");
                             zubereitungszeit = rs.getString("zubereitungszeit");
                             rezeptbeschreibung = rs.getString("rezeptbeschreibung");
+                            rezeptname = rezeptname.replaceAll("ä", "&auml;");
+                            rezeptname = rezeptname.replaceAll("ö", "&ouml;");
+                            rezeptname = rezeptname.replaceAll("ü", "&uuml;");
+                            rezeptname = rezeptname.replaceAll("Ä", "&Auml;");
+                            rezeptname = rezeptname.replaceAll("Ö", "&Ouml;");
+                            rezeptname = rezeptname.replaceAll("Ü", "&Uuml;");
                             if (!artname.isEmpty() && !menge.isEmpty() && !einheit.isEmpty() && artid != 0) {
                                 artnamen.add(artname);
                                 mengen.add(menge);
@@ -354,6 +360,8 @@ public class alleRezepte extends HttpServlet {
                 }
                 request.setAttribute("rezepte2", rezepte2);
             }
+            
+            
             RequestDispatcher view = request.getRequestDispatcher("alleRezepte.jsp");
             view.forward(request, response);
         }

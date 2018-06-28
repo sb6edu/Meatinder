@@ -16,20 +16,20 @@
         <tr>
             <c:forEach items="${artikels}" var="artikel">
                 <% if ((i++ % 5) != 0) { %>
-            <label>
+            
                 <td><input type="checkbox" name="${artikel.artname}" value="${artikel.artname}" id="${artikel.artname}">${artikel.artname}</td>
                 <td><input type="text" size="5" name="${artikel.artname}-Menge"  id="${artikel.artname}-Menge" placeholder="Menge"></td>
                 <td><input type="text" size="5" name="${artikel.artname}-Einheit"  id="${artikel.artname}-Einheit" placeholder="Einheit"></td>
             </label>
             <%  } else {%>
             </tr>
-            <label>
+            
                 <tr>
                     <td><input type="checkbox" name="${artikel.artname}" value="${artikel.artname}" id="${artikel.artname}">${artikel.artname}</td>
                     <td><input type="text" size="5" name="${artikel.artname}-Menge"  id="${artikel.artname}-Menge" placeholder="Menge"></td>
                     <td><input type="text" size="5" name="${artikel.artname}-Einheit"  id="${artikel.artname}-Einheit" placeholder="Einheit"></td>
-                </tr>
-            </label>
+                
+            
             <%  }%>  
         </c:forEach>
     </table> 
