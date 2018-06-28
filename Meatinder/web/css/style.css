@@ -2,6 +2,9 @@ body  {
     margin: 0;
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 header {
@@ -11,6 +14,7 @@ header {
     width: 100%;
     font-size: 10pt;
     box-shadow: 0 5px 2px grey;
+    margin-bottom: 2em ;
 }
 footer{
     margin-top: 10px;
@@ -67,14 +71,15 @@ footer a {
 }
 
 .logout-button {
-
-
-
+    background: none;
+    padding: 0;
+    border: none;
+    box-sizing: border-box;
+    color: brown;
+    
 }
 
 main {
-    margin: 8px;
-    padding-top: 3em;
     flex: 1;
 
 }
