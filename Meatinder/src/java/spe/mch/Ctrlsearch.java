@@ -39,8 +39,8 @@ public class Ctrlsearch extends HttpServlet {
             throws ServletException, IOException {
         String suche = request.getParameter("search");
         System.out.println(suche);
-        String sql1 = "select username from kunden where username = " + "'" + suche + "'";
-        String sql2 = "select rezeptname from rezepte where rezeptname = " + "'" + suche + "'";
+        String sql1 = "select username from kunden where username LIKE " + "'%" + suche + "%'";
+        String sql2 = "select rezeptname from rezepte where rezeptname LIKE " + "'%" + suche + "%'";
         DBConnectionPool pool = (DBConnectionPool) getServletContext().getAttribute("pool");
         Connection conn = pool.getConnection();
         ArrayList<ProfilRezept> profilrezepte = new ArrayList<>();
