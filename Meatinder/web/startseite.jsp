@@ -1,6 +1,7 @@
 <%@include file="WEB-INF/personalheader.jspf" %>
-<h1>Willkommen bei Meatinder!</h1>
+<h1>Willkommen bei Meatinder!</h1> <img src="https://media.mydays.com/de/gallery/90D5B35E-38A6-451C-9879-74A91A9BEA93/italienisch-kochen-slider_700x250px.jpg" height="200" width="700" alt="Kochen" border="1" align="right" hspace="50" vspace="50">
 <h3>Was macht Meatinder?</h3>
+
 <p>Meatinder ist die clevere Website für Ihren Kühlschrank. 
     <br /> Haben Sie kein Kochbuch zu Hause und wissen nicht, was Sie mit Ihren Zutaten alles zubereiten können?
     <br /> Oder möchten Sie heute nicht mehr einkaufen fahren und lieber mit Ihren Zutaten leckere Rezepte zubereiten? 
